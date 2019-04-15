@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://dotit.com.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://dotit.com.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://dotit.com.org/">
+      <s:element name="CreateSalesOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionGuid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="so" type="tns:SalesOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SalesOrder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="dsr" type="tns:DotitServiceResult" />
+          <s:element minOccurs="1" maxOccurs="1" name="customerNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="customerId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="orderNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="orderType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="needByDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipByDate" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="useShipByDate" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="sessionGUID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="poNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="customerPONumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipVia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="file" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ourRate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="publicRate" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="trackingNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="packNum" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isOrderHeld" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="isShipOrderComplete" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="isCreditCardOrder" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="miscFreightCharge" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipToNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="addressShipTo" type="tns:Address" />
+          <s:element minOccurs="0" maxOccurs="1" name="addressShipFrom" type="tns:Address" />
+          <s:element minOccurs="1" maxOccurs="1" name="shipToOneTime" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="orderCast" type="tns:OrderCast" />
+          <s:element minOccurs="0" maxOccurs="1" name="tempPack" type="tns:Package" />
+          <s:element minOccurs="0" maxOccurs="1" name="listPackages" type="tns:ArrayOfPackage" />
+          <s:element minOccurs="0" maxOccurs="1" name="listLineItems" type="tns:ArrayOfSalesOrderLineItem" />
+          <s:element minOccurs="1" maxOccurs="1" name="allLinesSuccess" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="listInvalidLineItems" type="tns:ArrayOfSalesOrderLineItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="listCasedOrders" type="tns:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DotitServiceResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="success" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="returnCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="returnMessage" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="returnID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="listMessages" type="tns:ArrayOfDLogMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDLogMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DLogMessage" nillable="true" type="tns:DLogMessage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DLogMessage">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="messageType" type="tns:LogLevel" />
+          <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="notifyByEmail" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="LogLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="Info" />
+          <s:enumeration value="Warn" />
+          <s:enumeration value="Error" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Address">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="company" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="line1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="line2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="line3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="zip" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="zipPlus4" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="country" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="isResidential" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="contactName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="contactEmail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="contactPhoneNum" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="contactFax" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipperNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="upsAttnName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="isValid" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="OrderCast">
+        <s:restriction base="s:string">
+          <s:enumeration value="Empty" />
+          <s:enumeration value="LinesOnly" />
+          <s:enumeration value="LineWithReleases" />
+          <s:enumeration value="LinesSameQtyReleases" />
+          <s:enumeration value="LinesAndReleases" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Package">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="shipTo" type="tns:Address" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipFrom" type="tns:Address" />
+          <s:element minOccurs="0" maxOccurs="1" name="serviceType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="upsServiceCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="packageDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="orderNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="boxNumber" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="purchaseOrder" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="lineNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="release" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="trackingNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="negotiatedRate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="publicRate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="lastCallResult" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="resultMessages" type="tns:ArrayOfDLogMessage" />
+          <s:element minOccurs="0" maxOccurs="1" name="size" type="tns:SalesOrderBox" />
+          <s:element minOccurs="1" maxOccurs="1" name="qty" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipToNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="packNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="signatureRequired" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="partNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="partDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="whseCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="bin" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="width" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="height" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="length" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="declaredValue" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="upsPackageType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="reference1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="reference2" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SalesOrderBox">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="orderNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="boxNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="boxWeight" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="boxCubicInches" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="trackingNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="overWeight" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPackage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Package" nillable="true" type="tns:Package" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSalesOrderLineItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SalesOrderLineItem" nillable="true" type="tns:SalesOrderLineItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SalesOrderLineItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="lineItemNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="lineSubmissionSuccess" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="submittedPartNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="returnedPartNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="submittedUOM" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="returnedUOM" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="submittedQuantity" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="returnedQuantity" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="submittedUnitPrice" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="returnedUnitPrice" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="submittedPartDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="returnedPartDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="returnedPartWeight" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="partsPerContainer" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="needByDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="boxNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="boxWeight" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="listSalesOrderReleases" type="tns:ArrayOfSalesOrderRelease" />
+          <s:element minOccurs="1" maxOccurs="1" name="allReleasesSuccess" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="returnMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSalesOrderRelease">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SalesOrderRelease" nillable="true" type="tns:SalesOrderRelease" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SalesOrderRelease">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="release" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="releaseSubmissionSuccess" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="orderQty" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipToNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="shipTo" type="tns:Address" />
+          <s:element minOccurs="0" maxOccurs="1" name="trackingNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="packNum" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ourRate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="publicRate" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateSalesOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateSalesOrderResult" type="tns:SalesOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddReleasesToOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sessionGuid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="so" type="tns:SalesOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddReleasesToOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddReleasesToOrderResult" type="tns:SalesOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateSalesOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateSalesOrder" />
+  </wsdl:message>
+  <wsdl:message name="CreateSalesOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateSalesOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddReleasesToOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:AddReleasesToOrder" />
+  </wsdl:message>
+  <wsdl:message name="AddReleasesToOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:AddReleasesToOrderResponse" />
+  </wsdl:message>
+  <wsdl:portType name="DotitOrdersSoap">
+    <wsdl:operation name="CreateSalesOrder">
+      <wsdl:input message="tns:CreateSalesOrderSoapIn" />
+      <wsdl:output message="tns:CreateSalesOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddReleasesToOrder">
+      <wsdl:input message="tns:AddReleasesToOrderSoapIn" />
+      <wsdl:output message="tns:AddReleasesToOrderSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DotitOrdersSoap" type="tns:DotitOrdersSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateSalesOrder">
+      <soap:operation soapAction="http://dotit.com.org/CreateSalesOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddReleasesToOrder">
+      <soap:operation soapAction="http://dotit.com.org/AddReleasesToOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="DotitOrdersSoap12" type="tns:DotitOrdersSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateSalesOrder">
+      <soap12:operation soapAction="http://dotit.com.org/CreateSalesOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddReleasesToOrder">
+      <soap12:operation soapAction="http://dotit.com.org/AddReleasesToOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DotitOrders">
+    <wsdl:port name="DotitOrdersSoap" binding="tns:DotitOrdersSoap">
+      <soap:address location="http://localhost:60056/DotitOrders-v1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="DotitOrdersSoap12" binding="tns:DotitOrdersSoap12">
+      <soap12:address location="http://localhost:60056/DotitOrders-v1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

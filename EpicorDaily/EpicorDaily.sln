@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.438
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpicorDaily", "EpicorDaily.csproj", "{AF4659E1-DA9E-439F-A07F-F62352470C03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotitBllDal", "..\DotitBllDal\DotitBllDal.csproj", "{1A89B3BC-6BA0-4626-B5BC-14606CEBB3F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotCommon", "..\DotCommon\DotCommon.csproj", "{A7F06437-2AB8-4B88-B4AA-CA568A88E4DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF4659E1-DA9E-439F-A07F-F62352470C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4659E1-DA9E-439F-A07F-F62352470C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF4659E1-DA9E-439F-A07F-F62352470C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF4659E1-DA9E-439F-A07F-F62352470C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A89B3BC-6BA0-4626-B5BC-14606CEBB3F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A89B3BC-6BA0-4626-B5BC-14606CEBB3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A89B3BC-6BA0-4626-B5BC-14606CEBB3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A89B3BC-6BA0-4626-B5BC-14606CEBB3F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7F06437-2AB8-4B88-B4AA-CA568A88E4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7F06437-2AB8-4B88-B4AA-CA568A88E4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7F06437-2AB8-4B88-B4AA-CA568A88E4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7F06437-2AB8-4B88-B4AA-CA568A88E4DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CBA9927-7400-40F3-A620-A5D759E7FF54}
+	EndGlobalSection
+EndGlobal
