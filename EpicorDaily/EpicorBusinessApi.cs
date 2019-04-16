@@ -348,42 +348,7 @@ namespace EpicorDaily
 
         /// <returns></returns>
 
-        public List<OrderDetailModel> GetOrderLine()
-        {
-            DLog.Log("GetOrderLine");
-            apiResponse = new ApiResponse();
-            try
-            {
-                DLog.Log("Calling Epicor api :" + Constant.EpicorApi_OrderLine);
-                var _response = apiResponse.GetApiResponse(Constant.EpicorApi_OrderLine, "Get");
-                if (!_response.success)
-                {
-                    DLog.Log("Epicor api failed  " + Constant.EpicorApi_OrderLine);
-                    return null;
-                }
-
-                var _data = JsonConvert.DeserializeObject<Dictionary<string, object>>(_response.Response);
-                if (_data.ContainsKey("value"))
-                {
-
-                    if (!String.IsNullOrEmpty(_data["value"].ToString()))
-                    {
-                        var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(_data["value"].ToString());
-                        DLog.Log("Epicor api return records  " + _result.Count);
-                        return _result.ToList();
-                    }
-
-                }
-
-                DLog.Log("Epicor api return no record");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                DLog.Log("Exception in GetOrderLine : " + ex.Message);
-                return null;
-            }
-        }
+        
 
         /// <summary>
         /// GetWebOrder
@@ -422,6 +387,59 @@ namespace EpicorDaily
             catch (Exception ex)
             {
                 DLog.Log("Exception in GetWebOrder : " + ex.Message);
+                return null;
+            }
+        }
+
+        internal List<OrderDtlRow> GetOrderLineItemByOrdernum(string company, int orderNum)
+        {
+            DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + company);
+            apiResponse = new ApiResponse();
+            try
+            {
+                string uri = string.Format(Constant.EpicorApi_OrderLineItems, company, orderNum);
+                DLog.Log("Calling Epicor api :" + uri);
+
+                var _response = apiResponse.GetApiResponse(uri, "Get");
+                if (!_response.success)
+                {
+                    DLog.Log("Epicor api failed  " + uri);
+                    return null;
+                }
+
+                else
+                {
+                    var _data = JsonConvert.DeserializeObject<Dictionary<string, object>>(_response.Response);
+                    if (_data.ContainsKey("value"))
+                    {
+
+                        if (!String.IsNullOrEmpty(_data["value"].ToString()))
+                        {
+
+                            var _result2 = _data["value"];
+
+                            var _result = JsonConvert.DeserializeObject<OrderRelDataTable>(_data["value"].ToString());
+
+                            DLog.Log("Epicor api return records  " + _result.Rows.Count);
+                            List<OrderDtlRow> OrderRelRows = new List<OrderDtlRow>();
+                            foreach (var row in _result.Rows)
+                            {
+                                OrderRelRows.Add(row as OrderDtlRow);
+                            }
+                            return OrderRelRows;
+                        }
+
+                    }
+                    DLog.Log("Epicor api return 0 record");
+                    return null;
+                    //return JsonConvert.DeserializeObject<OrderRelDataTable>("[" + _data[1.ToString()] + "]");
+                    // return JsonConvert.DeserializeObject<OrderRelDataTable>("[" + _result + "]");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                DLog.Log("Exception in OrderRelationByOrdernum : " + ex.Message);
                 return null;
             }
         }
@@ -492,7 +510,7 @@ namespace EpicorDaily
             }
         }
 
-        public List<OrderRelDataTable> GetOrderRelationByOrdernum(string Company,int  OrderNum)
+        public List<OrderRelRow> GetOrderRelationByOrdernum(string Company,int  OrderNum)
         {
             DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + OrderNum);
             apiResponse = new ApiResponse();
@@ -510,9 +528,32 @@ namespace EpicorDaily
 
                 else
                 {
-                    var _result = string.Concat("{", _response.Response.Substring(_response.Response.IndexOf(",") + 1));                   
-                    DLog.Log(string.Format("Epicor api return {0} record", _result.Count()));
-                    return JsonConvert.DeserializeObject<List<OrderRelDataTable>>("[" + _result + "]");
+                     var _data = JsonConvert.DeserializeObject<Dictionary<string,object>>(_response.Response);
+                    if (_data.ContainsKey("value"))
+                    {
+
+                        if (!String.IsNullOrEmpty(_data["value"].ToString()))
+                        {
+                            
+                            var _result2 = _data["value"];
+
+                            var _result = JsonConvert.DeserializeObject<OrderRelDataTable>(_data["value"].ToString())  ;
+                            
+                            DLog.Log("Epicor api return records  " + _result.Rows.Count);
+                            List<OrderRelRow> OrderRelRows = new List<OrderRelRow>();
+                            foreach (var row in _result.Rows)
+                            {
+                                OrderRelRows.Add(row as OrderRelRow);
+                            }
+                            return OrderRelRows;
+                        }
+
+                    }
+                    DLog.Log("Epicor api return 0 record");
+                    return null;
+                    //return JsonConvert.DeserializeObject<OrderRelDataTable>("[" + _data[1.ToString()] + "]");
+                    // return JsonConvert.DeserializeObject<OrderRelDataTable>("[" + _result + "]");
+
                 }
             }
             catch (Exception ex)

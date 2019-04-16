@@ -20,8 +20,11 @@ namespace EpicorDaily
         public const string EpicorApi_SalesOrderList = "/Erp.BO.SalesOrderSvc/List";
         
         public const string EpicorApi_VendBankSearchList = "/Erp.BO.VendBankSearchSvc/List";
-        public const string EpicorApi_OrderLine= "/Erp.BO.OrderDtlSearchSvc/List";
-        public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter=Company eq '{}' and OrderNum eq {}";
+        public const string EpicorApi_OrderLineItems = "rp.BO.OrderDtlSearchSvc/OrderDtlSearches?$filter=Company eq '{0}' and OrderNum eq {1}";
+
+        public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter=Company eq '{0}' and OrderNum eq {1}";
+        //public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter='{0}'and{1}";
+
         public const string EpicorApi_PartBin = "/Erp.BO.PartBinSearchSvc";
         public const string EpicorApi_ShipDetail= "/Erp.BO.ShipDtlSearchSvc/List";
         public const string EpicorApi_ShipTos= "/Erp.BO.ShipToSvc/List";
@@ -32,5 +35,6 @@ namespace EpicorDaily
         public const string EpicorApi_GetCustomerGroups = "/Erp.BO.CustGrupSvc/List";
 
         public const string EpicorApi_ShipVias = "/Erp.BO.ShipViaSvc/ShipVias";
+
     }
 }

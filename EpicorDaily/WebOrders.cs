@@ -17,7 +17,7 @@ using Ice.Core;
 using Ice.Lib.Framework;
 using Erp.BO;
 using Erp.Proxy.BO;
-
+using static Erp.BO.SalesOrderDataSet;
 
 namespace EpicorDaily
 {
@@ -70,7 +70,7 @@ namespace EpicorDaily
 
                 #region//20190404- Amit : Code change variable name  
                 //foreach (int32 ordernum in rsOrders)
-                SalesOrderDataSet.OrderHedRow orderHedRow;
+                //SalesOrderDataSet salesOrderDS;
                 SalesOrderDataSet.OrderHedRow orderHedRow;
                 DotItShipping dis;
                 foreach (var order in rsOrders)
@@ -91,7 +91,7 @@ namespace EpicorDaily
 
                     #endregion
                     Boolean isContinue = new Boolean();
-                    String responseMessage;
+                    String responseMessage = string.Empty;
                     String creditShipAction;
                     String displayMessage;
                     String compliantMessage;
@@ -175,12 +175,15 @@ namespace EpicorDaily
                         //        out isContinue, out responseMessage, out creditShipAction, out displayMessage, out compliantMessage, out responseMsgOrdRel,
                         //        out cAgingMessage, salesOrderDS);
 
-
+                        //Hare used epicor api for salesOrderBO.MasterUpdate for later...........................................................................
 
                         #endregion
 
                         DLog.Log("Master Update complete " + responseMessage);
-                        DLog.Log("Releases & Lines: " + salesOrderDS.OrderRel.Count.ToString() + " & " + salesOrderDS.OrderDtl.Count.ToString());
+                        #region//20190404- Amit :comment for DLog.Log( salesOrderDS)
+                        //DLog.Log("Releases & Lines: " + salesOrderDS.OrderRel.Count.ToString() + " & " + salesOrderDS.OrderDtl.Count.ToString());
+
+                        #endregion
 
                         #region Rtaco Temp Fix - Part 2
                         //Continuation of RTaco Promo
@@ -240,119 +243,57 @@ namespace EpicorDaily
                         //}
                         #endregion
 
+
                         List<OrderRel> rsReleaseItems = (from orr in db.OrderRels where orr.OrderNum == order.OrderNum select orr).ToList<OrderRel>();
-                        Int32 iCount = 0;
-
-                        DLog.Log("reReleaseItems to process: " + rsReleaseItems.Count());
-
-                        Boolean needReleaseUpdate = false;
-
-                        foreach (OrderRel oRel in rsReleaseItems)
-                        {
-                            try
-                            {
-                                if (salesOrderDS.OrderRel[iCount].ShipViaCode != orderHedRow.ShipViaCode)
-                                {
-                                    needReleaseUpdate = true;
-
-                                    DLog.Log("Modifying Release item 'ShipVia' for release item: " + oRel.OrderRelNum.ToString() + " with shipVia: " + orderHedRow.ShipViaCode + " from: " + salesOrderDS.OrderRel[iCount].ShipViaCode);
-
-                                    salesOrderDS.OrderRel[iCount].ShipViaCode = orderHedRow.ShipViaCode;
-                                }
-
-                                salesOrderDS.OrderRel[iCount].NeedByDate = orderHedRow.NeedByDate;
-                                salesOrderDS.OrderRel[iCount].ReqDate = orderHedRow.RequestDate;
-                                iCount++;
-
-                            }
-                            catch (Exception ex)
-                            {
-                                DLog.LogErr(ex);
-                            }
-                        }
-
+                        ReleaseOrder(orderHedRow,rsReleaseItems);
                         isContinue = true;
+                        #region//20190404- Amit : comment update call
 
-                        salesOrderBO.MasterUpdate(true, true, "OrderRel", orderHedRow.CustNum, orderHedRow.OrderNum, false, out isContinue, out responseMessage, out creditShipAction,
-                                            out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
+                        //salesOrderBO.MasterUpdate(true, true, "OrderRel", orderHedRow.CustNum, orderHedRow.OrderNum, false, out isContinue, out responseMessage, out creditShipAction,
+                        //                    out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
+
+                        //Hare used epicor api for salesOrderBO.MasterUpdate for later...........................................................................
+
+                        #endregion
+
 
                         DLog.Log("Release Item Update complete " + responseMessage);
 
 
                         Thread.Sleep(2000);  //  Have to sleep to allow final update of lines.
 
-                        DLog.Log("There are " + salesOrderDS.OrderDtl.Count.ToString() + " from salesOrderDS.OrderDtl");
+                        #region//20190404- Amit : comment for  DLog.Log ereeor 
+                        // DLog.Log("There are " + salesOrderDS.OrderDtl.Count.ToString() + " from salesOrderDS.OrderDtl");
+                        #endregion
 
-                        foreach (SalesOrderDataSet.OrderDtlRow od in salesOrderDS.OrderDtl.Rows)
-                        {
-                            DLog.Log("Modifying Line item 'ShipBy' date for line item: " + od.OrderLine.ToString());
-
-                            try
-                            {
-                                od.RequestDate = orderHedRow.RequestDate;
-
-
-                                foreach (var orsp in ordRspArray)
-                                {
-                                    if (orsp.magentoLineId == od.ECCOrderLine)
-                                    {
-                                        DLog.Log("Lines match: " + orsp.magentoLineId.ToString());
-
-                                        if (orsp.pdf == null && orsp.customOptions == null) continue;
-
-                                        if (orsp.pdf != null)
-                                        {
-                                            DLog.Log("PDF from response: " + orsp.pdf);
-                                            od.OrderComment += "Link to artwork: " + orsp.pdf + Environment.NewLine;
-                                        }
-
-                                        if (orsp.customOptions != null)
-                                        {
-                                            DLog.Log("Partmatch: " + od.PartNum + " : " + orsp.sku);
-                                            DLog.Log("Customer Options exist for Magento line number: " + orsp.customOptions.ToString());
-                                            foreach (JObject obj in orsp.customOptions)
-                                            {
-                                                String key = obj.Children().FirstOrDefault().Path.ToString();
-                                                key = key.Substring(key.IndexOf('.') + 1);
-                                                String value = obj.Children().FirstOrDefault().First.ToString();
-                                                od.OrderComment += key + ": " + value + "  " + Environment.NewLine;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                DLog.Log("OrderComment: " + od.OrderComment);
-
-                                od.PickListComment = od.OrderComment;
-                                od.ShipComment = od.OrderComment;
-                                od.InvoiceComment = od.OrderComment;
-                                od.ProFormaInvComment = od.OrderComment;
-                            }
-                            catch (Exception ex)
-                            {
-                                DLog.Log("rsLineItems: " + ex.Message);
-                            }
-                        }
+                        #region//20190404- Amit : Refactor code for OrderLine Process 
+                        ProcessEpicorOrderLine(orderHedRow, ordRspArray);
+                        #endregion
 
                         DLog.Log("Line Item Update complete " + responseMessage);
 
 
 
                         isContinue = true;
-                        salesOrderBO.MasterUpdate(true, true, "OrderDtl", orderHedRow.CustNum, orderHedRow.OrderNum, false, out isContinue, out responseMessage, out creditShipAction,
-                                        out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
+                        #region//20190404- Amit :  Epicor Api Cal for  salesOrderBO.MasterUpdate 
+                        //salesOrderBO.MasterUpdate(true, true, "OrderDtl", orderHedRow.CustNum, orderHedRow.OrderNum, false, out isContinue, out responseMessage, out creditShipAction,
+                        //                out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
 
-                        DLog.Log("responseMessage: " + responseMessage);
-                        DLog.Log("displayMessage: " + displayMessage);
-                        DLog.Log("compliantMessage: " + compliantMessage);
-                        DLog.Log("creditShipAction: " + creditShipAction);
+                        //DLog.Log("responseMessage: " + responseMessage);
+                        //DLog.Log("displayMessage: " + displayMessage);
+                        //DLog.Log("compliantMessage: " + compliantMessage);
+                        //DLog.Log("creditShipAction: " + creditShipAction);
+                        #endregion
+
                         #region//20190404- Amit : Property declare to call Epicor Api Caller 
+
                         //NotifyUserIfOnCreditHold(orderHedRow.OrderNum);                    
                         //}
                         #endregion
 
                     }
                 }
+            }
             catch (Exception ex)
             {
                 DLog.Log(ex.ToString(), DLog.LogLevel.Error, true);
@@ -361,6 +302,121 @@ namespace EpicorDaily
             DLog.Log("=====================    Ending OrderAdjustments    ========================");
         }
 
+        private static List<OrderDtlRow> ProcessEpicorOrderLine(OrderHedRow orderHedRow, OrderResponse[] ordRspArray)
+        {
+            #region//20190404- Amit : l Epicor Api Caller order line item
+            var rsEpicorLineItems = _EpicorBusinessApi.GetOrderLineItemByOrdernum(orderHedRow.Company, orderHedRow.OrderNum);
+
+            //foreach (SalesOrderDataSet.OrderDtlRow od in salesOrderDS.OrderDtl.Rows)
+            //{
+            foreach (OrderDtlRow od in rsEpicorLineItems)
+            {
+                #endregion
+                DLog.Log("Modifying Line item 'ShipBy' date for line item: " + od.OrderLine.ToString());
+
+                try
+                {
+                    od.RequestDate = orderHedRow.RequestDate;
+
+
+                    foreach (var orsp in ordRspArray)
+                    {
+                        if (orsp.magentoLineId == od.ECCOrderLine)
+                        {
+                            DLog.Log("Lines match: " + orsp.magentoLineId.ToString());
+
+                            if (orsp.pdf == null && orsp.customOptions == null) continue;
+
+                            if (orsp.pdf != null)
+                            {
+                                DLog.Log("PDF from response: " + orsp.pdf);
+                                od.OrderComment += "Link to artwork: " + orsp.pdf + Environment.NewLine;
+                            }
+
+                            if (orsp.customOptions != null)
+                            {
+                                DLog.Log("Partmatch: " + od.PartNum + " : " + orsp.sku);
+                                DLog.Log("Customer Options exist for Magento line number: " + orsp.customOptions.ToString());
+                                foreach (JObject obj in orsp.customOptions)
+                                {
+                                    String key = obj.Children().FirstOrDefault().Path.ToString();
+                                    key = key.Substring(key.IndexOf('.') + 1);
+                                    String value = obj.Children().FirstOrDefault().First.ToString();
+                                    od.OrderComment += key + ": " + value + "  " + Environment.NewLine;
+                                }
+                            }
+                        }
+                    }
+
+                    DLog.Log("OrderComment: " + od.OrderComment);
+
+                    od.PickListComment = od.OrderComment;
+                    od.ShipComment = od.OrderComment;
+                    od.InvoiceComment = od.OrderComment;
+                    od.ProFormaInvComment = od.OrderComment;
+                    return rsEpicorLineItems;
+                }
+                catch (Exception ex)
+                {
+                    DLog.Log("rsLineItems: " + ex.Message);
+                  
+                }
+
+            }
+            return rsEpicorLineItems;
+        }
+
+        private static void ReleaseOrder(OrderHedRow orderHedRow,List<OrderRel> orderRels)
+        {
+            #region//20190404- Amit : Property declare to call Epicor Api Caller order relation
+            var rsEpicorReleaseItems = _EpicorBusinessApi.GetOrderRelationByOrdernum(orderHedRow.Company, orderHedRow.OrderNum);
+            #endregion
+            Int32 iCount = 0;
+
+            DLog.Log("reReleaseItems to process: " + orderRels.Count());
+
+            Boolean needReleaseUpdate = false;
+
+
+            foreach (var oRel in orderRels)
+            {
+                try
+                {
+
+
+                    #region//20190404- Amit : Property declare to call Epicor Api Caller order relation
+
+                    //if (salesOrderDS.OrderRel[iCount].ShipViaCode != orderHedRow.ShipViaCode)
+                    //{
+                    //    needReleaseUpdate = true;
+
+                    //    DLog.Log("Modifying Release item 'ShipVia' for release item: " + oRel.OrderRelNum.ToString() + " with shipVia: " + orderHedRow.ShipViaCode + " from: " + salesOrderDS.OrderRel[iCount].ShipViaCode);
+
+                    //    salesOrderDS.OrderRel[iCount].ShipViaCode = orderHedRow.ShipViaCode;
+                    //}
+                    //salesOrderDS.OrderRel[iCount].NeedByDate = orderHedRow.NeedByDate;
+                    //salesOrderDS.OrderRel[iCount].ReqDate = orderHedRow.RequestDate;
+
+                    if (Convert.ToString(rsEpicorReleaseItems[iCount].ShipViaCode) != orderHedRow.ShipViaCode)
+                    {
+                        needReleaseUpdate = true;
+
+                        DLog.Log("Modifying Release item 'ShipVia' for release item: " + oRel.OrderRelNum + " with shipVia: " + orderHedRow.ShipViaCode + " from: " + rsEpicorReleaseItems[iCount].ShipViaCode);
+
+                        rsEpicorReleaseItems[iCount].ShipViaCode = orderHedRow.ShipViaCode;
+                    }
+
+
+
+                    iCount++;
+                    #endregion
+                }
+                catch (Exception ex)
+                {
+                    DLog.LogErr(ex);
+                }
+            }
+        }
 
         public static void NotifyJarod(Int32 orderNum)
         {
@@ -464,20 +520,30 @@ namespace EpicorDaily
             catch (Exception ex) { DLog.LogErr(ex, "Ordernum: " + orderNum); }
         }
 
-
-
         public static Boolean CheckForDaySpenser(Int32 orderNum)
         {
             //  Prevent distributors from shipping large quanties of DaySpensers without ordering labels
 
             try
             {
-                EpicorE10DataContext db = new EpicorE10DataContext();
 
+                EpicorE10DataContext db = (DLog.isTest) ? new EpicorE10DataContext(DLog.CS) : new EpicorE10DataContext();
+                //10/04/2019
+                //var OrderDtls = _EpicorBusinessApi.GetOrderLine();
+                //var orderHeads = _EpicorBusinessApi.GetOrderHead();
+                //var Customers = _EpicorBusinessApi.GetCustomers();
+                //var ShipTos = _EpicorBusinessApi.GetShipTos(string.Empty);
+                //10/04/2019
                 var rsDaySpenser = from od in db.OrderDtls
                                    join oh in db.OrderHeds on od.OrderNum equals oh.OrderNum
                                    join c in db.Customers on od.CustNum equals c.CustNum
                                    join st in db.ShipTos on new { od.CustNum, oh.ShipToNum } equals new { st.CustNum, st.ShipToNum }
+
+                                   //var rsDaySpenser = from od in OrderDtls
+                                   //                   join oh in orderHeads on od.OrderNum equals oh.OrderNum
+                                   //                   join c in Customers on od.CustNum equals c.CustNum
+                                   //                   join st in ShipTos on new { od.CustNum, oh.ShipToNum } equals new { st.CustNum, st.ShiptoNum }
+
                                    where od.OrderNum == orderNum && (od.PartNum == "DAY2101" || od.PartNum == "DAY1102" || od.PartNum == "DAY1111" || od.PartNum == "DAY2114" ||
                                           od.PartNum == "DAY1101" || od.PartNum == "DAY1112" || od.PartNum == "DAY1175" || od.PartNum == "DAY2108") && od.OrderQty > 12
                                    select new { od.OrderQty, od.LineDesc, od.PartNum, c.Name, oh.UseOTS, stName = st.Name, otsName = oh.OTSName };
@@ -489,7 +555,8 @@ namespace EpicorDaily
                     if (rsDaySpenser.First().UseOTS) body += rsDaySpenser.First().otsName;
                     else body += rsDaySpenser.First().stName;
 
-                    DEmail.SendEmailNotification(body, body, "Dear Dot It", "csr@dotit.com;ksmith@dotit.com;rtrafford@dotit.com");
+
+                    //DEmail.SendEmailNotification(body, body, "Dear Dot It", "csr@dotit.com;ksmith@dotit.com;rtrafford@dotit.com");
                     return true;
                 }
                 else
@@ -503,6 +570,45 @@ namespace EpicorDaily
                 return false;
             }
         }
+
+        //public static Boolean CheckForDaySpenser(Int32 orderNum)
+        //{
+        //    //  Prevent distributors from shipping large quanties of DaySpensers without ordering labels
+
+        //    try
+        //    {
+        //        EpicorE10DataContext db = new EpicorE10DataContext();
+
+        //        var rsDaySpenser = from od in db.OrderDtls
+        //                           join oh in db.OrderHeds on od.OrderNum equals oh.OrderNum
+        //                           join c in db.Customers on od.CustNum equals c.CustNum
+        //                           join st in db.ShipTos on new { od.CustNum, oh.ShipToNum } equals new { st.CustNum, st.ShipToNum }
+        //                           where od.OrderNum == orderNum && (od.PartNum == "DAY2101" || od.PartNum == "DAY1102" || od.PartNum == "DAY1111" || od.PartNum == "DAY2114" ||
+        //                                  od.PartNum == "DAY1101" || od.PartNum == "DAY1112" || od.PartNum == "DAY1175" || od.PartNum == "DAY2108") && od.OrderQty > 12
+        //                           select new { od.OrderQty, od.LineDesc, od.PartNum, c.Name, oh.UseOTS, stName = st.Name, otsName = oh.OTSName };
+
+        //        if (rsDaySpenser.Count() > 0)
+        //        {
+        //            String body = "Order No: " + orderNum.ToString() + " has been placed with a quantity of " + rsDaySpenser.First().OrderQty.ToString("0") + " of " + rsDaySpenser.First().PartNum + " - " + rsDaySpenser.First().LineDesc;
+        //            body += Environment.NewLine + Environment.NewLine + "Customer is: ";
+        //            if (rsDaySpenser.First().UseOTS) body += rsDaySpenser.First().otsName;
+        //            else body += rsDaySpenser.First().stName;
+
+        //            DEmail.SendEmailNotification(body, body, "Dear Dot It", "csr@dotit.com;ksmith@dotit.com;rtrafford@dotit.com");
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        DLog.Log("CheckForDaySpenser exception: " + ex.Message, DLog.LogLevel.Error, true);
+        //        return false;
+        //    }
+        //}
+
 
 
         public static Int32 SplitComment(ref String line)
