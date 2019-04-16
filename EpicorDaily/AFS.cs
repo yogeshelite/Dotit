@@ -31,17 +31,28 @@ namespace EpicorDaily
                 try
                 {
                     #region//20190404- Amit : Remove DotitBal Referrence and Get Data From Epicor Api 
-                    //EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
+                    EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
 
-                    //var rsOrders = from od in cs.OrderDtls
-                    //               join oh in cs.OrderHeds on od.OrderNum equals oh.OrderNum
-                    //               join c in cs.Customers on oh.CustNum equals c.CustNum
-                    //               where od.OpenLine == true && od.ProdCode == "afs"
-                    //               orderby oh.OrderNum
-                    //               select new { od.PartNum, od.OrderQty, od.UnitPrice, od.LineDesc, od.OrderLine, oh.OrderNum, c.CustID, c.Name,
-                    //                            oh.OrderComment, oh.ShipComment};
+                    var rsOrders = from od in cs.OrderDtls
+                                   join oh in cs.OrderHeds on od.OrderNum equals oh.OrderNum
+                                   join c in cs.Customers on oh.CustNum equals c.CustNum
+                                   where od.OpenLine == true && od.ProdCode == "afs"
+                                   orderby oh.OrderNum
+                                   select new
+                                   {
+                                       od.PartNum,
+                                       od.OrderQty,
+                                       od.UnitPrice,
+                                       od.LineDesc,
+                                       od.OrderLine,
+                                       oh.OrderNum,
+                                       c.CustID,
+                                       c.Name,
+                                       oh.OrderComment,
+                                       oh.ShipComment
+                                   };
 
-                    var rsOrders = _EpicorBusinessApi.GetOrderLine().Where(f => f.OpenLine && f.ProdCode.Equals("afs"));
+                    //var rsOrders = _EpicorBusinessApi.GetOrderLine().Where(f => f.OpenLine && f.ProdCode.Equals("afs"));
                     #endregion
                     DLog.Log("there are: " + rsOrders.Count() + " records to process");
 
