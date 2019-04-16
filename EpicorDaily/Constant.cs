@@ -33,8 +33,16 @@ namespace EpicorDaily
         public const string EpicorApi_GetCustomers = "/Erp.BO.CustomerSvcGET/Customers";
 
         public const string EpicorApi_GetCustomerGroups = "/Erp.BO.CustGrupSvc/List";
+        public const string EpicorApi_CustomerShips = "/Erp.BO.CustShipSvc/CustShips({0},{1})";
+
+
 
         public const string EpicorApi_ShipVias = "/Erp.BO.ShipViaSvc/ShipVias";
+
+
+
+
+
 
     }
 }

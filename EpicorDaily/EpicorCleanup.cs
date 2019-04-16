@@ -22,7 +22,9 @@ namespace EpicorDaily
         //public static String CS = ConfigurationManager.ConnectionStrings["Epicor"].ConnectionString;
         //static DotitBllDal.DotitExtDataContext dd = new DotitBllDal.DotitExtDataContext(DS);
         //static EpicorE10DataContext db = new EpicorE10DataContext(CS);
-
+        #region//20190404- Amit : Property declare to call Epicor Api Caller 
+        public static EpicorBusinessApi _EpicorBusinessApi { get; set; }
+        #endregion
         public static void DoEpicorCleanup([CallerMemberName]string memberName = "")
         {
             DLog.StartModule();
@@ -53,30 +55,38 @@ namespace EpicorDaily
 
             DLog.StartModule();
             Int32 currentPack = 0;
-
-            using (var custShipBO = WCFServiceSupport.CreateImpl<CustShipImpl>(session, CustShipImpl.UriPath))
+            #region//20190404- Amit : Property declare to call Epicor Api Caller 
+            //using (var custShipBO = WCFServiceSupport.CreateImpl<CustShipImpl>(session, CustShipImpl.UriPath))
+            using (_EpicorBusinessApi = new EpicorBusinessApi() )
+            #endregion
             {
                 DateTime dt = DateTime.Now.AddDays(-1);     //  Only delete if older than a day
                 List<ShipHead> rsShipHeads = (from sh in cs.ShipHeads
                                               where !cs.ShipDtls.Any(f => f.PackNum == sh.PackNum) && sh.Voided == false && sh.TrackingNumber == ""
                                               select sh).ToList();
-
+                CustShipDataSet.ShipHeadRow shipHeadRow;
                 foreach (ShipHead shs in rsShipHeads)
                 {
                     currentPack = shs.PackNum;
                     try
                     {
-                        CustShipDataSet custShipDS = custShipBO.GetByID(shs.PackNum);
-                        CustShipDataSet.ShipHeadRow shipHeadRow = custShipDS.ShipHead[0];
+
+                        #region//20190404- Amit : Property declare to call Epicor Api Caller 
+                        //CustShipDataSet custShipDS = custShipBO.GetByID(shs.PackNum);
+                        //CustShipDataSet.ShipHeadRow shipHeadRow = custShipDS.ShipHead[0];
+                        shipHeadRow = _EpicorBusinessApi.GetCustomerShip(shs.PackNum, shs.Company);
+
                         shipHeadRow.RowMod = "D";
-                        custShipBO.Update(custShipDS);
+                        //custShipBO.Update(custShipDS);
+                        _EpicorBusinessApi.MarkCustomerShipDeleted(shipHeadRow);
+                        #endregion
                     }
                     catch (Exception ex)
                     {
                         DLog.Log("Issues with packNum: " + currentPack.ToString() + " " + ex.ToString());
                     }
                 }
-                EpicorCleanup.DoEpicorCleanup();
+                DoEpicorCleanup();
             }
 
             DLog.EndModule();
