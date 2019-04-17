@@ -18,20 +18,15 @@ namespace EpicorDaily
 {
     public class AFS
     {
-        static String configOrderFile = @"C:\Dotit\Config\AFSNotification.xml";
-        #region//20190404- Amit : Property declare to call Epicor Api Caller 
-        public static EpicorBusinessApi _EpicorBusinessApi { get; set; }
-        #endregion
+        static String configOrderFile = @"C:\Dotit\Config\AFSNotification.xml";        
 
         public static void ProcessNewAFSLineItems(Session session)
         { 
             DLog.StartModule();
-            using (_EpicorBusinessApi = new EpicorBusinessApi())
+            using (EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS))
             {
                 try
-                {
-                    #region//20190404- Amit : Remove DotitBal Referrence and Get Data From Epicor Api 
-                    EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
+                { 
 
                     var rsOrders = from od in cs.OrderDtls
                                    join oh in cs.OrderHeds on od.OrderNum equals oh.OrderNum
@@ -52,8 +47,6 @@ namespace EpicorDaily
                                        oh.ShipComment
                                    };
 
-                    //var rsOrders = _EpicorBusinessApi.GetOrderLine().Where(f => f.OpenLine && f.ProdCode.Equals("afs"));
-                    #endregion
                     DLog.Log("there are: " + rsOrders.Count() + " records to process");
 
                     Int32 prevOrderNum = 0;
