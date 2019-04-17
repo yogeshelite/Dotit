@@ -14,42 +14,26 @@ using EpicorDaily.Model;
 namespace EpicorDaily
 {
     public class Notifications
-    {
-        #region//20190404- Amit : Property declare to call Epicor Api Caller 
-        public static EpicorBusinessApi _EpicorBusinessApi { get; set; }
-        #endregion
+    {        
 
         public static void SendShippingNotification()
         {
             DLog.StartModule();
-            #region//20190405- Amit : Property declare to call Epicor Api Caller 
-            //EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
-            #endregion
+            
+            EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
+          
             String exceptionKeeper = "";
             String baseEmailText = File.ReadAllText(@"templates\dotitshipping.html");
 
             DateTime dtStart = DateTime.Now.AddDays(-3);
-            if (DLog.isTest) dtStart = dtStart.AddYears(-2);
-            #region//20190404- Amit : Property declare to call Epicor Api Caller 
+            if (DLog.isTest) dtStart = dtStart.AddYears(-2);           
 
-            #region//20190405- Amit : Property declare to call Epicor Api Caller 
+          
             var rsToSend = from sh_ud in cs.ShipHead_UDs where sh_ud.ShipmentEmailSent_c == false select sh_ud;
-            //var rsToSend = _EpicorBusinessApi.GetShipHead().Where(f => f.ShipmentEmailSent_c);
-            #endregion
 
-            #endregion
             Int32 iTempCount = 0;
             Int32 failingPackNum = 0;
 
-            #region//20190405- Amit :multiple objects declare to call Epicor Api Caller 
-            //var shipHead = _EpicorBusinessApi.GetShipHead(); 
-            // var shipDetails = _EpicorBusinessApi.GetShipDetail();
-            //var orderHeadlist = _EpicorBusinessApi.GetOrderHead();
-            //var shipTos = _EpicorBusinessApi.GetShipTos(string.Empty);
-            //var shipCustomers = _EpicorBusinessApi.GetCustomers();
-            //var shipVias = _EpicorBusinessApi.GetShipVia();
-            //var CustGroup = _EpicorBusinessApi.GetCustomerGroup();
-            #endregion
 
             foreach (ShipHeadModel shud in rsToSend)
             {
@@ -57,20 +41,8 @@ namespace EpicorDaily
 
                 try
                 {
-
                     failingPackNum = shud.PackNum;
-                    #region//20190405- Amit :multiple objects used for get multiple table 
-                    //10/04/2019
-                    //var shinphead = (from sh in shipHead
-                    //                 join sd in shipDetails on sh.PackNum equals sd.PackNum
-                    //                 join oh in orderHeadlist on sd.OrderNum equals oh.OrderNum
-                    //                 join st in shipTos on new { cn = oh.ShipToCustNum, cs = oh.ShipToCustNum } equals new { cn = st.CustNum, cs = st.ShipToNum }
-                    //                 join c in shipCustomers on sh.CustNum equals c.CustNum
-                    //                 join cg in CustGroup on c.GroupCode equals cg.GroupCode
-                    //                 join cgud in CustGroup on cg.SysRowId equals cgud.ForeignSysRowID
-                    //                 join sv in shipVias on sh.ShipViaCode equals sv.ShipViaCode
-                    //                 where sh.SysRowID == shud.ForeignSysRowID && sh.TrackingNumber != "" && sh.ShipDate > dtStart
-                    #endregion
+
                     var shipHead = (from sh in cs.ShipHeads
                                     join sd in cs.ShipDtls on sh.PackNum equals sd.PackNum
                                     join oh in cs.OrderHeds on sd.OrderNum equals oh.OrderNum
@@ -178,7 +150,7 @@ namespace EpicorDaily
                     //  No email address or tracking number, mark as sent and press on
                     if (!String.IsNullOrWhiteSpace(emailAddress) && !String.IsNullOrWhiteSpace(shipHead.trackingNum))
                     {
-                        //String emailMessage = "<p>Thank YOU for shopping with Dot It Restauruant Fulfillment.</p><p>Your order number " + shipHead.orderNum + " has been packed and will be picked up";
+                        String emailMessage = "<p>Thank YOU for shopping with Dot It Restauruant Fulfillment.</p><p>Your order number " + shipHead.orderNum + " has been packed and will be picked up";
                         if (!String.IsNullOrWhiteSpace(shipHead.shipVia)) emailText = emailText.Replace("[shipvia]", "Shipped Via: " + shipHead.shipVia);
                         if (!String.IsNullOrWhiteSpace(shipHead.trackingNum))
                         {
@@ -272,10 +244,7 @@ namespace EpicorDaily
                                               join shud in cs.ShipHead_UDs on sh.SysRowID equals shud.ForeignSysRowID
                                               where sh.ShipHead_UD.ShipmentEmailSent_c == false
                                               select sh.PackNum).ToList<Int32>();
-            //List<Int32> rsOldNotifications = (from sh in shipHead
-            //                                  join shud in cs.ShipHead_UDs on sh.SysRowID equals shud.ForeignSysRowID// ShipHead_UDs yet not found
-            //                                  where sh.ShipHead_UD.ShipmentEmailSent_c == false
-            //                                  select sh.PackNum).ToList<Int32>();
+
 
             DLog.Log(rsOldNotifications.Count().ToString() + " Packs to be marked as notification sent.");
 
@@ -557,22 +526,20 @@ namespace EpicorDaily
             //return lineText;
             return "";
         }
-      
+
         private static String BuildShipToAddress(Int32 orderNum)
         {
             String shipToAddress = "";
             try
             {
-                #region//20190405- Amit : Property declare to call Epicor Api Caller 
                 EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
-                
+
                 OrderHeadModel ord = null;
-               
+
                 using (_EpicorBusinessApi = new EpicorBusinessApi())
                 {
                     OrderHed ord = (from o in cs.OrderHeds where o.OrderNum == orderNum select o).Single();
-                    //ord = _EpicorBusinessApi.GetOrderHead().SingleOrDefault(o => o.OrderNum.Equals(orderNum));
-                    #endregion
+
                     if (ord.UseOTS)
                     {
                         shipToAddress = ord.OTSName + "<br />" + ord.OTSAddress1 + "<br />";
@@ -581,17 +548,12 @@ namespace EpicorDaily
                     }
                     else
                     {
-                        #region//20190405- Amit : Property declare to call Epicor Api Caller 
                         ShipTo shipTo = (from st in cs.ShipTos where st.CustNum == ord.CustNum && st.ShipToNum == ord.ShipToNum select st).Single();
-                        //ShipTo shipTo = _EpicorBusinessApi.GetShipTos(ord.ShipToNum);
-                        #endregion
                         shipToAddress = shipTo.Name + "<br />" + shipTo.Address1 + "<br />";
                         if (!String.IsNullOrWhiteSpace(shipTo.Address2)) shipToAddress += shipTo.Address2 + "<br />";
                         shipToAddress += shipTo.City + ", " + shipTo.State + "  " + shipTo.ZIP + "<br /><br />";
                     }
-                    #region//20190405- Amit : Property declare to call Epicor Api Caller 
                 }
-                #endregion
             }
             catch (Exception ex)
             {
@@ -698,4 +660,5 @@ namespace EpicorDaily
 
 
     }
+
 }
