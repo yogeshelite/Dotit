@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Erp.BO;
+//using Erp.BO;
 using Erp.Proxy.BO;
 using Ice.Core;
 using Ice.Lib.Framework;
@@ -14,6 +14,8 @@ using Ice.Lib.Framework;
 using DotCommon;
 using DotitBllDal;
 using EpicorDaily.Model;
+using Erp.BO;
+using static Erp.BO.SalesOrderDataSet;
 
 namespace EpicorDaily
 {
@@ -22,22 +24,28 @@ namespace EpicorDaily
         #region//20190405- Amit : Property declare to call Epicor Api Caller 
         public static EpicorBusinessApi _EpicorBusinessApi { get; set; }
         #endregion
-        public static void CheckSWAGOrders(Session session)
+
+        #region//18042019- Amit : Method parameters delete
+        public static void CheckSWAGOrders(Session session)       
         {
             DLog.StartModule();
 
-
-            CreateSWAGE10SalesOrder(session);
+            #region//18042019- Amit : Method parameters delete
+            //CreateSWAGE10SalesOrder(session);
+            CreateSWAGE10SalesOrder();
 
             GenerateRates(session);
 
             GenerateShipping(session);
 
             CloseOutSwagOrders(session);
+            #endregion
         }
 
-
-        public static void CreateSWAGE10SalesOrder(Session session)
+        #region//18042019- Amit : Method parameters delete
+        //public static void CreateSWAGE10SalesOrder(Session session)        
+        public static void CreateSWAGE10SalesOrder()
+        #endregion
         {
             DLog.StartModule();
 
@@ -56,7 +64,7 @@ namespace EpicorDaily
             }
 
             DLog.Log("New Swag Orders to be processed: " + rsNewSwagOrders.Count());
-
+            DotItShipping dis = new DotItShipping();
             foreach (PUNCHHSWAG swag in rsNewSwagOrders)
             {
                 String poNum = "FB AppSwag " + swag.FBREDEMPTIONCODE;
@@ -83,31 +91,60 @@ namespace EpicorDaily
 
                 try
                 {
-                    using (var salesOrderBO = WCFServiceSupport.CreateImpl<SalesOrderImpl>(session, SalesOrderImpl.UriPath))
+                    #region//18042019- Amit : Property declare to call Epicor Api Caller 
+                    //var salesOrderBO = WCFServiceSupport.CreateImpl<SalesOrderImpl>(session, SalesOrderImpl.UriPath)
+                    //using (var salesOrderBO = WCFServiceSupport.CreateImpl<SalesOrderImpl>(session, SalesOrderImpl.UriPath))
+                    //{
+                    using (_EpicorBusinessApi = new EpicorBusinessApi ())
                     {
+                        #endregion
+                       
                         SalesOrderDataSet salesOrderDS = new SalesOrderDataSet();
-                        salesOrderBO.GetNewOrderHed(salesOrderDS);
-                        SalesOrderDataSet.OrderHedRow orderHedRow = salesOrderDS.OrderHed[salesOrderDS.OrderHed.Count - 1];
+
+                        #region//18042019- Amit : Property declare to call Epicor Api Caller 
+                        //salesOrderBO.GetNewOrderHed(salesOrderDS);18/04/2019
+                        List<OrderHeadModel> GetNewOrderHed = _EpicorBusinessApi.GetOrderHead();
+
+                        //SalesOrderDataSet.OrderHedRow orderHedRow = salesOrderDS.OrderHed[salesOrderDS.OrderHed.Count - 1];18/04/2019
+                        OrderHeadModel orderHedRow= _EpicorBusinessApi.GetOrderHead().OrderByDescending(f => f.OrderNum).FirstOrDefault();
+                        #endregion
+
                         Boolean lCheckForOrderChangedMsg = false;
                         Boolean lcheckForResponse = false;
-                        salesOrderBO.OnChangeofSoldToCreditCheck(iOrderNum, swagCustId, out cCreditLimitMessage, out cAgingMessage, out isContinue, salesOrderDS);
 
-                        salesOrderBO.ChangeSoldToID(salesOrderDS);
+                        #region//18042019- Amit : Property declare to call Epicor Api Caller 
+                        //No Need to change any code in this Line start..................................
+
+                        salesOrderBO.OnChangeofSoldToCreditCheck(iOrderNum, swagCustId, out cCreditLimitMessage, out cAgingMessage, out isContinue, salesOrderDS);
+                        salesOrderBO.ChangeSoldToID(salesOrderDS);                        
                         salesOrderBO.ChangeCustomer(salesOrderDS);
-                        orderHedRow["orderType_c"] = "Email";
+
+                        //No Need to change any code in this Line End..................................
+                        #endregion
+
+                        #region//18042019- Amit : Property change
+                        //orderHedRow["orderType_c"] = "Email";
+                        orderHedRow.orderType_c = "Email";
+                        #endregion
+
                         orderHedRow.PONum = poNum;
 
-                        DotItShipping dis = new DotItShipping();
+                        #region Amit : Shifted Before to Foreach loop
+                        //DotItShipping dis = new DotItShipping();
+                        #endregion
                         orderHedRow.RequestDate = dis.NextShippingDate(26);
                         orderHedRow.NeedByDate = orderHedRow.RequestDate.AddDays(5);
 
                         orderHedRow.OrderHeld = false;
                         orderHedRow.ShipOrderComplete = true;
                         orderHedRow.CreditCardOrder = false;
-                        salesOrderBO.ChangeNeedByDate(salesOrderDS, "OrderHed");
 
+                        //No Need to change any code in this Line start..................................
+
+                        salesOrderBO.ChangeNeedByDate(salesOrderDS, "OrderHed");
                         salesOrderBO.ChangeHedUseOTS(salesOrderDS);
 
+                        //No Need to change any code in this Line End..................................
                         lCheckForOrderChangedMsg = true;
                         lcheckForResponse = true;
 
@@ -131,14 +168,18 @@ namespace EpicorDaily
                         orderHedRow.ShipToAddressList = "  ~USA";
                         orderHedRow.TaxRegionCodeDescription = "Non-Taxable State";
 
+                        //No Need to change any code in this Line start..................................
                         salesOrderBO.ChangeHedOTSCountryNum(salesOrderDS);
+                        //No Need to change any code in this Line End..................................
 
                         //  Have to move this here as a ChangeShipToID will blank out the field.
                         if (!String.IsNullOrWhiteSpace(poNum)) orderHedRow.ServRef2 = poNum;
                         orderHedRow.ShipViaCode = swag.SHIPVIA;
 
+                        //No Need to change any code in this Line start..................................
                         salesOrderBO.MasterUpdate(lCheckForOrderChangedMsg, lcheckForResponse, "OrderHed", orderHedRow.CustNum, orderHedRow.OrderNum, false,
                             out isContinue, out responseMessage, out creditShipAction, out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
+                        //No Need to change any code in this Line End..................................
 
                         String[] parts = swag.DOTITPART.Split('|');
 
@@ -173,11 +214,20 @@ namespace EpicorDaily
                             Boolean isMultiSubsAvail = new Boolean();
                             Boolean isRunOutQtyAvail = new Boolean();
 
+                            #region//18042019- Amit : Property declare to call Epicor Api Caller 
 
-                            salesOrderBO.GetNewOrderDtl(salesOrderDS, orderHedRow.OrderNum);
-                            SalesOrderDataSet.OrderDtlRow orderDtlRow = salesOrderDS.OrderDtl[salesOrderDS.OrderDtl.Count - 1];
+                            //salesOrderBO.GetNewOrderDtl(salesOrderDS, orderHedRow.OrderNum);
+                            //SalesOrderDataSet.OrderDtlRow orderDtlRow = salesOrderDS.OrderDtl[salesOrderDS.OrderDtl.Count - 1];
+                            //OrderDetailModel GetNewOrderDtl=
+                            OrderDetailModel orderDtlRow = _EpicorBusinessApi.GetOrderDtlOrdernum(orderHedRow.Company, orderHedRow.OrderNum, orderHedRow.OrderLine).OrderByDescending(f => f.OrderNum).FirstOrDefault(); ;
 
-                            orderDtlRow["ShipBoxNumber_c"] = 1;
+
+                            #endregion
+                            #region 18/04/2019-Amit property 
+                            //orderDtlRow["ShipBoxNumber_c"] = 1;
+                            orderDtlRow.ShipBoxNumber_c = 1;
+                            #endregion
+
                             orderDtlRow.RequestDate = orderHedRow.RequestDate;
                             orderDtlRow.NeedByDate = orderHedRow.NeedByDate;
 
@@ -197,7 +247,9 @@ namespace EpicorDaily
                         swagUpdate.E10ORDERNUMBER = orderHedRow.OrderNum;
                         ds.SubmitChanges();
 
+                        #region 18/04/2019-Amit change in UpdateMiscFeeByOrder
                         SalesOrderE10.UpdateMiscFeeByOrder(session, orderHedRow.OrderNum, 1.5m, DataStructures.OrderMiscType.Kitting);
+                        #endregion
 
                         DLog.Log("Swag code: " + swagUpdate.FBREDEMPTIONCODE + " created Epicor order: " + swagUpdate.E10ORDERNUMBER);
                     }
@@ -209,9 +261,16 @@ namespace EpicorDaily
             }
         }
 
-
-        private static void GenerateRates(Session session)
+        #region 18042019-Amit Session remove in  
+        //private static void GenerateRates(Session session)
+        private static void GenerateRates()
+        #endregion
         {
+
+            #region Local variable for session just becouse for UpdateMiscFeeByOrder
+            Session session = null;
+            #endregion
+
             DLog.StartModule();
 
             DotitExtDataContext ds = new DotitExtDataContext(DLog.DS);
@@ -433,21 +492,17 @@ namespace EpicorDaily
                 try
                 {
                     DotitExtDataContext ds = new DotitExtDataContext(DLog.DS);
-                    #region//20190405- Amit : Property declare to call Epicor Api Caller 
-                    // EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
-                    //=================================================================================
-                    //OrderHed orderHed =   (from oh in cs.OrderHeds where oh.OrderNum == orderId select oh).Single();
-                    OrderHeadModel orderHed = _EpicorBusinessApi.GetOrderHead().FirstOrDefault(f => f.OrderNum.Equals(orderId));
-                    #endregion
+                    EpicorE10DataContext cs = new EpicorE10DataContext();
+
+                    OrderHed orderHed =   (from oh in cs.OrderHeds where oh.OrderNum == orderId select oh).Single();                    
+                    
                     if (!EnoughInventory(orderHed.OrderNum))
                     {
                         dsr.SetResult(false, -4, "Not enough Inventory for Order: " + orderHed.OrderNum);
                         return dsr;
-                    }
-                    #region//20190405- Amit : Property declare to call Epicor Api Caller 
-                    //var rsShipDtls = from sd in cs.ShipDtls where sd.OrderNum == orderId select sd;
-                    var rsShipDtls = _EpicorBusinessApi.GetShipDetail().Where(f => f.OrderNum.Equals(orderId));
-                    #endregion
+                    }                    
+                    var rsShipDtls = from sd in cs.ShipDtls where sd.OrderNum == orderId select sd;                    
+                    
                     if (rsShipDtls.Count() > 0)
                     {
                         Int32 packNum = rsShipDtls.First().PackNum;
@@ -547,19 +602,18 @@ namespace EpicorDaily
         private static Boolean EnoughInventory(Int32 orderNum)
         {
             DLog.StartModule();
-            #region//20190405- Amit : Property declare to call Epicor Api Caller 
-            //EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
-            //var rsLines = from od in cs.OrderDtls where od.OrderNum == orderNum select od;
-            var rsLines = _EpicorBusinessApi.GetOrderLine().Where(od => od.OrderNum.Equals(orderNum));
+            
+            EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
+            var rsLines = from od in cs.OrderDtls where od.OrderNum == orderNum select od;            
 
-            #endregion
+            
             Boolean enough = true;
-            #region//20190405- Amit : Property declare to call Epicor Api Caller 
-            //foreach (OrderDtl oDtl in rsLines)
+          
+            foreach (OrderDtl oDtl in rsLines)
+            { 
             IEnumerable<PartBin> rsPartBins = null;
-            foreach (OrderDetailModel oDtl in rsLines)
-            #endregion
-            {
+           
+            
                 #region//20190405- Amit : Property declare to call Epicor Api Caller 
                 //var rsPartBins = from pb in cs.PartBins where pb.PartNum == oDtl.PartNum select pb;
                 using (_EpicorBusinessApi = new EpicorBusinessApi())
@@ -652,12 +706,12 @@ namespace EpicorDaily
 
             try
             {
-                //EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
+                EpicorE10DataContext cs = new EpicorE10DataContext(DLog.CS);
                 using (_EpicorBusinessApi = new EpicorBusinessApi())
                 {
 
-                    //var rsOrders = from oh in cs.OrderHeds where oh.PONum == poNum select oh;
-                    var rsOrders = _EpicorBusinessApi.GetOrderHead().Where(f => f.PONum.Equals(poNum));
+                    var rsOrders = from oh in cs.OrderHeds where oh.PONum == poNum select oh;
+                    //var rsOrders = _EpicorBusinessApi.GetOrderHead().Where(f => f.PONum.Equals(poNum));
                     if (rsOrders.Count() > 0)
                     {
                         DLog.Log("Order already exists with PONum: " + poNum, DLog.LogLevel.Error);

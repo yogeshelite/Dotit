@@ -486,10 +486,6 @@ namespace EpicorDaily
             }
         }
 
-       
-
-
-
         internal List<OrderDtlRow> GetOrderLineItemByOrdernum(string company, int orderNum)
         {
             DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + company);
@@ -656,6 +652,47 @@ namespace EpicorDaily
                 return null;
             }
         }
+        public List<OrderDetailModel> GetOrderDtlOrdernum(string Company, int OrderNum ,int Linenum)
+        {
+            DLog.Log("GetOrderDtl Company Ordernum Linenum");
+
+            try
+            {
+                using (apiResponse = new ApiResponse())
+                {
+                    string uri = string.Format(Constant.EpicorApi_OrderDtlByOrdernum, Company, OrderNum, Linenum);
+                    DLog.Log("Calling Epicor api :" + uri);
+                    var _response = apiResponse.GetApiResponse(uri, "Get");
+                    if (!_response.success)
+                    {
+                        DLog.Log("Epicor api failed  " + Constant.EpicorApi_OrderDtlByOrdernum);
+                        return null;
+                    }
+                    else
+                    {
+                        var _data = JsonConvert.DeserializeObject<Dictionary<string, object>>(_response.Response);
+                        if (_data.ContainsKey("value"))
+                        {
+
+                            if (!String.IsNullOrEmpty(_data["value"].ToString()))
+                            {
+                                var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(_data["value"].ToString());
+                                DLog.Log("Epicor api return records  " + _result.Count);
+                                return _result.ToList();
+                            }
+
+                        }
+                    }
+                }
+                DLog.Log("Epicor api return no record");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                DLog.Log("Exception in GetWebOrder : " + ex.Message);
+                return null;
+            }
+        }
 
         internal void UpdateOrderRelease(OrderHedRow orderHedRow ,    List<OrderRelRow> rsEpicorReleaseItems)
         {
@@ -669,7 +706,7 @@ namespace EpicorDaily
                     var _Request = JsonConvert.SerializeObject(rsEpicorReleaseItems);
 
                     //DLog.Log("Calling Epicor api :" + string.Format(Constant.EpicorApi_CustomerShips, orderHedRow.Company, shipHeadRow.PackNum));
-                    //var _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
+                   var _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
                     //if (!_response.success)
                     //{
                     //    DLog.Log("Epicor api failed  " + string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum));

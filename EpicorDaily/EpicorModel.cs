@@ -393,11 +393,26 @@ namespace EpicorDaily.Model
 
 
     }
-
-
-    public class OrderHeadModel : OrderHeadUDModel
+    public class OrderDetaiUDModel
     {
+        //public int ShipBoxNumber_c { get; set; }
+
+    }
+
+
+        public class OrderHeadModel : OrderHeadUDModel 
+    {
+        //New Property Added
+        public string OTSCntryDescription { get; set; }
         public string orderType_c { get; set; }
+        public Boolean CurrencySwitch { get; set; }
+
+        public string ShipToAddressList { get; set; }
+        public string OTSTaxRegionCode { get; set; }
+        public string TaxRegionCodeDescription { get; set; }
+        public int OrderLine { get; set; }
+
+        //End
         public bool OpenOrder { get; set; }
 
         public bool VoidOrder { get; set; }
@@ -416,7 +431,7 @@ namespace EpicorDaily.Model
 
         public string ShipToNum { get; set; }
 
-        public  Nullable< DateTime> RequestDate { get; set; }
+        public Nullable<DateTime> RequestDate { get; set; }
 
         public  Nullable< DateTime> OrderDate { get; set; }
 
@@ -1078,9 +1093,11 @@ namespace EpicorDaily.Model
     }
 
 
-    public class OrderDetailModel : CustomerModel
+    public class OrderDetailModel : CustomerModel 
     {
-
+        //New Property
+        public int ShipBoxNumber_c { get; set; }
+        //End
         public bool VoidLine;
 
         public bool OpenLine;
