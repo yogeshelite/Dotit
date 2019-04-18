@@ -24,7 +24,7 @@ namespace EpicorDaily
         public List<OrderRelModel> GetReleaseOrder(int orderNum)
         {
             DLog.Log("GetReleaseOrder for orderNum: " + orderNum);
-         
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -65,7 +65,7 @@ namespace EpicorDaily
         public ShipHeadRow GetCustomerShip(int packNum, string company)
         {
             DLog.Log("GetCustomerShip for packNum :" + packNum);
-           
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -105,7 +105,7 @@ namespace EpicorDaily
         {
             DLog.Log("GetCustomerShip for packNum :" + shipHeadRow.PackNum);
 
-         
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -134,12 +134,12 @@ namespace EpicorDaily
                     }
                 }
                 DLog.Log("Epicor api return no record");
-              
+
             }
             catch (Exception ex)
             {
                 DLog.Log("Exception in GetOrderLine : " + ex.Message);
-               
+
             }
         }
 
@@ -188,7 +188,7 @@ namespace EpicorDaily
         {
 
             DLog.Log("GetOrderShipDetail");
-            
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -269,7 +269,7 @@ namespace EpicorDaily
         public List<ShipHeadModel> GetShipHead()
         {
             DLog.Log("GetShipHead");
-          
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -310,7 +310,7 @@ namespace EpicorDaily
         public List<Customer> GetCustomers()
         {
             DLog.Log("GetShipHead");
-           
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -353,7 +353,7 @@ namespace EpicorDaily
         public ShipToModel GetShipTos(string shipToNum)
         {
             DLog.Log("GetShipTos for shipToNum :" + shipToNum);
-          
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -389,6 +389,8 @@ namespace EpicorDaily
             }
 
         }
+
+
 
 
         /// <summary>
@@ -441,7 +443,7 @@ namespace EpicorDaily
 
         /// <returns></returns>
 
-        
+
 
         /// <summary>
         /// GetWebOrder
@@ -450,7 +452,7 @@ namespace EpicorDaily
         public List<OrderHeadModel> GetOrderHead()
         {
             DLog.Log("GetWebOrder");
-           
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -486,14 +488,14 @@ namespace EpicorDaily
             }
         }
 
-       
+
 
 
 
         internal List<OrderDtlRow> GetOrderLineItemByOrdernum(string company, int orderNum)
         {
             DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + company);
-            
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -546,11 +548,11 @@ namespace EpicorDaily
             }
         }
 
-        internal void UpdateOrderLines(OrderHedRow orderHedRow, List<OrderDtlRow> rsEpicorLineItems)
+        internal void UpdateOrderLines(OrderHeadModel orderHedRow, List<OrderDtlRow> rsEpicorLineItems)
         {
             DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum);
 
-          
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -621,10 +623,10 @@ namespace EpicorDaily
         //        return null;
         //    }
         //}
-        public OrderHedRow GetOrderByOrdernum(string Company, int OrderNum)
+        public OrderHeadModel GetOrderByOrdernum(string Company, int OrderNum)
         {
             DLog.Log("GetWebOrder");
-          
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -646,7 +648,7 @@ namespace EpicorDaily
 
 
                         //return JsonConvert.DeserializeObject<SalesOrderDataSet.OrderHedDataTable>("["+_result+"]").Rows[0] as OrderHedRow;
-                        return JsonConvert.DeserializeObject<SalesOrderDataSet.OrderHedDataTable>("[" + _result + "]").Rows[0] as OrderHedRow;
+                        return JsonConvert.DeserializeObject<OrderHeadModel>( _result);
                     }
                 }
             }
@@ -657,37 +659,77 @@ namespace EpicorDaily
             }
         }
 
-        internal void UpdateOrderRelease(OrderHedRow orderHedRow ,    List<OrderRelRow> rsEpicorReleaseItems)
+        internal bool UpdateOrderHead(OrderHeadModel orderHedRow)
         {
-            DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum );
 
-           
+            DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum);
+
+
             try
             {
                 using (apiResponse = new ApiResponse())
                 {
-                    var _Request = JsonConvert.SerializeObject(rsEpicorReleaseItems);
+                    string _Request =  JsonConvert.SerializeObject(orderHedRow);
 
-                    //DLog.Log("Calling Epicor api :" + string.Format(Constant.EpicorApi_CustomerShips, orderHedRow.Company, shipHeadRow.PackNum));
-                    //var _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
-                    //if (!_response.success)
-                    //{
-                    //    DLog.Log("Epicor api failed  " + string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum));
 
-                    //}
+                    ResponseModel _response;
+                    Dictionary<string, object> _data;
 
-                    //var _data = JsonConvert.DeserializeObject<Dictionary<string, object>>(_response.Response);
-                    //if (_data.ContainsKey("value"))
-                    //{
+                    
+                    DLog.Log("Calling Epicor api :" + string.Format(Constant.EpicorApi_PatchOrderHead, orderHedRow.Company, orderHedRow.OrderNum));
+                    _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_PatchOrderHead, orderHedRow.Company, orderHedRow.OrderNum), "Patch", _Request);
+                    if (!_response.success) DLog.Log("Epicor api failed  " + string.Format(Constant.EpicorApi_PatchOrderHead, orderHedRow.Company, orderHedRow.OrderNum));
+                    return _response.success;
+                }
+            }
+            catch (Exception ex)
+            {
+                DLog.Log("Exception in GetOrderLine : " + ex.Message);
+                return false;
+            }
+        }
 
-                    //    if (!String.IsNullOrEmpty(_data["value"].ToString()))
-                    //    {
-                    //        var _result = JsonConvert.DeserializeObject<ShipHeadRow>(_data["value"].ToString());
-                    //        DLog.Log("Epicor api return records  ");
 
-                    //    }
 
-                    //}
+        internal void UpdateOrderRelease(OrderHeadModel orderHedRow, List<OrderRelModel> rsEpicorReleaseItems)
+        {
+            DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum);
+
+
+            try
+            {
+                using (apiResponse = new ApiResponse())
+                {
+                    string _Request = string.Empty; JsonConvert.SerializeObject(rsEpicorReleaseItems);
+
+
+                    ResponseModel _response;
+                    Dictionary<string, object> _data;
+                    rsEpicorReleaseItems.ForEach(f =>
+                    {
+                        _Request = JsonConvert.SerializeObject(f);
+                        DLog.Log("Calling Epicor api :" + string.Format(Constant.EpicorApi_PatchReleaseOrders, orderHedRow.Company, orderHedRow.OrderNum, f.OrderLine, f.OrderRelNum));
+                        _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_PatchReleaseOrders, orderHedRow.Company, orderHedRow.OrderNum, f.OrderLine, f.OrderRelNum), "Patch", _Request);
+                        if (!_response.success)
+                        {
+                            DLog.Log("Epicor api failed  " + string.Format(Constant.EpicorApi_PatchReleaseOrders, orderHedRow.Company, orderHedRow.OrderNum, f.OrderLine, f.OrderRelNum));
+
+                        }
+
+                        _data = JsonConvert.DeserializeObject<Dictionary<string, object>>(_response.Response);
+                        if (_data.ContainsKey("value"))
+                        {
+
+                            if (!String.IsNullOrEmpty(_data["value"].ToString()))
+                            {
+                                var _result = JsonConvert.DeserializeObject<ShipHeadRow>(_data["value"].ToString());
+                                DLog.Log("Epicor api return records  ");
+
+                            }
+
+                        }
+
+                    });
                 }
                 DLog.Log("Epicor api return no record");
 
@@ -699,10 +741,14 @@ namespace EpicorDaily
             }
         }
 
-        public List<OrderRelRow> GetOrderRelationByOrdernum(string Company,int  OrderNum)
+
+
+
+
+        public List<OrderRelModel> GetOrderRelationByOrdernum(string Company, int OrderNum)
         {
             DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + OrderNum);
-           
+
             try
             {
                 using (apiResponse = new ApiResponse())
@@ -728,15 +774,15 @@ namespace EpicorDaily
 
                                 var _result2 = _data["value"];
 
-                                var _result = JsonConvert.DeserializeObject<OrderRelDataTable>(_data["value"].ToString());
+                                var _result = JsonConvert.DeserializeObject<List<OrderRelModel>>(_data["value"].ToString());
 
-                                DLog.Log("Epicor api return records  " + _result.Rows.Count);
-                                List<OrderRelRow> OrderRelRows = new List<OrderRelRow>();
-                                foreach (var row in _result.Rows)
-                                {
-                                    OrderRelRows.Add(row as OrderRelRow);
-                                }
-                                return OrderRelRows;
+                                DLog.Log("Epicor api return records  " + _result.Count());
+                                //List<OrderRelModel> OrderRelRows = new List<OrderRelModel>();
+                                //foreach (var row in _result.Rows)
+                                //{
+                                //    OrderRelRows.Add(row as OrderRelModel);
+                                //}
+                                return _result;
                             }
 
                         }
@@ -757,7 +803,7 @@ namespace EpicorDaily
         public string PatchtOrderByOrdernum(OrderHedRow data, OrderHeadModel Input, string datainputs)
         {
             DLog.Log("PatchWebOrder");
-          
+
             try
             {
                 using (apiResponse = new ApiResponse())

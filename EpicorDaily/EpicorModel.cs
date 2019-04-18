@@ -20,329 +20,807 @@ namespace EpicorDaily.Model
     }
     public class OrderRelModel : OrderRelUDModel
     {
-        public string Company { get; set; }
-
-        public int OrderNum { get; set; }
-
-        public int OrderLine { get; set; }
-
-        public int OrderRelNum { get; set; }
-
-        public string LineType { get; set; }
-
-        public  Nullable< DateTime> ReqDate { get; set; }
-
-        public decimal OurReqQty { get; set; }
-
-        public string ShipToNum { get; set; }
-
-        public string ShipViaCode { get; set; }
-
-        public bool OpenRelease { get; set; }
-
-        public bool FirmRelease { get; set; }
-
-        public bool Make { get; set; }
-
-        public decimal OurJobQty { get; set; }
-
-        public decimal OurJobShippedQty { get; set; }
-
-        public bool VoidRelease { get; set; }
-
-        public decimal OurStockQty { get; set; }
-
-        public string WarehouseCode { get; set; }
-
-        public decimal OurStockShippedQty { get; set; }
-
-        public string PartNum { get; set; }
-
-        public string RevisionNum { get; set; }
-
-        public string TaxExempt { get; set; }
-
-        public int ShpConNum { get; set; }
-
-        public  Nullable< DateTime> NeedByDate { get; set; }
-
-        public string Reference { get; set; }
-
-        public string Plant { get; set; }
-
-        public decimal SellingReqQty { get; set; }
-
-        public decimal SellingJobQty { get; set; }
-
-        public decimal SellingJobShippedQty { get; set; }
-
-        public decimal SellingStockQty { get; set; }
-
-        public decimal SellingStockShippedQty { get; set; }
-
-        public bool SelectForPicking { get; set; }
-
-        public string StagingWarehouseCode { get; set; }
-
-        public string StagingBinNum { get; set; }
-
-        public string PickError { get; set; }
-
-        public decimal CumeQty { get; set; }
-
-        public  Nullable< DateTime> CumeDate { get; set; }
-
-        public bool Linked { get; set; }
-
-        public int ICPONum { get; set; }
-
-        public int ICPOLine { get; set; }
-
-        public int ICPORelNum { get; set; }
-
-        public string ExtCompany { get; set; }
-
-        public string ScheduleNumber { get; set; }
-
-        public string MarkForNum { get; set; }
-
-        public string DropShipName { get; set; }
-
-        public string RAN { get; set; }
-
-        public string DemandReference { get; set; }
-
-        public bool DemandSchedRejected { get; set; }
-
-        public  Nullable< DateTime> DatePickTicketPrinted { get; set; }
-
-        public bool ResDelivery { get; set; }
-
-        public bool SatDelivery { get; set; }
-
-        public bool SatPickup { get; set; }
-
-        public bool VerbalConf { get; set; }
-
-        public bool Hazmat { get; set; }
-
-        public bool DocOnly { get; set; }
-
-        public string RefNotes { get; set; }
-
-        public bool ApplyChrg { get; set; }
-
-        public decimal ChrgAmount { get; set; }
-
-        public bool COD { get; set; }
-
-        public bool CODFreight { get; set; }
-
-        public bool CODCheck { get; set; }
-
-        public decimal CODAmount { get; set; }
-
-        public string GroundType { get; set; }
-
-        public bool NotifyFlag { get; set; }
-
-        public string NotifyEMail { get; set; }
-
-        public bool DeclaredIns { get; set; }
-
-        public decimal DeclaredAmt { get; set; }
-
-        public bool ServSatDelivery { get; set; }
-
-        public bool ServSatPickup { get; set; }
-
-        public bool ServSignature { get; set; }
-
-        public bool ServAlert { get; set; }
-
-        public bool ServPOD { get; set; }
-
-        public bool ServAOD { get; set; }
-
-        public bool ServHomeDel { get; set; }
-
-        public string DeliveryType { get; set; }
-
-        public  Nullable< DateTime> ServDeliveryDate { get; set; }
-
-        public string ServPhone { get; set; }
-
-        public string ServInstruct { get; set; }
-
-        public bool ServRelease { get; set; }
-
-        public string ServAuthNum { get; set; }
-
-        public string ServRef1 { get; set; }
-
-        public string ServRef2 { get; set; }
-
-        public string ServRef3 { get; set; }
-
-        public string ServRef4 { get; set; }
-
-        public string ServRef5 { get; set; }
-
-        public bool OverrideCarrier { get; set; }
-
-        public bool OverrideService { get; set; }
-
-        public string DockingStation { get; set; }
-
-        public string Location { get; set; }
-
-        public string TransportID { get; set; }
-
-        public int ShipbyTime { get; set; }
-
+        
+        
         public string ChangedBy { get; set; }
-
-        public  Nullable< DateTime> ChangeDate { get; set; }
-
+        
+        
+        public DateTime? ChangeDate { get; set; }
+        
+        
         public int ChangeTime { get; set; }
-
+        
+        
         public bool TaxConnectCalc { get; set; }
-
+        
+        
         public bool GetDfltTaxIds { get; set; }
-
+        
+        
         public string TaxRegionCode { get; set; }
-
+        
+        
+        public int ShipbyTime { get; set; }
+        
+        
         public bool UseOTS { get; set; }
-
-        public string OTSName { get; set; }
-
+        
+        
         public string OTSAddress1 { get; set; }
-
+        
+        
         public string OTSAddress2 { get; set; }
-
+        
+        
         public string OTSAddress3 { get; set; }
-
+        
+        
         public string OTSCity { get; set; }
-
+        
+        
         public string OTSState { get; set; }
-
+        
+        
         public string OTSZIP { get; set; }
-
+        
+        
+        public string OTSName { get; set; }
+        
+        
         public string OTSResaleID { get; set; }
-
+        
+        
+        public string TransportID { get; set; }
+        
+        
+        public string DockingStation { get; set; }
+        
+        
+        public bool ServHomeDel { get; set; }
+        
+        
+        public string DeliveryType { get; set; }
+        
+        
+        public DateTime? ServDeliveryDate { get; set; }
+        
+        
+        public string ServPhone { get; set; }
+        
+        
+        public string ServInstruct { get; set; }
+        
+        
+        public bool ServRelease { get; set; }
+        
+        
+        public string Location { get; set; }
+        
+        
+        public string ServAuthNum { get; set; }
+        
+        
+        public string ServRef2 { get; set; }
+        
+        
+        public string ServRef3 { get; set; }
+        
+        
+        public string ServRef4 { get; set; }
+        
+        
+        public string ServRef5 { get; set; }
+        
+        
+        public bool OverrideCarrier { get; set; }
+        
+        
+        public bool OverrideService { get; set; }
+        
+        
+        public string ServRef1 { get; set; }
+        
+        
         public string OTSContact { get; set; }
-
+        
+        
         public string OTSFaxNum { get; set; }
-
+        
+        
         public string OTSPhoneNum { get; set; }
-
-        public int OTSCountryNum { get; set; }
-
-        public string SubShipTo { get; set; }
-
-        public string ShipRouting { get; set; }
-
-        public bool BuyToOrder { get; set; }
-
-        public int VendorNum { get; set; }
-
-        public string PurPoint { get; set; }
-
-        public bool DropShip { get; set; }
-
-        public int PONum { get; set; }
-
-        public int POLine { get; set; }
-
-        public int PORelNum { get; set; }
-
-        public bool OpenOrder { get; set; }
-
-        public string OTSSaveAs { get; set; }
-
-        public string OTSSaveCustID { get; set; }
-
-        public bool OTSCustSaved { get; set; }
-
-        public int ShipToCustNum { get; set; }
-
-        public string IUM { get; set; }
-
-        public string SalesUM { get; set; }
-
-        public string RelStatus { get; set; }
-
-        public string ComplianceMsg { get; set; }
-
-        public decimal PrevSellQty { get; set; }
-
+        
+        
         public string PrevPartNum { get; set; }
-
+        
+        
         public string PrevXPartNum { get; set; }
-
-        public  Nullable< DateTime> PrevNeedByDate { get; set; }
-
-        public  Nullable< DateTime> PrevReqDate { get; set; }
-
+        
+        
+        public DateTime? PrevNeedByDate { get; set; }
+        
+        
+        public DateTime? PrevReqDate { get; set; }
+        
+        
         public string PrevShipToNum { get; set; }
-
+        
+        
         public int MFCustNum { get; set; }
-
+        
+        
+        public decimal PrevSellQty { get; set; }
+        
+        
         public bool UseOTMF { get; set; }
-
-        public string OTMFName { get; set; }
-
+        
+        
         public string OTMFAddress1 { get; set; }
-
+        
+        
         public string OTMFAddress2 { get; set; }
-
+        
+        
         public string OTMFAddress3 { get; set; }
-
+        
+        
         public string OTMFCity { get; set; }
-
+        
+        
         public string OTMFState { get; set; }
-
+        
+        
         public string OTMFZIP { get; set; }
-
+        
+        
+        public string OTMFName { get; set; }
+        
+        
+        public string RelStatus { get; set; }
+        
+        
+        public string SalesUM { get; set; }
+        
+        
+        public string IUM { get; set; }
+        
+        
+        public int OTSCountryNum { get; set; }
+        
+        
+        public string SubShipTo { get; set; }
+        
+        
+        public string ShipRouting { get; set; }
+        
+        
+        public bool BuyToOrder { get; set; }
+        
+        
+        public int VendorNum { get; set; }
+        
+        
+        public string PurPoint { get; set; }
+        
+        
+        public bool DropShip { get; set; }
+        
+        
+        public int PONum { get; set; }
+        
+        
+        public int POLine { get; set; }
+        
+        
+        public int PORelNum { get; set; }
+        
+        
+        public bool OpenOrder { get; set; }
+        
+        
+        public string OTSSaveAs { get; set; }
+        
+        
+        public string OTSSaveCustID { get; set; }
+        
+        
+        public bool OTSCustSaved { get; set; }
+        
+        
+        public int ShipToCustNum { get; set; }
+        
+        
+        public bool ServAOD { get; set; }
+        
+        
         public string OTMFContact { get; set; }
-
+        
+        
+        public bool ServPOD { get; set; }
+        
+        
+        public bool ServSignature { get; set; }
+        
+        
+        public decimal OurStockShippedQty { get; set; }
+        
+        
+        public string PartNum { get; set; }
+        
+        
+        public string RevisionNum { get; set; }
+        
+        
+        public string TaxExempt { get; set; }
+        
+        
+        public int ShpConNum { get; set; }
+        
+        
+        public DateTime? NeedByDate { get; set; }
+        
+        
+        public string WarehouseCode { get; set; }
+        
+        
+        public string Reference { get; set; }
+        
+        
+        public decimal SellingReqQty { get; set; }
+        
+        
+        public decimal SellingJobQty { get; set; }
+        
+        
+        public decimal SellingJobShippedQty { get; set; }
+        
+        
+        public decimal SellingStockQty { get; set; }
+        
+        
+        public decimal SellingStockShippedQty { get; set; }
+        
+        
+        public bool SelectForPicking { get; set; }
+        
+        
+        public string Plant { get; set; }
+        
+        
+        public string StagingWarehouseCode { get; set; }
+        
+        
+        public decimal OurStockQty { get; set; }
+        
+        
+        public decimal OurJobShippedQty { get; set; }
+        
+        
+        public string RowMod { get; set; }
+        
+        
+        public string Company { get; set; }
+        
+        
+        public int OrderNum { get; set; }
+        
+        
+        public int OrderLine { get; set; }
+        
+        
+        public int OrderRelNum { get; set; }
+        
+        
+        public string LineType { get; set; }
+        
+        
+        public bool VoidRelease { get; set; }
+        
+        
+        public DateTime? ReqDate { get; set; }
+        
+        
+        public string ShipToNum { get; set; }
+        
+        
+        public string ShipViaCode { get; set; }
+        
+        
+        public bool OpenRelease { get; set; }
+        
+        
+        public bool FirmRelease { get; set; }
+        
+        
+        public bool Make { get; set; }
+        
+        
+        public decimal OurJobQty { get; set; }
+        
+        
+        public decimal OurReqQty { get; set; }
+        
+        
+        public string StagingBinNum { get; set; }
+        
+        
+        public string PickError { get; set; }
+        
+        
+        public decimal CumeQty { get; set; }
+        
+        
+        public string RefNotes { get; set; }
+        
+        
+        public bool ApplyChrg { get; set; }
+        
+        
+        public decimal ChrgAmount { get; set; }
+        
+        
+        public bool COD { get; set; }
+        
+        
+        public bool CODFreight { get; set; }
+        
+        
+        public bool CODCheck { get; set; }
+        
+        
+        public bool DocOnly { get; set; }
+        
+        
+        public decimal CODAmount { get; set; }
+        
+        
+        public bool NotifyFlag { get; set; }
+        
+        
+        public string NotifyEMail { get; set; }
+        
+        
+        public bool DeclaredIns { get; set; }
+        
+        
+        public decimal DeclaredAmt { get; set; }
+        
+        
+        public bool ServSatDelivery { get; set; }
+        
+        
+        public bool ServSatPickup { get; set; }
+        
+        
+        public string GroundType { get; set; }
+        
+        
+        public bool Hazmat { get; set; }
+        
+        
+        public bool VerbalConf { get; set; }
+        
+        
+        public bool SatPickup { get; set; }
+        
+        
+        public DateTime? CumeDate { get; set; }
+        
+        
+        public bool Linked { get; set; }
+        
+        
+        public int ICPONum { get; set; }
+        
+        
+        public int ICPOLine { get; set; }
+        
+        
+        public int ICPORelNum { get; set; }
+        
+        
+        public string ExtCompany { get; set; }
+        
+        
+        public string ScheduleNumber { get; set; }
+        
+        
+        public string MarkForNum { get; set; }
+        
+        
+        public string DropShipName { get; set; }
+        
+        
+        public string RAN { get; set; }
+        
+        
+        public string DemandReference { get; set; }
+        
+        
+        public bool DemandSchedRejected { get; set; }
+        
+        
+        public DateTime? DatePickTicketPrinted { get; set; }
+        
+        
+        public bool ResDelivery { get; set; }
+        
+        
+        public bool SatDelivery { get; set; }
+        
+        
+        public bool ServAlert { get; set; }
+        
+        
         public string OTMFFaxNum { get; set; }
-
-        public string OTMFPhoneNum { get; set; }
-
+        
+        
+        public string ComplianceMsg { get; set; }
+        
+        
         public int OTMFCountryNum { get; set; }
-
-        public string ECCPlant { get; set; }
-
-        public string WIOrderLine { get; set; }
-
-        public string WIOrder { get; set; }
-
-        public string WebSKU { get; set; }
-
-        public bool ShipOvers { get; set; }
-
-        public decimal WIItemPrice { get; set; }
-
-        public decimal WIItemShipCost { get; set; }
-
-        public Binary SysRevID { get; set; }
-
-        public  Guid SysRowID { get; set; }
-
-        public string EntityUseCode { get; set; }
-
-        public string PhaseID { get; set; }
-
-        public string OTSShipToNum { get; set; }
-
-        public bool WasRecInvoiced { get; set; }
-
-        public string ContractID { get; set; }
-
-        public bool LinkToContract { get; set; }
-
+        
+        
+        public bool VoidOrder { get; set; }
+        
+        
+        public decimal WithholdTax { get; set; }
+        
+        
+        public bool AllowTaxCodeUpd { get; set; }
+        
+        
+        public decimal DocTotalTax { get; set; }
+        
+        
+        public bool DisablePlantWhse { get; set; }
+        
+        
+        public bool EnableBuyToOrder { get; set; }
+        
+        
+        public bool UpdateMarkForRecords { get; set; }
+        
+        
+        public string InvtyUOM { get; set; }
+        
+        
+        public int BitFlag { get; set; }
+        
+        
+        public string OrderLineLineDesc { get; set; }
+        
+        
+        public string OrderNumCurrencyCode { get; set; }
+        
+        
+        public string OrderNumCardMemberName { get; set; }
+        
+        
+        public string OTMFCountryDescription { get; set; }
+        
+        
+        public string OTSCntryDescription { get; set; }
+        
+        
+        public bool NoRelTaxRgnChange { get; set; }
+        
+        
+        public string PartNumPricePerCode { get; set; }
+        
+        
+        public decimal TotalTax { get; set; }
+        
+        
+        public decimal ThisRelInvtyQty { get; set; }
+        
+        
+        public decimal Rpt2TotalTax { get; set; }
+        
+        
+        public decimal Rpt2WithholdTax { get; set; }
+        
+        
+        public decimal Rpt3SelfAssessTax { get; set; }
+        
+        
+        public decimal Rpt3TotalTax { get; set; }
+        
+        
+        public decimal Rpt3WithholdTax { get; set; }
+        
+        
+        public bool SalesOrderLinked { get; set; }
+        
+        
+        public decimal TotalJobStockShipped { get; set; }
+        
+        
+        public decimal SelfAssessTax { get; set; }
+        
+        
+        public string SellingFactorDirection { get; set; }
+        
+        
+        public string ShipToAddressList { get; set; }
+        
+        
+        public string OTMFPhoneNum { get; set; }
+        
+        
+        public string ShipToContactName { get; set; }
+        
+        
+        public bool ShipToSelected { get; set; }
+        
+        
+        public bool SNEnable { get; set; }
+        
+        
+        public decimal SellingFactor { get; set; }
+        
+        
+        public bool PartNumTrackDimension { get; set; }
+        
+        
+        public string PartNumIUM { get; set; }
+        
+        
+        public bool PartNumTrackSerialNum { get; set; }
+        
+        
+        public string TPShipToCustID { get; set; }
+        
+        
+        public string VendorNumState { get; set; }
+        
+        
+        public string VendorNumZIP { get; set; }
+        
+        
+        public string VendorNumName { get; set; }
+        
+        
+        public string VendorNumAddress2 { get; set; }
+        
+        
+        public string VendorNumCountry { get; set; }
+        
+        
+        public string TPShipToBTName { get; set; }
+        
+        
+        public string VendorNumCurrencyCode { get; set; }
+        
+        
+        public string VendorNumAddress3 { get; set; }
+        
+        
+        public string VendorNumVendorID { get; set; }
+        
+        
+        public string VendorNumDefaultFOB { get; set; }
+        
+        
+        public string VendorNumTermsCode { get; set; }
+        
+        
+        public string VendorNumAddress1 { get; set; }
+        
+        
+        public string WarehouseCodeDescription { get; set; }
+        
+        
+        public string VendorNumCity { get; set; }
+        
+        
+        public string TPShipToName { get; set; }
+        
+        
+        public string TaxRegionCodeDescription { get; set; }
+        
+        
+        public string ShipViaCodeDescription { get; set; }
+        
+        
+        public string PartNumPartDescription { get; set; }
+        
+        
+        public bool PartNumTrackLots { get; set; }
+        
+        
+        public decimal PartNumSellingFactor { get; set; }
+        
+        
+        public string PartNumSalesUM { get; set; }
+        
+        
+        public string PlantName { get; set; }
+        
+        
+        public string PurPointAddress3 { get; set; }
+        
+        
+        public string PurPointZip { get; set; }
+        
+        
+        public string PurPointName { get; set; }
+        
+        
+        public string PurPointCountry { get; set; }
+        
+        
+        public string PurPointAddress1 { get; set; }
+        
+        
+        public string PurPointState { get; set; }
+        
+        
+        public string PurPointCity { get; set; }
+        
+        
+        public string PurPointAddress2 { get; set; }
+        
+        
+        public int PurPointPrimPCon { get; set; }
+        
+        
+        public string ShipViaCodeWebDesc { get; set; }
+        
+        
+        public decimal Rpt2SelfAssessTax { get; set; }
+        
+        
+        public decimal Rpt1WithholdTax { get; set; }
+        
+        
+        public string ShipToContactEMailAddress { get; set; }
+        
+        
+        public long SysRevID { get; set; }
+        
+        
+        public bool KitDisable { get; set; }
+        
+        
+        public bool HdrOTS { get; set; }
+        
+        
         public bool ReadyToFulfill { get; set; }
+        
+        
+        public bool ExistPOSugg { get; set; }
+        
+        
+        public decimal AvailableQuantity { get; set; }
+        
+        
+        public string EntryProcess { get; set; }
+        
+        
+        public Guid SysRowID { get; set; }
+        
+        
+        public bool EnableMake { get; set; }
+        
+        
+        public bool BuyOverride { get; set; }
+        
+        
+        public string DspRevMethod { get; set; }
+        
+        
+        public bool LinkToPONum { get; set; }
+        
+        
+        public string CreditLimitMessage { get; set; }
+        
+        
+        public bool DropShipOverride { get; set; }
+        
+        
+        public decimal DocWithholdTax { get; set; }
+        
+        
+        public decimal DocSelfAssessTax { get; set; }
+        
+        
+        public string CustomerName { get; set; }
+        
+        
+        public string CustomerCustID { get; set; }
+        
+        
+        public string WIOrderLine { get; set; }
+        
+        
+        public bool CustomerAllowShipTo3 { get; set; }
+        
+        
+        public string WIOrder { get; set; }
+        
+        
+        public string CreditLimitSource { get; set; }
+        
+        
+        public bool CustAllowOTS { get; set; }
+        
+        
+        public string DspInvMeth { get; set; }
+        
+        
+        public string WebSKU { get; set; }
+        
+        
+        public bool MakeOverride { get; set; }
+        
+        
+        public bool PartExists { get; set; }
+        
+        
+        public decimal Rpt1TotalTax { get; set; }
+        
+        
+        public string EntityUseCode { get; set; }
+        
+        
+        public string PhaseID { get; set; }
+        
+        
+        public decimal Rpt1SelfAssessTax { get; set; }
+        
+        
+        public string OTSShipToNum { get; set; }
+        
+        
+        public string ReleaseStatus { get; set; }
+        
+        
+        public string ProjectID { get; set; }
+        
+        
+        public bool WasRecInvoiced { get; set; }
+        
+        
+        public bool PhaseWasRecInvoiced { get; set; }
+        
+        
+        public string ContractID { get; set; }
+        
+        
+        public string MarkForAddrList { get; set; }
+        
+        
+        public string CurrencyCode { get; set; }
+        
+        
+        public bool OTSSaved { get; set; }
+        
+        
+        public string ECCPlant { get; set; }
+        
+        
+        public decimal OnHandQuantity { get; set; }
+        
+        
+        public bool NotCompliant { get; set; }
+        
+        
+        public decimal WIItemShipCost { get; set; }
+        
+        
+        public string OTSTaxRegionCode { get; set; }
+        
+        
+        public string MFCustID { get; set; }
+        
+        
+        public bool LinkToContract { get; set; }
+        
+        
+        public decimal WIItemPrice { get; set; }
+        
+        
+        public bool ShipOvers { get; set; }
 
 
 
@@ -397,682 +875,1443 @@ namespace EpicorDaily.Model
 
     public class OrderHeadModel : OrderHeadUDModel
     {
-        public string orderType_c { get; set; }
-        public bool OpenOrder { get; set; }
-
-        public bool VoidOrder { get; set; }
-
-        public string Company { get; set; }
-
-        public int OrderNum { get; set; }
-
-        public int CustNum { get; set; }
-
-        public string PONum { get; set; }
-
-        public bool OrderHeld { get; set; }
-
-        public string EntryPerson { get; set; }
-
-        public string ShipToNum { get; set; }
-
-        public  Nullable< DateTime> RequestDate { get; set; }
-
-        public  Nullable< DateTime> OrderDate { get; set; }
-
-        public string FOB { get; set; }
-
-        public string ShipViaCode { get; set; }
-
-        public string TermsCode { get; set; }
-
-        public decimal DiscountPercent { get; set; }
-
-        public int PrcConNum { get; set; }
-
-        public int ShpConNum { get; set; }
-
-        public string SalesRepList { get; set; }
-
-        public string OrderComment { get; set; }
-
-        public string ShipComment { get; set; }
-
-        public string InvoiceComment { get; set; }
-
-        public string PickListComment { get; set; }
-
-        public decimal DepositBal { get; set; }
-
-        public decimal DocDepositBal { get; set; }
-
-        public  Nullable< DateTime> NeedByDate { get; set; }
-
-        public bool CreditOverride { get; set; }
-
-        public string CreditOverrideUserID { get; set; }
-
-        public  Nullable< DateTime> CreditOverrideDate { get; set; }
-
-        public string CreditOverrideTime { get; set; }
-
-        public decimal CreditOverrideLimit { get; set; }
-
-        public bool SndAlrtShp { get; set; }
-
-        public decimal ExchangeRate { get; set; }
-
-        public string CurrencyCode { get; set; }
-
-        public bool LockRate { get; set; }
-
-        public string CardMemberName { get; set; }
-
-        public string CardNumber { get; set; }
-
-        public string CardType { get; set; }
-
-        public int ExpirationMonth { get; set; }
-
-        public int ExpirationYear { get; set; }
-
-        public string CardID { get; set; }
-
-        public string CardmemberReference { get; set; }
-
-        public string AllocPriorityCode { get; set; }
-
-        public string ReservePriorityCode { get; set; }
-
-        public bool ShipOrderComplete { get; set; }
-
-        public bool WebOrder { get; set; }
-
-        public string CCApprovalNum { get; set; }
-
-        public bool EDIOrder { get; set; }
-
-        public bool EDIAck { get; set; }
-
-        public bool Linked { get; set; }
-
-        public int ICPONum { get; set; }
-
-        public string ExtCompany { get; set; }
-
-        public string WebEntryPerson { get; set; }
-
-        public bool AckEmailSent { get; set; }
-
-        public bool ApplyOrderBasedDisc { get; set; }
-
-        public bool AutoOrderBasedDisc { get; set; }
-
-        public string EntryMethod { get; set; }
-
-        public int HDCaseNum { get; set; }
-
-        public bool CounterSale { get; set; }
-
-        public bool CreateInvoice { get; set; }
-
-        public bool CreatePackingSlip { get; set; }
-
-        public bool LockQty { get; set; }
-
-        public string ProcessCard { get; set; }
-
-        public decimal CCAmount { get; set; }
-
-        public decimal CCFreight { get; set; }
-
-        public decimal CCTax { get; set; }
-
-        public decimal CCTotal { get; set; }
-
-        public decimal CCDocAmount { get; set; }
-
-        public decimal CCDocFreight { get; set; }
-
-        public decimal CCDocTax { get; set; }
-
-        public decimal CCDocTotal { get; set; }
-
-        public string CCStreetAddr { get; set; }
-
-        public string CCZip { get; set; }
-
-        public int BTCustNum { get; set; }
-
-        public int BTConNum { get; set; }
-
-        public decimal RepRate4 { get; set; }
-
-        public decimal RepRate5 { get; set; }
-
-        public int RepSplit1 { get; set; }
-
-        public int RepSplit2 { get; set; }
-
-        public int RepSplit3 { get; set; }
-
-        public int RepSplit4 { get; set; }
-
-        public int RepSplit5 { get; set; }
-
-        public decimal RepRate1 { get; set; }
-
-        public decimal RepRate2 { get; set; }
-
-        public decimal RepRate3 { get; set; }
-
-        public int OutboundSalesDocCtr { get; set; }
-
-        public int OutboundShipDocsCtr { get; set; }
-
-        public int DemandContractNum { get; set; }
-
-        public  Nullable< DateTime> DoNotShipBeforeDate { get; set; }
-
-        public bool ResDelivery { get; set; }
-
-        public  Nullable< DateTime> DoNotShipAfterDate { get; set; }
-
-        public bool SatDelivery { get; set; }
-
-        public bool SatPickup { get; set; }
-
-        public bool Hazmat { get; set; }
-
-        public bool DocOnly { get; set; }
-
-        public string RefNotes { get; set; }
-
-        public bool ApplyChrg { get; set; }
-
-        public decimal ChrgAmount { get; set; }
-
-        public bool COD { get; set; }
-
-        public bool CODFreight { get; set; }
-
-        public bool CODCheck { get; set; }
-
-        public decimal CODAmount { get; set; }
-
-        public string GroundType { get; set; }
-
-        public bool NotifyFlag { get; set; }
-
-        public string NotifyEMail { get; set; }
-
-        public bool DeclaredIns { get; set; }
-
-        public decimal DeclaredAmt { get; set; }
-
-        public  Nullable< DateTime> CancelAfterDate { get; set; }
-
-        public bool DemandRejected { get; set; }
-
-        public bool OverrideCarrier { get; set; }
-
-        public bool OverrideService { get; set; }
-
-        public bool CreditCardOrder { get; set; }
-
-        public int DemandHeadSeq { get; set; }
-
-        public string PayFlag { get; set; }
-
-        public string PayAccount { get; set; }
-
-        public string PayBTAddress1 { get; set; }
-
-        public string PayBTAddress2 { get; set; }
-
-        public string PayBTCity { get; set; }
-
-        public string PayBTState { get; set; }
-
-        public string PayBTZip { get; set; }
-
-        public string PayBTCountry { get; set; }
-
-        public bool DropShip { get; set; }
-
-        public bool CommercialInvoice { get; set; }
-
-        public bool ShipExprtDeclartn { get; set; }
-
-        public bool CertOfOrigin { get; set; }
-
-        public bool LetterOfInstr { get; set; }
-
-        public string FFID { get; set; }
-
-        public string FFAddress1 { get; set; }
-
-        public string FFAddress2 { get; set; }
-
-        public string FFCity { get; set; }
-
-        public string FFState { get; set; }
-
-        public string FFZip { get; set; }
-
-        public string FFCountry { get; set; }
-
-        public string FFContact { get; set; }
-
-        public string FFCompName { get; set; }
-
-        public string FFPhoneNum { get; set; }
-
-        public bool IntrntlShip { get; set; }
-
-        public string ChangedBy { get; set; }
-
-        public  Nullable< DateTime> ChangeDate { get; set; }
-
-        public int ChangeTime { get; set; }
-
-        public bool AutoPrintReady { get; set; }
-
-        public bool EDIReady { get; set; }
-
-        public bool IndividualPackIDs { get; set; }
-
-        public string FFAddress3 { get; set; }
-
-        public int DeliveryConf { get; set; }
-
-        public bool AddlHdlgFlag { get; set; }
-
-        public bool NonStdPkg { get; set; }
-
-        public bool ServSignature { get; set; }
-
-        public bool ServAlert { get; set; }
-
-        public bool ServHomeDel { get; set; }
-
-        public string DeliveryType { get; set; }
-
-        public  Nullable< DateTime> ServDeliveryDate { get; set; }
-
-        public string ServInstruct { get; set; }
-
-        public string ServRef1 { get; set; }
-
-        public string ServRef2 { get; set; }
-
-        public string ServRef3 { get; set; }
-
+        
+        
+        public string RowMod { get; set; }
+        
+        
         public string ServRef4 { get; set; }
-
+        
+        
         public string ServRef5 { get; set; }
-
+        
+        
         public int FFCountryNum { get; set; }
-
+        
+        
         public string ServPhone { get; set; }
-
+        
+        
         public bool ServRelease { get; set; }
-
+        
+        
         public string ServAuthNum { get; set; }
-
+        
+        
         public string PayBTAddress3 { get; set; }
-
+        
+        
         public int PayBTCountryNum { get; set; }
-
+        
+        
         public string PayBTPhone { get; set; }
-
+        
+        
         public bool UPSQuantumView { get; set; }
-
+        
+        
         public string UPSQVShipFromName { get; set; }
-
+        
+        
         public string UPSQVMemo { get; set; }
-
+        
+        
         public bool ReadyToCalc { get; set; }
-
+        
+        
         public decimal TotalCharges { get; set; }
-
+        
+        
         public decimal TotalMisc { get; set; }
-
+        
+        
         public decimal TotalDiscount { get; set; }
-
+        
+        
         public decimal TotalComm { get; set; }
-
+        
+        
         public decimal TotalAdvBill { get; set; }
-
+        
+        
         public int TotalLines { get; set; }
-
+        
+        
         public int TotalReleases { get; set; }
-
+        
+        
         public int TotalRelDates { get; set; }
-
+        
+        
         public decimal DocTotalCharges { get; set; }
-
+        
+        
         public decimal DocTotalMisc { get; set; }
-
+        
+        
         public decimal DocTotalDiscount { get; set; }
-
+        
+        
         public decimal DocTotalComm { get; set; }
-
+        
+        
         public decimal TotalTax { get; set; }
-
+        
+        
         public decimal DocTotalTax { get; set; }
-
+        
+        
+        public string ServRef3 { get; set; }
+        
+        
         public decimal DocTotalAdvBill { get; set; }
-
+        
+        
+        public string ServRef2 { get; set; }
+        
+        
+        public string ServInstruct { get; set; }
+        
+        
+        public bool LetterOfInstr { get; set; }
+        
+        
+        public string FFID { get; set; }
+        
+        
+        public string FFAddress1 { get; set; }
+        
+        
+        public string FFAddress2 { get; set; }
+        
+        
+        public string FFCity { get; set; }
+        
+        
+        public string FFState { get; set; }
+        
+        
+        public string FFZip { get; set; }
+        
+        
+        public string FFCountry { get; set; }
+        
+        
+        public string FFContact { get; set; }
+        
+        
+        public string FFCompName { get; set; }
+        
+        
+        public string FFPhoneNum { get; set; }
+        
+        
+        public bool IntrntlShip { get; set; }
+        
+        
+        public string ChangedBy { get; set; }
+        
+        
+        public DateTime? ChangeDate { get; set; }
+        
+        
+        public int ChangeTime { get; set; }
+        
+        
+        public bool AutoPrintReady { get; set; }
+        
+        
+        public bool EDIReady { get; set; }
+        
+        
+        public bool IndividualPackIDs { get; set; }
+        
+        
+        public string FFAddress3 { get; set; }
+        
+        
+        public int DeliveryConf { get; set; }
+        
+        
+        public bool AddlHdlgFlag { get; set; }
+        
+        
+        public bool NonStdPkg { get; set; }
+        
+        
+        public bool ServSignature { get; set; }
+        
+        
+        public bool ServAlert { get; set; }
+        
+        
+        public bool ServHomeDel { get; set; }
+        
+        
+        public string DeliveryType { get; set; }
+        
+        
+        public DateTime? ServDeliveryDate { get; set; }
+        
+        
+        public string ServRef1 { get; set; }
+        
+        
         public decimal TotalShipped { get; set; }
-
+        
+        
         public decimal TotalInvoiced { get; set; }
-
+        
+        
         public int TotalCommLines { get; set; }
-
-        public decimal SRCommAmt1 { get; set; }
-
-        public decimal SRCommAmt2 { get; set; }
-
-        public decimal SRCommAmt3 { get; set; }
-
-        public decimal SRCommAmt4 { get; set; }
-
-        public decimal SRCommAmt5 { get; set; }
-
-        public decimal SRCommableAmt1 { get; set; }
-
-        public decimal SRCommableAmt2 { get; set; }
-
-        public decimal SRCommableAmt3 { get; set; }
-
-        public decimal SRCommableAmt4 { get; set; }
-
-        public decimal SRCommableAmt5 { get; set; }
-
-        public decimal Rounding { get; set; }
-
-        public decimal Rpt1DepositBal { get; set; }
-
-        public decimal DocRounding { get; set; }
-
-        public decimal Rpt2DepositBal { get; set; }
-
-        public decimal Rpt3DepositBal { get; set; }
-
-        public decimal Rpt1TotalCharges { get; set; }
-
-        public decimal Rpt2TotalCharges { get; set; }
-
-        public decimal Rpt3TotalCharges { get; set; }
-
-        public decimal Rpt1TotalAdvBill { get; set; }
-
-        public decimal Rpt2TotalAdvBill { get; set; }
-
-        public decimal Rpt3TotalAdvBill { get; set; }
-
-        public decimal Rpt1TotalMisc { get; set; }
-
-        public decimal Rpt2TotalMisc { get; set; }
-
-        public decimal Rpt3TotalMisc { get; set; }
-
-        public decimal Rpt1TotalDiscount { get; set; }
-
-        public decimal Rpt2TotalDiscount { get; set; }
-
-        public decimal Rpt3TotalDiscount { get; set; }
-
-        public decimal Rpt1TotalComm { get; set; }
-
-        public decimal Rpt2TotalComm { get; set; }
-
-        public decimal Rpt3TotalComm { get; set; }
-
-        public decimal Rpt1TotalTax { get; set; }
-
-        public decimal Rpt2TotalTax { get; set; }
-
+        
+        
         public decimal Rpt1Rounding { get; set; }
-
+        
+        
         public decimal Rpt2Rounding { get; set; }
-
+        
+        
         public decimal Rpt3Rounding { get; set; }
-
+        
+        
         public string RateGrpCode { get; set; }
-
+        
+        
         public decimal Rpt3TotalTax { get; set; }
-
+        
+        
         public decimal Rpt1CCAmount { get; set; }
-
+        
+        
         public decimal Rpt2CCAmount { get; set; }
-
+        
+        
         public decimal Rpt3CCAmount { get; set; }
-
+        
+        
         public decimal Rpt1CCFreight { get; set; }
-
+        
+        
         public decimal Rpt2CCFreight { get; set; }
-
+        
+        
         public decimal Rpt3CCFreight { get; set; }
-
+        
+        
         public decimal Rpt1CCTax { get; set; }
-
+        
+        
         public decimal Rpt2CCTax { get; set; }
-
-        public decimal Rpt3CCTax { get; set; }
-
+        
+        
         public decimal Rpt1CCTotal { get; set; }
-
+        
+        
         public decimal Rpt2CCTotal { get; set; }
-
+        
+        
         public decimal Rpt3CCTotal { get; set; }
-
+        
+        
         public decimal OrderAmt { get; set; }
-
+        
+        
         public decimal DocOrderAmt { get; set; }
-
+        
+        
         public decimal Rpt1OrderAmt { get; set; }
-
+        
+        
         public decimal Rpt2OrderAmt { get; set; }
-
+        
+        
         public decimal Rpt3OrderAmt { get; set; }
-
-        public  Nullable< DateTime> TaxPoint { get; set; }
-
-        public  Nullable< DateTime> TaxRateDate { get; set; }
-
+        
+        
+        public DateTime? TaxPoint { get; set; }
+        
+        
+        public DateTime? TaxRateDate { get; set; }
+        
+        
         public string TaxRegionCode { get; set; }
-
+        
+        
         public bool UseOTS { get; set; }
-
+        
+        
         public string OTSName { get; set; }
-
+        
+        
         public string OTSAddress1 { get; set; }
-
+        
+        
+        public decimal Rpt2TotalTax { get; set; }
+        
+        
+        public decimal Rpt1TotalTax { get; set; }
+        
+        
+        public decimal Rpt3TotalComm { get; set; }
+        
+        
+        public decimal Rpt2TotalComm { get; set; }
+        
+        
+        public decimal SRCommAmt1 { get; set; }
+        
+        
+        public decimal SRCommAmt2 { get; set; }
+        
+        
+        public decimal SRCommAmt3 { get; set; }
+        
+        
+        public decimal SRCommAmt4 { get; set; }
+        
+        
+        public decimal SRCommAmt5 { get; set; }
+        
+        
+        public decimal SRCommableAmt1 { get; set; }
+        
+        
+        public decimal SRCommableAmt2 { get; set; }
+        
+        
+        public decimal SRCommableAmt3 { get; set; }
+        
+        
+        public decimal SRCommableAmt4 { get; set; }
+        
+        
+        public decimal SRCommableAmt5 { get; set; }
+        
+        
+        public decimal Rounding { get; set; }
+        
+        
+        public decimal Rpt1DepositBal { get; set; }
+        
+        
+        public decimal DocRounding { get; set; }
+        
+        
+        public bool CertOfOrigin { get; set; }
+        
+        
+        public decimal Rpt2DepositBal { get; set; }
+        
+        
+        public decimal Rpt1TotalCharges { get; set; }
+        
+        
+        public decimal Rpt2TotalCharges { get; set; }
+        
+        
+        public decimal Rpt3TotalCharges { get; set; }
+        
+        
+        public decimal Rpt1TotalAdvBill { get; set; }
+        
+        
+        public decimal Rpt2TotalAdvBill { get; set; }
+        
+        
+        public decimal Rpt3TotalAdvBill { get; set; }
+        
+        
+        public decimal Rpt1TotalMisc { get; set; }
+        
+        
+        public decimal Rpt2TotalMisc { get; set; }
+        
+        
+        public decimal Rpt3TotalMisc { get; set; }
+        
+        
+        public decimal Rpt1TotalDiscount { get; set; }
+        
+        
+        public decimal Rpt2TotalDiscount { get; set; }
+        
+        
+        public decimal Rpt3TotalDiscount { get; set; }
+        
+        
+        public decimal Rpt1TotalComm { get; set; }
+        
+        
+        public decimal Rpt3DepositBal { get; set; }
+        
+        
         public string OTSAddress2 { get; set; }
-
+        
+        
+        public bool ShipExprtDeclartn { get; set; }
+        
+        
+        public bool DropShip { get; set; }
+        
+        
+        public bool SndAlrtShp { get; set; }
+        
+        
+        public decimal ExchangeRate { get; set; }
+        
+        
+        public string CurrencyCode { get; set; }
+        
+        
+        public bool LockRate { get; set; }
+        
+        
+        public string CardMemberName { get; set; }
+        
+        
+        public string CardNumber { get; set; }
+        
+        
+        public string CardType { get; set; }
+        
+        
+        public int ExpirationMonth { get; set; }
+        
+        
+        public int ExpirationYear { get; set; }
+        
+        
+        public string CardID { get; set; }
+        
+        
+        public string CardmemberReference { get; set; }
+        
+        
+        public string AllocPriorityCode { get; set; }
+        
+        
+        public string ReservePriorityCode { get; set; }
+        
+        
+        public bool ShipOrderComplete { get; set; }
+        
+        
+        public bool WebOrder { get; set; }
+        
+        
+        public string CCApprovalNum { get; set; }
+        
+        
+        public bool EDIOrder { get; set; }
+        
+        
+        public bool EDIAck { get; set; }
+        
+        
+        public bool Linked { get; set; }
+        
+        
+        public int ICPONum { get; set; }
+        
+        
+        public string ExtCompany { get; set; }
+        
+        
+        public string WebEntryPerson { get; set; }
+        
+        
+        public bool AckEmailSent { get; set; }
+        
+        
+        public bool ApplyOrderBasedDisc { get; set; }
+        
+        
+        public bool AutoOrderBasedDisc { get; set; }
+        
+        
+        public string EntryMethod { get; set; }
+        
+        
+        public int HDCaseNum { get; set; }
+        
+        
+        public decimal CreditOverrideLimit { get; set; }
+        
+        
+        public bool CounterSale { get; set; }
+        
+        
+        public string CreditOverrideTime { get; set; }
+        
+        
+        public string CreditOverrideUserID { get; set; }
+        
+        
+        public string TermsCodeDescription { get; set; }
+        
+        
+        public bool OpenOrder { get; set; }
+        
+        
+        public bool VoidOrder { get; set; }
+        
+        
+        public string Company { get; set; }
+        
+        
+        public int OrderNum { get; set; }
+        
+        
+        public int CustNum { get; set; }
+        
+        
+        public string PONum { get; set; }
+        
+        
+        public bool OrderHeld { get; set; }
+        
+        
+        public string EntryPerson { get; set; }
+        
+        
+        public string ShipToNum { get; set; }
+        
+        
+        public DateTime? RequestDate { get; set; }
+        
+        
+        public DateTime? OrderDate { get; set; }
+        
+        
+        public string FOB { get; set; }
+        
+        
+        public string ShipViaCode { get; set; }
+        
+        
+        public string TermsCode { get; set; }
+        
+        
+        public decimal DiscountPercent { get; set; }
+        
+        
+        public int PrcConNum { get; set; }
+        
+        
+        public int ShpConNum { get; set; }
+        
+        
+        public string SalesRepList { get; set; }
+        
+        
+        public string OrderComment { get; set; }
+        
+        
+        public string ShipComment { get; set; }
+        
+        
+        public string InvoiceComment { get; set; }
+        
+        
+        public string PickListComment { get; set; }
+        
+        
+        public decimal DepositBal { get; set; }
+        
+        
+        public decimal DocDepositBal { get; set; }
+        
+        
+        public DateTime? NeedByDate { get; set; }
+        
+        
+        public bool CreditOverride { get; set; }
+        
+        
+        public DateTime? CreditOverrideDate { get; set; }
+        
+        
+        public bool CreateInvoice { get; set; }
+        
+        
+        public bool CreatePackingSlip { get; set; }
+        
+        
+        public bool LockQty { get; set; }
+        
+        
+        public bool DocOnly { get; set; }
+        
+        
+        public string RefNotes { get; set; }
+        
+        
+        public bool ApplyChrg { get; set; }
+        
+        
+        public decimal ChrgAmount { get; set; }
+        
+        
+        public bool COD { get; set; }
+        
+        
+        public bool CODFreight { get; set; }
+        
+        
+        public bool CODCheck { get; set; }
+        
+        
+        public decimal CODAmount { get; set; }
+        
+        
+        public string GroundType { get; set; }
+        
+        
+        public bool NotifyFlag { get; set; }
+        
+        
+        public string NotifyEMail { get; set; }
+        
+        
+        public bool DeclaredIns { get; set; }
+        
+        
+        public decimal DeclaredAmt { get; set; }
+        
+        
+        public DateTime? CancelAfterDate { get; set; }
+        
+        
+        public bool DemandRejected { get; set; }
+        
+        
+        public bool OverrideCarrier { get; set; }
+        
+        
+        public bool OverrideService { get; set; }
+        
+        
+        public bool CreditCardOrder { get; set; }
+        
+        
+        public int DemandHeadSeq { get; set; }
+        
+        
+        public string PayFlag { get; set; }
+        
+        
+        public string PayAccount { get; set; }
+        
+        
+        public string PayBTAddress1 { get; set; }
+        
+        
+        public string PayBTAddress2 { get; set; }
+        
+        
+        public string PayBTCity { get; set; }
+        
+        
+        public string PayBTState { get; set; }
+        
+        
+        public string PayBTZip { get; set; }
+        
+        
+        public string PayBTCountry { get; set; }
+        
+        
+        public bool Hazmat { get; set; }
+        
+        
+        public bool SatPickup { get; set; }
+        
+        
+        public bool SatDelivery { get; set; }
+        
+        
+        public DateTime? DoNotShipAfterDate { get; set; }
+        
+        
+        public string ProcessCard { get; set; }
+        
+        
+        public decimal CCAmount { get; set; }
+        
+        
+        public decimal CCFreight { get; set; }
+        
+        
+        public decimal CCTax { get; set; }
+        
+        
+        public decimal CCTotal { get; set; }
+        
+        
+        public decimal CCDocAmount { get; set; }
+        
+        
+        public decimal CCDocFreight { get; set; }
+        
+        
+        public decimal CCDocTax { get; set; }
+        
+        
+        public decimal CCDocTotal { get; set; }
+        
+        
+        public string CCStreetAddr { get; set; }
+        
+        
+        public string CCZip { get; set; }
+        
+        
+        public int BTCustNum { get; set; }
+        
+        
+        public int BTConNum { get; set; }
+        
+        
+        public bool CommercialInvoice { get; set; }
+        
+        
+        public decimal RepRate4 { get; set; }
+        
+        
+        public int RepSplit1 { get; set; }
+        
+        
+        public int RepSplit2 { get; set; }
+        
+        
+        public int RepSplit3 { get; set; }
+        
+        
+        public int RepSplit4 { get; set; }
+        
+        
+        public int RepSplit5 { get; set; }
+        
+        
+        public decimal RepRate1 { get; set; }
+        
+        
+        public decimal RepRate2 { get; set; }
+        
+        
+        public decimal RepRate3 { get; set; }
+        
+        
+        public int OutboundSalesDocCtr { get; set; }
+        
+        
+        public int OutboundShipDocsCtr { get; set; }
+        
+        
+        public int DemandContractNum { get; set; }
+        
+        
+        public DateTime? DoNotShipBeforeDate { get; set; }
+        
+        
+        public bool ResDelivery { get; set; }
+        
+        
+        public decimal RepRate5 { get; set; }
+        
+        
         public string OTSAddress3 { get; set; }
-
-        public string OTSCity { get; set; }
-
+        
+        
+        public decimal Rpt3CCTax { get; set; }
+        
+        
         public string OTSState { get; set; }
-
-        public string OTSZIP { get; set; }
-
-        public string OTSResaleID { get; set; }
-
-        public string OTSContact { get; set; }
-
-        public string OTSFaxNum { get; set; }
-
-        public string OTSPhoneNum { get; set; }
-
-        public int OTSCountryNum { get; set; }
-
-        public decimal TotalWHTax { get; set; }
-
-        public decimal DocTotalWHTax { get; set; }
-
-        public decimal Rpt1TotalWHTax { get; set; }
-
-        public decimal Rpt2TotalWHTax { get; set; }
-
-        public decimal Rpt3TotalWHTax { get; set; }
-
-        public decimal TotalSATax { get; set; }
-
-        public decimal DocTotalSATax { get; set; }
-
-        public decimal Rpt1TotalSATax { get; set; }
-
-        public decimal Rpt2TotalSATax { get; set; }
-
-        public decimal Rpt3TotalSATax { get; set; }
-
-        public string OTSSaveAs { get; set; }
-
-        public string OTSSaveCustID { get; set; }
-
-        public bool OTSCustSaved { get; set; }
-
-        public int ShipToCustNum { get; set; }
-
-        public string OrderStatus { get; set; }
-
-        public bool HoldSetByDemand { get; set; }
-
-        public bool InPrice { get; set; }
-
-        public decimal InTotalCharges { get; set; }
-
-        public decimal InTotalMisc { get; set; }
-
-        public decimal InTotalDiscount { get; set; }
-
-        public decimal DocInTotalCharges { get; set; }
-
-        public decimal DocInTotalMisc { get; set; }
-
-        public decimal DocInTotalDiscount { get; set; }
-
-        public decimal Rpt1InTotalCharges { get; set; }
-
-        public decimal Rpt2InTotalCharges { get; set; }
-
+        
+        
+        public decimal DocTotalOrder { get; set; }
+        
+        
+        public string dspBTCustID { get; set; }
+        
+        
+        public string ECCPaymentDesc { get; set; }
+        
+        
+        public bool EnableCreditCard { get; set; }
+        
+        
+        public bool EnableJobWizard { get; set; }
+        
+        
+        public bool EnableSoldToID { get; set; }
+        
+        
+        public string EntryProcess { get; set; }
+        
+        
+        public bool ERSOverride { get; set; }
+        
+        
+        public bool HasMiscCharges { get; set; }
+        
+        
+        public bool HasOrderLines { get; set; }
+        
+        
+        public string LinkMsg { get; set; }
+        
+        
+        public bool OTSSaved { get; set; }
+        
+        
+        public string OTSTaxRegionCode { get; set; }
+        
+        
+        public int ParentCustNum { get; set; }
+        
+        
+        public string ReferencePNRef { get; set; }
+        
+        
+        public decimal Rpt1CCRounding { get; set; }
+        
+        
+        public decimal Rpt1TotalNet { get; set; }
+        
+        
+        public decimal Rpt2CCRounding { get; set; }
+        
+        
+        public decimal Rpt2TotalNet { get; set; }
+        
+        
+        public decimal Rpt3CCRounding { get; set; }
+        
+        
+        public decimal Rpt3TotalNet { get; set; }
+        
+        
+        public string SalesRepCode1 { get; set; }
+        
+        
+        public string SalesRepCode2 { get; set; }
+        
+        
+        public string SalesRepCode3 { get; set; }
+        
+        
+        public string SalesRepCode4 { get; set; }
+        
+        
+        public decimal DocTotalNet { get; set; }
+        
+        
+        public decimal DocCCRounding { get; set; }
+        
+        
+        public string DemandContract { get; set; }
+        
+        
+        public string CustTradePartnerName { get; set; }
+        
+        
+        public string CCCity { get; set; }
+        
+        
+        public string CCState { get; set; }
+        
+        
+        public string AvailBTCustList { get; set; }
+        
+        
+        public string BaseCurrencyID { get; set; }
+        
+        
+        public string BaseCurrSymbol { get; set; }
+        
+        
+        public string BillToCustomerName { get; set; }
+        
+        
+        public string BTAddressList { get; set; }
+        
+        
+        public string BTContactEMailAddress { get; set; }
+        
+        
+        public string BTContactFaxNum { get; set; }
+        
+        
+        public string BTContactName { get; set; }
+        
+        
+        public string BTContactPhoneNum { get; set; }
+        
+        
+        public string BTCustID { get; set; }
+        
+        
+        public string SalesRepCode5 { get; set; }
+        
+        
+        public bool CanChangeTaxLiab { get; set; }
+        
+        
+        public string CCCSCID { get; set; }
+        
+        
+        public string OTSCity { get; set; }
+        
+        
+        public string CCResponse { get; set; }
+        
+        
+        public decimal CCRounding { get; set; }
+        
+        
+        public string CCTranID { get; set; }
+        
+        
+        public string CCTranType { get; set; }
+        
+        
+        public string CSCResult { get; set; }
+        
+        
+        public bool CurrencySwitch { get; set; }
+        
+        
+        public bool CustAllowOTS { get; set; }
+        
+        
+        public bool CustomerPrintAck { get; set; }
+        
+        
+        public bool CustomerRequiresPO { get; set; }
+        
+        
+        public bool CustOnCreditHold { get; set; }
+        
+        
+        public string CardStore { get; set; }
+        
+        
+        public string SalesRepName1 { get; set; }
+        
+        
+        public string SalesRepName2 { get; set; }
+        
+        
+        public string SalesRepName3 { get; set; }
+        
+        
+        public string BTCustNumCustID { get; set; }
+        
+        
+        public string BTCustNumName { get; set; }
+        
+        
+        public string BTCustNumBTName { get; set; }
+        
+        
+        public string CardTypeDescription { get; set; }
+        
+        
+        public string CurrencyCodeCurrName { get; set; }
+        
+        
+        public string CurrencyCodeCurrSymbol { get; set; }
+        
+        
+        public string CurrencyCodeDocumentDesc { get; set; }
+        
+        
+        public string CurrencyCodeCurrencyID { get; set; }
+        
+        
+        public string CurrencyCodeCurrDesc { get; set; }
+        
+        
+        public string CustomerBTName { get; set; }
+        
+        
+        public string CustomerCustID { get; set; }
+        
+        
+        public string CustomerName { get; set; }
+        
+        
+        public int BitFlag { get; set; }
+        
+        
+        public bool CustomerAllowShipTo3 { get; set; }
+        
+        
+        public string HDCaseDescription { get; set; }
+        
+        
+        public string InvCurrCurrDesc { get; set; }
+        
+        
+        public string OTSCntryDescription { get; set; }
+        
+        
+        public string OurBankDescription { get; set; }
+        
+        
+        public string OurBankBankName { get; set; }
+        
+        
+        public string PlantName { get; set; }
+        
+        
+        public string PSCurrCurrDesc { get; set; }
+        
+        
+        public string RateGrpDescription { get; set; }
+        
+        
+        public string ReservePriDescription { get; set; }
+        
+        
+        public string ShipViaCodeDescription { get; set; }
+        
+        
+        public string ShipViaCodeWebDesc { get; set; }
+        
+        
+        public string TaxRegionCodeDescription { get; set; }
+        
+        
+        public string FOBDescription { get; set; }
+        
+        
+        public bool PLGoodsOrServiceVATExempt { get; set; }
+        
+        
+        public bool CCIsTraining { get; set; }
+        
+        
+        public bool NoTaxRgnChange { get; set; }
+        
+        
+        public string SalesRepName4 { get; set; }
+        
+        
+        public string SalesRepName5 { get; set; }
+        
+        
+        public string ShipToAddressList { get; set; }
+        
+        
+        public string ShipToContactEMailAddress { get; set; }
+        
+        
+        public string ShipToContactFaxNum { get; set; }
+        
+        
+        public string ShipToContactName { get; set; }
+        
+        
+        public string ShipToContactPhoneNum { get; set; }
+        
+        
+        public string ShipToCustId { get; set; }
+        
+        
+        public bool ShowApplyOrderDiscountsControl { get; set; }
+        
+        
+        public string SoldToAddressList { get; set; }
+        
+        
+        public string SoldToContactEMailAddress { get; set; }
+        
+        
+        public string SoldToContactFaxNum { get; set; }
+        
+        
+        public string ProposedTaxRgn { get; set; }
+        
+        
+        public string SoldToContactName { get; set; }
+        
+        
+        public string TermsType { get; set; }
+        
+        
+        public decimal TotalNet { get; set; }
+        
+        
+        public decimal TotalOrder { get; set; }
+        
+        
+        public string TranDocTypeDescr { get; set; }
+        
+        
+        public decimal TrueDiscountPercent { get; set; }
+        
+        
+        public string TWGenerationType { get; set; }
+        
+        
+        public bool UpdateDtlAndRelRecords { get; set; }
+        
+        
+        public string AVSAddr { get; set; }
+        
+        
+        public string AVSZip { get; set; }
+        
+        
+        public string ECCEmail { get; set; }
+        
+        
+        public bool ResetRelTaxRgn { get; set; }
+        
+        
+        public bool ResetBTCustAddr { get; set; }
+        
+        
+        public string SoldToContactPhoneNum { get; set; }
+        
+        
+        public int PLMarginScheme { get; set; }
+        
+        
+        public string CCCSCIDToken { get; set; }
+        
+        
+        public string PLTaxRepresentativeTaxID { get; set; }
+        
+        
         public decimal Rpt3InTotalCharges { get; set; }
-
+        
+        
         public decimal Rpt1InTotalMisc { get; set; }
-
+        
+        
         public decimal Rpt2InTotalMisc { get; set; }
-
+        
+        
         public decimal Rpt3InTotalMisc { get; set; }
-
+        
+        
         public decimal Rpt1InTotalDiscount { get; set; }
-
+        
+        
         public decimal Rpt2InTotalDiscount { get; set; }
-
+        
+        
         public decimal Rpt3InTotalDiscount { get; set; }
-
+        
+        
         public string ARLOCID { get; set; }
-
+        
+        
         public string OurBank { get; set; }
-
+        
+        
         public bool ERSOrder { get; set; }
-
+        
+        
         public bool LOCHold { get; set; }
-
+        
+        
         public string PSCurrCode { get; set; }
-
+        
+        
         public string InvCurrCode { get; set; }
-
+        
+        
         public string LegalNumber { get; set; }
-
-        public string TranDocTypeID { get; set; }
-
+        
+        
         public string XRefContractNum { get; set; }
-
-        public  Nullable< DateTime> XRefContractDate { get; set; }
-
-        public  Nullable< DateTime> DemandProcessDate { get; set; }
-
+        
+        
+        public DateTime? XRefContractDate { get; set; }
+        
+        
+        public DateTime? DemandProcessDate { get; set; }
+        
+        
         public int DemandProcessTime { get; set; }
-
+        
+        
         public string LastScheduleNumber { get; set; }
-
+        
+        
         public string LastTCtrlNum { get; set; }
-
+        
+        
         public string LastBatchNum { get; set; }
-
+        
+        
         public string ECCOrderNum { get; set; }
-
+        
+        
         public string ECCPONum { get; set; }
-
+        
+        
         public string WIOrder { get; set; }
-
+        
+        
         public string WIApplication { get; set; }
-
+        
+        
         public string WIUsername { get; set; }
-
+        
+        
         public string WIUserID { get; set; }
-
+        
+        
+        public decimal Rpt2InTotalCharges { get; set; }
+        
+        
         public bool WICreditCardorder { get; set; }
-
+        
+        
+        public decimal Rpt1InTotalCharges { get; set; }
+        
+        
+        public decimal DocInTotalMisc { get; set; }
+        
+        
+        public string OTSZIP { get; set; }
+        
+        
+        public string OTSResaleID { get; set; }
+        
+        
+        public string OTSContact { get; set; }
+        
+        
+        public string OTSFaxNum { get; set; }
+        
+        
+        public string OTSPhoneNum { get; set; }
+        
+        
+        public int OTSCountryNum { get; set; }
+        
+        
+        public decimal TotalWHTax { get; set; }
+        
+        
+        public decimal DocTotalWHTax { get; set; }
+        
+        
+        public decimal Rpt1TotalWHTax { get; set; }
+        
+        
+        public decimal Rpt2TotalWHTax { get; set; }
+        
+        
+        public decimal Rpt3TotalWHTax { get; set; }
+        
+        
+        public decimal TotalSATax { get; set; }
+        
+        
+        public decimal DocTotalSATax { get; set; }
+        
+        
+        public decimal Rpt1TotalSATax { get; set; }
+        
+        
+        public decimal Rpt2TotalSATax { get; set; }
+        
+        
+        public decimal Rpt3TotalSATax { get; set; }
+        
+        
+        public string OTSSaveAs { get; set; }
+        
+        
+        public string OTSSaveCustID { get; set; }
+        
+        
+        public bool OTSCustSaved { get; set; }
+        
+        
+        public int ShipToCustNum { get; set; }
+        
+        
+        public string OrderStatus { get; set; }
+        
+        
+        public bool HoldSetByDemand { get; set; }
+        
+        
+        public bool InPrice { get; set; }
+        
+        
+        public decimal InTotalCharges { get; set; }
+        
+        
+        public decimal InTotalMisc { get; set; }
+        
+        
+        public decimal InTotalDiscount { get; set; }
+        
+        
+        public decimal DocInTotalCharges { get; set; }
+        
+        
+        public decimal DocInTotalDiscount { get; set; }
+        
+        
         public string OrderCSR { get; set; }
-
-        public string UserChar1 { get; set; }
-
-        public string UserChar2 { get; set; }
-
-        public string UserChar3 { get; set; }
-
-        public string UserChar4 { get; set; }
-
-        public  Nullable< DateTime> UserDate1 { get; set; }
-
-        public  Nullable< DateTime> UserDate2 { get; set; }
-
-        public  Nullable< DateTime> UserDate3 { get; set; }
-
-        public  Nullable< DateTime> UserDate4 { get; set; }
-
-        public decimal UserDecimal1 { get; set; }
-
-        public decimal UserDecimal2 { get; set; }
-
-        public int UserInteger1 { get; set; }
-
-        public int UserInteger2 { get; set; }
-
-        public  Binary SysRevID { get; set; }
-
-        public  Guid SysRowID { get; set; }
-
-        public bool IsCSRSet { get; set; }
-
-        public string ECCPaymentMethod { get; set; }
-
-        public bool AGUseGoodDefaultMark { get; set; }
-
-        public string OTSShipToNum { get; set; }
-
-        public string ProFormaInvComment { get; set; }
-
-        public string ccToken { get; set; }
-
+        
+        
+        public string TranDocTypeID { get; set; }
+        
+        
+        public bool PLInvIssuedByTaxpayer { get; set; }
+        
+        
         public bool InvcOrderCmp { get; set; }
-
+        
+        
         public bool ReprintSOAck { get; set; }
-
+        
+        
+        public string PLTaxRepresentativeName { get; set; }
+        
+        
         public int CounterSOAck { get; set; }
-
+        
+        
         public string DispatchReason { get; set; }
-
+        
+        
         public string Plant { get; set; }
-
+        
+        
         public bool ReadyToFulfill { get; set; }
-
+        
+        
         public int ShipByTime { get; set; }
+        
+        
+        public int TWFiscalYear { get; set; }
+        
+        
+        public string TWFiscalYearSuffix { get; set; }
+        
+        
+        public int TWFiscalPeriod { get; set; }
+        
+        
+        public string TWGUIGroup { get; set; }
+        
+        
+        public string TWGUIRegNumSeller { get; set; }
+        
+        
+        public string TWGUIRegNumBuyer { get; set; }
+        
+        
+        public decimal OrderOpenCredit { get; set; }
+        
+        
+        public decimal ClosedNotShipped { get; set; }
+        
+        
+        public decimal InvCurrDepositBal { get; set; }
+        
+        
+        public bool PLArticle106c { get; set; }
+        
+        
+        public string PLEnforcementAuthAddr { get; set; }
+        
+        
+        public string UserChar1 { get; set; }
+        
+        
+        public string PLEnforcementAuthName { get; set; }
+        
+        
+        public string PLLegalArticleOther { get; set; }
+        
+        
+        public bool PLInvIssuedBySecondTaxpayer { get; set; }
+        
+        
+        public bool PLTouristService { get; set; }
+        
+        
+        public bool PLSecondHandOrArts { get; set; }
+        
+        
+        public string PLLegalArticleAct { get; set; }
+        
+        
+        public string ccToken { get; set; }
+        
+        
+        public string PLLegalArticleWEDirective { get; set; }
+        
+        
+        public string OTSShipToNum { get; set; }
+        
+        
+        public DateTime? UserDate1 { get; set; }
+        
+        
+        public string ProFormaInvComment { get; set; }
+        
+        
+        public DateTime? UserDate4 { get; set; }
+        
+        
+        public string UserChar4 { get; set; }
+        
+        
+        public decimal UserDecimal1 { get; set; }
+        
+        
+        public decimal UserDecimal2 { get; set; }
+        
+        
+        public int UserInteger1 { get; set; }
+        
+        
+        public DateTime? UserDate3 { get; set; }
+        
+        
+        public int UserInteger2 { get; set; }
+        
+        
+        public string UserChar3 { get; set; }
+        
+        
+        public string PLTaxRepresentativeAddr { get; set; }
+        
+        
+        public Guid SysRowID { get; set; }
+        
+        
+        public bool IsCSRSet { get; set; }
+        
+        
+        public string ECCPaymentMethod { get; set; }
+        
+        
+        public string UserChar2 { get; set; }
+        
+        
+        public bool AGUseGoodDefaultMark { get; set; }
+        
+        
+        public long SysRevID { get; set; }
+        
+        
+        public DateTime? UserDate2 { get; set; }
 
 
     }
