@@ -121,10 +121,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiResponse.cs" />
+    <Compile Include="Auditing.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="EpicorBusinessApi.cs" />
+    <Compile Include="EpicorCleanup.cs" />
     <Compile Include="EpicorModel.cs" />
-    <Compile Include="JobManagement.cs" />
     <Compile Include="MethodExtenssion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

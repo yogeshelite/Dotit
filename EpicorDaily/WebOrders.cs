@@ -18,6 +18,7 @@ using Ice.Lib.Framework;
 using Erp.BO;
 using Erp.Proxy.BO;
 using static Erp.BO.SalesOrderDataSet;
+using EpicorDaily.Model;
 
 namespace EpicorDaily
 {
@@ -71,7 +72,7 @@ namespace EpicorDaily
                 #region//20190404- Amit : Code change variable name  
                 //foreach (int32 ordernum in rsOrders)
                 //SalesOrderDataSet salesOrderDS;
-                SalesOrderDataSet.OrderHedRow orderHedRow;
+                OrderHeadModel orderHedRow;
                 DotItShipping dis;
                 foreach (var order in rsOrders)
                 #endregion
@@ -87,26 +88,26 @@ namespace EpicorDaily
 
                     #region//20190404- Amit : Property declare to call Epicor Api Caller 
                     //using (var salesOrderBO = WCFServiceSupport.CreateImpl<SalesOrderImpl>(session, SalesOrderImpl.UriPath))
-                    //{
-
-                    #endregion
-                    Boolean isContinue = new Boolean();
-                    String responseMessage = string.Empty;
-                    String creditShipAction;
-                    String displayMessage;
-                    String compliantMessage;
-                    String responseMsgOrdRel;
-                    String cAgingMessage;
-                    Boolean lCheckForOrderChangedMsg = false;
-                    Boolean lcheckForResponse = false;
-
-                    #region//20190404- Amit : Property declare to call Epicor Api Caller 
-                    //12/01/2019
-                    //SalesOrderDataSet salesOrderDS = salesOrderBO.GetByID(orderNum);
-                    //SalesOrderDataSet.OrderHedRow orderHedRow orderHedRow = salesOrderDS.OrderHed[0];
 
                     using (_EpicorBusinessApi = new EpicorBusinessApi())
                     {
+                        #endregion
+                        Boolean isContinue = new Boolean();
+                        String responseMessage = string.Empty;
+                        String creditShipAction;
+                        String displayMessage;
+                        String compliantMessage;
+                        String responseMsgOrdRel;
+                        String cAgingMessage;
+                        Boolean lCheckForOrderChangedMsg = false;
+                        Boolean lcheckForResponse = false;
+
+                        #region//20190404- Amit : Property declare to call Epicor Api Caller 
+                        //12/01/2019
+                        //SalesOrderDataSet salesOrderDS = salesOrderBO.GetByID(orderNum);
+                        //SalesOrderDataSet.OrderHedRow orderHedRow orderHedRow = salesOrderDS.OrderHed[0];
+
+
                         orderHedRow = _EpicorBusinessApi.GetOrderByOrdernum(order.Company, order.OrderNum);
                         #endregion
 
@@ -147,8 +148,11 @@ namespace EpicorDaily
                         //    DLog.Log("RTacoPromo: " + ex.Message, DLog.LogLevel.Error);
                         //}
                         #endregion
+                        #region//20190404- Amit : Property declare to call Epicor Api Caller 
+                        // orderHedRow["orderType_c"] = "Online";
+                        orderHedRow.orderTypec = "Online";
+                        #endregion
 
-                        orderHedRow["orderType_c"] = "Online";
                         orderHedRow.InvoiceComment = "";
                         dis = new DotItShipping();
                         orderHedRow.RequestDate = dis.NextShippingDate();
@@ -176,7 +180,7 @@ namespace EpicorDaily
                         //        out cAgingMessage, salesOrderDS);
 
                         //Hare used epicor api for salesOrderBO.MasterUpdate for later...........................................................................
-
+                        isContinue=UpdateOrderHead(orderHedRow);
                         #endregion
 
                         DLog.Log("Master Update complete " + responseMessage);
@@ -245,16 +249,9 @@ namespace EpicorDaily
 
 
                         List<OrderRel> rsReleaseItems = (from orr in db.OrderRels where orr.OrderNum == order.OrderNum select orr).ToList<OrderRel>();
-                        ReleaseOrder(orderHedRow,rsReleaseItems);
+                        ReleaseOrder(orderHedRow, rsReleaseItems);
                         isContinue = true;
-                        #region//20190404- Amit : comment update call
 
-                        //salesOrderBO.MasterUpdate(true, true, "OrderRel", orderHedRow.CustNum, orderHedRow.OrderNum, false, out isContinue, out responseMessage, out creditShipAction,
-                        //                    out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
-
-                        //Hare used epicor api for salesOrderBO.MasterUpdate for later...........................................................................
-
-                        #endregion
 
 
                         DLog.Log("Release Item Update complete " + responseMessage);
@@ -262,9 +259,7 @@ namespace EpicorDaily
 
                         Thread.Sleep(2000);  //  Have to sleep to allow final update of lines.
 
-                        #region//20190404- Amit : comment for  DLog.Log ereeor 
-                        // DLog.Log("There are " + salesOrderDS.OrderDtl.Count.ToString() + " from salesOrderDS.OrderDtl");
-                        #endregion
+
 
                         #region//20190404- Amit : Refactor code for OrderLine Process 
                         ProcessEpicorOrderLine(orderHedRow, ordRspArray);
@@ -302,21 +297,32 @@ namespace EpicorDaily
             DLog.Log("=====================    Ending OrderAdjustments    ========================");
         }
 
-        private static List<OrderDtlRow> ProcessEpicorOrderLine(OrderHedRow orderHedRow, OrderResponse[] ordRspArray)
+        private static bool UpdateOrderHead(OrderHeadModel orderHedRow)
         {
-            #region//20190404- Amit : l Epicor Api Caller order line item
-            var rsEpicorLineItems = _EpicorBusinessApi.GetOrderLineItemByOrdernum(orderHedRow.Company, orderHedRow.OrderNum);
+         
+            return _EpicorBusinessApi.UpdateOrderHead(orderHedRow);
 
-            //foreach (SalesOrderDataSet.OrderDtlRow od in salesOrderDS.OrderDtl.Rows)
-            //{
-            foreach (OrderDtlRow od in rsEpicorLineItems)
+        }
+
+        private static bool ProcessEpicorOrderLine(OrderHeadModel orderHedRow, OrderResponse[] ordRspArray)
+        {
+            #region//20190404- Amit : comment for  DLog.Log ereeor 
+            // DLog.Log("There are " + salesOrderDS.OrderDtl.Count.ToString() + " from salesOrderDS.OrderDtl");
+            try
             {
-                #endregion
-                DLog.Log("Modifying Line item 'ShipBy' date for line item: " + od.OrderLine.ToString());
 
-                try
+                var rsEpicorLineItems = _EpicorBusinessApi.GetOrderLineItemByOrdernum(orderHedRow.Company, orderHedRow.OrderNum);
+                DLog.Log("There are " + rsEpicorLineItems.Count() + " line items found in Epicor for order no." + orderHedRow.OrderNum);
+                //foreach (SalesOrderDataSet.OrderDtlRow od in salesOrderDS.OrderDtl.Rows)
+                //{
+
+                foreach (OrderDtlRow od in rsEpicorLineItems)
                 {
-                    od.RequestDate = orderHedRow.RequestDate;
+                    #endregion
+                    DLog.Log("Modifying Line item 'ShipBy' date for line item: " + od.OrderLine.ToString());
+
+
+                    od.RequestDate = orderHedRow.RequestDate.Value ;
 
 
                     foreach (var orsp in ordRspArray)
@@ -354,33 +360,36 @@ namespace EpicorDaily
                     od.ShipComment = od.OrderComment;
                     od.InvoiceComment = od.OrderComment;
                     od.ProFormaInvComment = od.OrderComment;
-                    return rsEpicorLineItems;
-                }
-                catch (Exception ex)
-                {
-                    DLog.Log("rsLineItems: " + ex.Message);
-                  
-                }
+                   
 
+                }
+                _EpicorBusinessApi.UpdateOrderLines(orderHedRow, rsEpicorLineItems);
+                return true;
             }
-            return rsEpicorLineItems;
+            catch (Exception ex)
+            {
+                DLog.Log("rsLineItems: " + ex.Message);
+                return false;
+            }
+          
         }
 
-        private static void ReleaseOrder(OrderHedRow orderHedRow,List<OrderRel> orderRels)
+        private static bool ReleaseOrder(OrderHeadModel orderHedRow, List<OrderRel> orderRels)
         {
             #region//20190404- Amit : Property declare to call Epicor Api Caller order relation
-            var rsEpicorReleaseItems = _EpicorBusinessApi.GetOrderRelationByOrdernum(orderHedRow.Company, orderHedRow.OrderNum);
-            #endregion
-            Int32 iCount = 0;
-
-            DLog.Log("reReleaseItems to process: " + orderRels.Count());
-
-            Boolean needReleaseUpdate = false;
-
-
-            foreach (var oRel in orderRels)
+            List<OrderRelModel> rsEpicorReleaseItems = null;
+            try
             {
-                try
+                rsEpicorReleaseItems = _EpicorBusinessApi.GetOrderRelationByOrdernum(orderHedRow.Company, orderHedRow.OrderNum);
+                #endregion
+                Int32 iCount = 0;
+
+                DLog.Log("reReleaseItems to process: " + orderRels.Count());
+
+                Boolean needReleaseUpdate = false;
+
+
+                foreach (var oRel in orderRels)
                 {
 
 
@@ -405,17 +414,35 @@ namespace EpicorDaily
 
                         rsEpicorReleaseItems[iCount].ShipViaCode = orderHedRow.ShipViaCode;
                     }
-
+                    rsEpicorReleaseItems[iCount].NeedByDate = orderHedRow.NeedByDate;
+                    rsEpicorReleaseItems[iCount].ReqDate = orderHedRow.RequestDate;
 
 
                     iCount++;
                     #endregion
+
                 }
-                catch (Exception ex)
-                {
-                    DLog.LogErr(ex);
-                }
+                #region//20190404- Amit : comment update call
+
+                //salesOrderBO.MasterUpdate(true, true, "OrderRel", orderHedRow.CustNum, orderHedRow.OrderNum, false, out isContinue, out responseMessage, out creditShipAction,
+                //                    out displayMessage, out compliantMessage, out responseMsgOrdRel, out cAgingMessage, salesOrderDS);
+
+                //Hare used epicor api for salesOrderBO.MasterUpdate for later...........................................................................
+
+                _EpicorBusinessApi.UpdateOrderRelease(orderHedRow, rsEpicorReleaseItems);
+
+
+
+                #endregion
+                return true;
             }
+            catch (Exception ex)
+            {
+                DLog.LogErr(ex);
+                return false;
+
+            }
+
         }
 
         public static void NotifyJarod(Int32 orderNum)
