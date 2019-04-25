@@ -49,8 +49,8 @@ namespace EpicorDaily
                 try
                 {
                     #region//20190404- Amit : Remove DotitBal Referrence and Get Data From Epicor Api 
-                    //var rsOrders = from od in cs.OrderDtls where (od.PartNum == "Yext-Mth" || od.PartNum == "Yext-Yr") && od.OpenLine == true select od;
-                    var rsOrders = _EpicorBusinessApi.GetOrderLine().Where(f => f.OpenLine && ((new string[] { "Yext-Mth", "Yext-Yr" }).Contains(f.PartNum)));
+                    var rsOrders = from od in cs.OrderDtls where (od.PartNum == "Yext-Mth" || od.PartNum == "Yext-Yr") && od.OpenLine == true select od;
+                    //var rsOrders = _EpicorBusinessApi.GetOrderLine().Where(f => f.OpenLine && ((new string[] { "Yext-Mth", "Yext-Yr" }).Contains(f.PartNum)));
                     #endregion
                     DLog.Log("There are " + rsOrders.Count() + " line(s) with new Yext orders");
 

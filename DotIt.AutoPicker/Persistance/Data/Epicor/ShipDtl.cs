@@ -1,0 +1,161 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DotIt.AutoPicker.Persistance.Data.Epicor
+{
+    public partial class ShipDtl
+    {
+        public ShipDtl()
+        {
+            InvcDtlPack = new HashSet<InvcDtlPack>();
+            ShipDtlInfo = new HashSet<ShipDtlInfo>();
+        }
+
+        public string Company { get; set; }
+        public int PackNum { get; set; }
+        public int PackLine { get; set; }
+        public int OrderNum { get; set; }
+        public int OrderLine { get; set; }
+        public int OrderRelNum { get; set; }
+        public string LineType { get; set; }
+        public decimal OurInventoryShipQty { get; set; }
+        public decimal OurJobShipQty { get; set; }
+        public string JobNum { get; set; }
+        public int Packages { get; set; }
+        public string PartNum { get; set; }
+        public string LineDesc { get; set; }
+        public string Ium { get; set; }
+        public string RevisionNum { get; set; }
+        public string ShipComment { get; set; }
+        public bool ShipCmpl { get; set; }
+        public string WarehouseCode { get; set; }
+        public string BinNum { get; set; }
+        public bool UpdatedInventory { get; set; }
+        public string XpartNum { get; set; }
+        public string XrevisionNum { get; set; }
+        public int ShpConNum { get; set; }
+        public bool Tmbilling { get; set; }
+        public bool Invoiced { get; set; }
+        public string Wum { get; set; }
+        public string LotNum { get; set; }
+        public string DimCode { get; set; }
+        public string Dum { get; set; }
+        public decimal DimConvFactor { get; set; }
+        public string InvoiceComment { get; set; }
+        public string WarrantyCode { get; set; }
+        public int CustNum { get; set; }
+        public string ShipToNum { get; set; }
+        public DateTime? EffectiveDate { get; set; }
+        public int MaterialDuration { get; set; }
+        public int LaborDuration { get; set; }
+        public int MiscDuration { get; set; }
+        public string MaterialMod { get; set; }
+        public string LaborMod { get; set; }
+        public string MiscMod { get; set; }
+        public DateTime? MaterialExpiration { get; set; }
+        public DateTime? LaborExpiration { get; set; }
+        public DateTime? MiscExpiration { get; set; }
+        public DateTime? LastExpiration { get; set; }
+        public string WarrantyComment { get; set; }
+        public int ContractNum { get; set; }
+        public string ContractCode { get; set; }
+        public bool Onsite { get; set; }
+        public bool MatCovered { get; set; }
+        public bool LabCovered { get; set; }
+        public bool MiscCovered { get; set; }
+        public string Plant { get; set; }
+        public bool ReadyToInvoice { get; set; }
+        public decimal SellingInventoryShipQty { get; set; }
+        public decimal SellingJobShipQty { get; set; }
+        public decimal SellingFactor { get; set; }
+        public string SalesUm { get; set; }
+        public decimal TotalNetWeight { get; set; }
+        public string WipwarehouseCode { get; set; }
+        public string WipbinNum { get; set; }
+        public string SellingFactorDirection { get; set; }
+        public string HeaderShipComment { get; set; }
+        public int KitParentLine { get; set; }
+        public string ChangedBy { get; set; }
+        public DateTime? ChangeDate { get; set; }
+        public int ChangeTime { get; set; }
+        public string InventoryShipUom { get; set; }
+        public string JobShipUom { get; set; }
+        public bool TrackSerialNum { get; set; }
+        public string JobLotNum { get; set; }
+        public string BinType { get; set; }
+        public bool NotCompliant { get; set; }
+        public string ComplianceMsg { get; set; }
+        public decimal DiscountPercent { get; set; }
+        public string PricePerCode { get; set; }
+        public decimal Discount { get; set; }
+        public decimal DocDiscount { get; set; }
+        public decimal Rpt1Discount { get; set; }
+        public decimal Rpt2Discount { get; set; }
+        public decimal Rpt3Discount { get; set; }
+        public decimal ExtPrice { get; set; }
+        public decimal DocExtPrice { get; set; }
+        public decimal Rpt1ExtPrice { get; set; }
+        public decimal Rpt2ExtPrice { get; set; }
+        public decimal Rpt3ExtPrice { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal DocUnitPrice { get; set; }
+        public decimal Rpt1UnitPrice { get; set; }
+        public decimal Rpt2UnitPrice { get; set; }
+        public decimal Rpt3UnitPrice { get; set; }
+        public decimal PickedAutoAllocatedQty { get; set; }
+        public int ShipToCustNum { get; set; }
+        public decimal InDiscount { get; set; }
+        public decimal DocInDiscount { get; set; }
+        public decimal Rpt1InDiscount { get; set; }
+        public decimal Rpt2InDiscount { get; set; }
+        public decimal Rpt3InDiscount { get; set; }
+        public decimal InExtPrice { get; set; }
+        public decimal DocInExtPrice { get; set; }
+        public decimal Rpt1InExtPrice { get; set; }
+        public decimal Rpt2InExtPrice { get; set; }
+        public decimal Rpt3InExtPrice { get; set; }
+        public decimal InUnitPrice { get; set; }
+        public decimal DocInUnitPrice { get; set; }
+        public decimal Rpt1InUnitPrice { get; set; }
+        public decimal Rpt2InUnitPrice { get; set; }
+        public decimal Rpt3InUnitPrice { get; set; }
+        public bool InPrice { get; set; }
+        public int Obs10PkgNum { get; set; }
+        public int Obs10PkgLine { get; set; }
+        public int MfcustNum { get; set; }
+        public string MfshipToNum { get; set; }
+        public bool UseOtmf { get; set; }
+        public string Otmfname { get; set; }
+        public string Otmfaddress1 { get; set; }
+        public string Otmfaddress2 { get; set; }
+        public string Otmfaddress3 { get; set; }
+        public string Otmfcity { get; set; }
+        public string Otmfstate { get; set; }
+        public string Otmfzip { get; set; }
+        public string Otmfcontact { get; set; }
+        public string OtmffaxNum { get; set; }
+        public string OtmfphoneNum { get; set; }
+        public int OtmfcountryNum { get; set; }
+        public int RenewalNbr { get; set; }
+        public bool ShipOvers { get; set; }
+        public decimal AllowedOvers { get; set; }
+        public decimal AllowedUnders { get; set; }
+        public byte[] SysRevId { get; set; }
+        public Guid SysRowId { get; set; }
+        public decimal NotAllocatedQty { get; set; }
+        public string Pcid { get; set; }
+        public long PciditemSeq { get; set; }
+        public int PcidparentLine { get; set; }
+        public string DockingStation { get; set; }
+        public bool UseShipDtlInfo { get; set; }
+        public string PkgCodePartNum { get; set; }
+        public string CustContainerPartNum { get; set; }
+        public string LabelType { get; set; }
+        public bool WarrantySendToFsa { get; set; }
+        public bool Fsaequipment { get; set; }
+
+        public virtual ShipDtlUd ShipDtlUd { get; set; }
+        public virtual ICollection<InvcDtlPack> InvcDtlPack { get; set; }
+        public virtual ICollection<ShipDtlInfo> ShipDtlInfo { get; set; }
+    }
+}

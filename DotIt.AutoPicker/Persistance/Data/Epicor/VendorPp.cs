@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DotIt.AutoPicker.Persistance.Data.Epicor
+{
+    public partial class VendorPp
+    {
+        public string Company { get; set; }
+        public string PurPoint { get; set; }
+        public string Name { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+        public string Country { get; set; }
+        public int VendorNum { get; set; }
+        public int PrimPcon { get; set; }
+        public int CountryNum { get; set; }
+        public string LangNameId { get; set; }
+        public string BorderCrossing { get; set; }
+        public string FormatStr { get; set; }
+        public string EmailAddress { get; set; }
+        public string ExternalId { get; set; }
+        public string TaxAuthorityCode { get; set; }
+        public bool GlobalLock { get; set; }
+        public string Edicode { get; set; }
+        public bool ResDelivery { get; set; }
+        public bool SatDelivery { get; set; }
+        public bool SatPickup { get; set; }
+        public bool Hazmat { get; set; }
+        public bool DocOnly { get; set; }
+        public string RefNotes { get; set; }
+        public bool ApplyChrg { get; set; }
+        public decimal ChrgAmount { get; set; }
+        public bool Cod { get; set; }
+        public bool Codfreight { get; set; }
+        public bool Codcheck { get; set; }
+        public decimal Codamount { get; set; }
+        public string GroundType { get; set; }
+        public bool NotifyFlag { get; set; }
+        public string NotifyEmail { get; set; }
+        public bool DeclaredIns { get; set; }
+        public decimal DeclaredAmt { get; set; }
+        public bool ServSignature { get; set; }
+        public bool ServAlert { get; set; }
+        public bool ServHomeDel { get; set; }
+        public string DeliveryType { get; set; }
+        public DateTime? ServDeliveryDate { get; set; }
+        public string ServPhone { get; set; }
+        public string ServInstruct { get; set; }
+        public bool ServRelease { get; set; }
+        public string ServAuthNum { get; set; }
+        public string ServRef1 { get; set; }
+        public string ServRef2 { get; set; }
+        public string ServRef3 { get; set; }
+        public string ServRef4 { get; set; }
+        public string ServRef5 { get; set; }
+        public bool OverrideCarrier { get; set; }
+        public bool OverrideService { get; set; }
+        public bool IndividualPackIds { get; set; }
+        public bool IntrntlShip { get; set; }
+        public bool CertOfOrigin { get; set; }
+        public bool CommercialInvoice { get; set; }
+        public bool ShipExprtDeclartn { get; set; }
+        public bool LetterOfInstr { get; set; }
+        public string Ffid { get; set; }
+        public string FfcompName { get; set; }
+        public string Ffcontact { get; set; }
+        public string Ffaddress1 { get; set; }
+        public string Ffaddress2 { get; set; }
+        public string Ffaddress3 { get; set; }
+        public string Ffcity { get; set; }
+        public string Ffstate { get; set; }
+        public string Ffzip { get; set; }
+        public string Ffcountry { get; set; }
+        public bool NonStdPkg { get; set; }
+        public int DeliveryConf { get; set; }
+        public bool AddlHdlgFlag { get; set; }
+        public bool UpsquantumView { get; set; }
+        public string UpsqvshipFromName { get; set; }
+        public string Upsqvmemo { get; set; }
+        public string FfphoneNum { get; set; }
+        public int FfcountryNum { get; set; }
+        public string LegalName { get; set; }
+        public byte[] SysRevId { get; set; }
+        public Guid SysRowId { get; set; }
+        public string InexciseRegNumber { get; set; }
+        public string InexciseDivision { get; set; }
+        public string InexciseRange { get; set; }
+        public string Incommissionarate { get; set; }
+        public string Invatnumber { get; set; }
+        public string InserviceTaxRegNum { get; set; }
+        public string IntaxRegionCode { get; set; }
+        public string OrgRegCode { get; set; }
+        public string IntaxRegistrationId { get; set; }
+    }
+}

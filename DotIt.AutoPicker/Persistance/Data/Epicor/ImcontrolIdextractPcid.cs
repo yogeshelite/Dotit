@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DotIt.AutoPicker.Persistance.Data.Epicor
+{
+    public partial class ImcontrolIdextractPcid
+    {
+        public int IntQueId { get; set; }
+        public string IncomingOutgoing { get; set; }
+        public string IntStatus { get; set; }
+        public bool IntError { get; set; }
+        public bool IntComplete { get; set; }
+        public Guid IntSysRowId { get; set; }
+        public DateTime? IntLastUpdated { get; set; }
+        public string Company { get; set; }
+        public string DataIdentifierCode { get; set; }
+        public string DataIdentifierDesc { get; set; }
+        public string DataIdentifier { get; set; }
+        public bool Inactive { get; set; }
+        public int ExtractSequence { get; set; }
+        public int DigitsToExtract { get; set; }
+        public bool IsFixedLength { get; set; }
+        public int DigitsInString { get; set; }
+        public string ExtractComments { get; set; }
+        public byte[] SysRevId { get; set; }
+        public Guid SysRowId { get; set; }
+        public int ScanMinLength { get; set; }
+        public int ScanMaxLength { get; set; }
+    }
+}

@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DotIt.AutoPicker.Persistance.Data.Epicor
+{
+    public partial class ShipPerf
+    {
+        public string Company { get; set; }
+        public DateTime? PerfDate { get; set; }
+        public int NumOfShipments { get; set; }
+        public int NumofRels { get; set; }
+        public int OnTimeRels { get; set; }
+        public int VarianceDays { get; set; }
+        public DateTime? RefreshDate { get; set; }
+        public int RefreshTime { get; set; }
+        public byte[] SysRevId { get; set; }
+        public Guid SysRowId { get; set; }
+    }
+}
