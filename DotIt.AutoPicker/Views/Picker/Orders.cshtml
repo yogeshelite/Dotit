@@ -1,0 +1,194 @@
+﻿@model DotIt.AutoPicker.Models.OrderHedModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Landing Page - Start Bootstrap Theme</title>
+
+    <!-- Bootstrap core CSS -->
+    @*<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="~/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom fonts for this template -->
+    @*<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">*@
+    <link href="~/all.min.css" rel="stylesheet" />
+    @*<link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">*@
+    <link href="~/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
+    <!-- Custom styles for this template -->
+    @*<link href="css/landing-page.min.css" rel="stylesheet">*@
+    <link href="~/landing-page.min.css" rel="stylesheet" />
+    @*<link href="css/landing-page.css" rel="stylesheet">*@
+    <link href="~/landing-page.css" rel="stylesheet" />
+
+    <style>
+        .scroll_ex3 {
+            background-color: #fff;
+            width: 100%;
+            height: 700px;
+            overflow: scroll;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav_list navbar navbar-light bg-light static-top">
+        <div class="container">
+            <ul>
+                <li><a href="~/Picker/Index">Home</a></li>
+                <li><a class="active" href="~/Picker/Orders">Orders</a></li>
+                @*<li><a onclick="PickerPick()" href="javascript:void(0);">Pick</a></li>*@
+                <li><a href="#">Profile</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <!-- Row -->
+    <div class="container scroll_ex3 pull-left table">
+
+        <table class="scroll_ex3">
+            <thead>
+                <tr>
+                    <th>
+                        <p>Order no</p>
+                    </th>
+                    <th>
+                        <p>Order Status</p>
+                    </th>
+                    <th>
+                        <p>Total line of Items</p>
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var Orders in ViewBag.OrderList)
+            {
+
+                <tr>
+                    <td>
+
+                        <p>@Orders.OrderNum</p>
+                    </td>
+                    <td>
+                        @if (Orders.OrderPickStatus != null)
+                        {
+
+                            <p>@Orders.OrderPickStatus With Line Of Items  @Orders.OrderLine</p>
+
+                        }
+                        else
+                        {
+                            <p>General orders With Line Of Items  @Orders.OrderLine</p>
+
+                        }
+                    </td>
+                    <td>
+
+                        <input id="CheckBoxCount" onchange="TotalLineItems(@Orders.OrderLine,@Orders.OrderNum,this)" type="checkbox" height="150" width="150" />PICK
+                    </td>
+
+                </tr>
+            }
+        </table>
+
+    </div>
+    @*<h3><a class="btn-spc-top-40 " href="~/Picker/Pick" onclick="OnNextButton">NEXT</a></h3>*@
+    <h3><a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">NEXT</a></h3>
+    
+
+
+    <!-- Bootstrap core JavaScript -->
+    @*<script src="vendor/jquery/jquery.min.js"></script>*@
+    <script src="~/jquery.min.js"></script>
+    @*<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+</body>
+</html>
+<script>
+    function PickerPick() {
+
+        $.ajax({
+            url: "../../Picker/PickLineItem",
+            type: "Post",
+            success: function (response) {
+                debugger;
+                if (response == "First Click on Orders") {
+                    alert(response);
+                }
+                if (response == "Orders Haved") {
+                    window.location.href = "../../Picker/Pick?Ordernum";
+                }
+
+
+            }
+        });
+    }
+
+    var TotalCount = 0;
+    var myArray = [];
+    var updateArrayList = [];
+
+
+    function TotalLineItems(TotalOrderLine, OrderNum, ctrl) {
+       
+            if (ctrl.checked) {
+                TotalCount = TotalCount + TotalOrderLine;
+                myArray.push(OrderNum);
+                //updateArrayList = myArray;
+                //alert("Total Line Of Items" + TotalCount);
+            }
+            else {
+                var indexno = myArray.indexOf(OrderNum); 
+                //++indexno;
+                delete myArray[indexno];
+                //updateArrayList = myArray;
+                //myArray.length=myArray.length-1;                
+                TotalCount = TotalCount - TotalOrderLine;
+                //alert("Total Line Of Items on Unchecked" + TotalCount);
+            }
+
+        if (TotalCount > 50) {
+            ctrl.checked = false;
+            myArray.pop(OrderNum);
+            TotalCount = TotalCount - TotalOrderLine;
+            alert("Order is Heavy (greater Then 50) ");
+        }
+    }
+    function OnNextButton() {
+        if (TotalCount > 0) {
+            debugger;
+            //window.location.href = "../../Picker/Pick";
+            var data = myArray.toString();
+            window.location.href = "../../Picker/Pick?Ordernum3=" + data;
+            //$.ajax({
+            //    url: "../../Picker/Pick",
+            //    type: "Post",
+            //    data: {
+            //        "Ordernum": myArray
+            //    },
+            //    success: function (response) {
+            //        debugger;
+            //        alert("true");
+            //    }
+            //});
+        }
+        else { alert("First Select Orders");}
+
+    }
+
+</script>

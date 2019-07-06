@@ -1,0 +1,119 @@
+﻿@model DotIt.AutoPicker.Models.OrderHedModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dotit Picker</title>
+
+    <!-- Bootstrap core CSS -->
+    @*<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="~/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom fonts for this template -->
+    @*<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">*@
+    <link href="~/all.min.css" rel="stylesheet" />
+    @*<link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">*@
+    <link href="~/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
+    <!-- Custom styles for this template -->
+    @*<link href="css/landing-page.min.css" rel="stylesheet">*@
+    <link href="~/landing-page.min.css" rel="stylesheet" />
+    @*<link href="css/landing-page.css" rel="stylesheet">*@
+    <link href="~/landing-page.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav_list navbar navbar-light bg-light static-top">
+        <div class="container">
+            <ul>
+                <li><a class="active" href="~/Picker/Index">Home</a></li>
+                <li><a href="~/Picker/Orders">Orders</a></li>
+                <li><a onclick="PickerPick()" href="javascript:void(0);">Pick</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dropdown -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group spc-mrg-tp-20">
+                    <h4>Hello Andrew</h4>
+                    <select class="form-control" id="Pickerddl"
+                            asp-items="@(new SelectList(@ViewBag.Pickerddl,"Empid", "Name"))"></select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row -->
+        <div class="row">
+            <div class="col-lg-6">
+                @*<a href="#" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Go</a>*@
+                <a href="~/Picker/Orders?PickerId" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Go</a>
+            </div>
+            <div class="col-lg-6">
+                <a href="~/Picker/Orders?PickerId" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Orders</a>
+            </div>
+        </div>
+    </div>
+    <!-- Row -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <a onclick="PickerPick()" href="javascript:void(0);" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" >Pick</a>
+            </div>
+            <div class="col-lg-6">
+                <a href="#" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true" onclick="SelectedProfile()">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    @*<script src="vendor/jquery/jquery.min.js"></script>*@
+    <script src="~/jquery.min.js"></script>
+    @*<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+
+</body>
+</html>
+<script>
+    function SelectedProfile() {
+        
+        var Pickerddl = document.getElementById('Pickerddl');
+        var slectedval = Pickerddl.options[Pickerddl.selectedIndex].value;
+        window.location.href = "Picker/Profile/" + slectedval;
+    }
+    function PickerPick() {
+        
+        $.ajax({
+            url: "../../Picker/PickLineItem",
+            type: "Post",
+            success: function (response) {
+                debugger;
+                if (response == "First Click on Orders") {
+                    alert(response);
+                }
+                if (response == "Orders Haved") {
+                    window.location.href="../../Picker/Pick";
+                }
+                
+                
+            }
+        });
+    }
+</script>
+

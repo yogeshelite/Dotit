@@ -1,0 +1,134 @@
+﻿@model DotIt.AutoPicker.Models.AdminModel
+@{
+//Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<style>
+        * {
+            box-sizing: border-box;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            ul li {
+                border: 1px solid #ddd;
+                margin-top: -1px; /* Prevent double borders */
+                background-color: #f6f6f6;
+                padding: 12px;
+                text-decoration: none;
+                font-size: 18px;
+                color: black;
+                display: block;
+                position: relative;
+            }
+
+                ul li:hover {
+                    background-color: #eee;
+                }
+
+        .close {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            right: 0%;
+            padding: 12px 16px;
+            transform: translate(0%, -50%);
+        }
+
+            .close:hover {
+                background: #bbb;
+            }
+    </style>*@
+    <title>Home</title>
+</head>
+@*<body>
+    <div>
+        <span><h3>Pickers</h3></span>
+        <p style="margin-top: -41px;text-align: -webkit-right;">
+            User: @ViewBag.LogInName  |
+            <a href="~/Admin/LogOut/@ViewBag.LogInName">LogOut</a>
+        </p>
+    </div>
+    @foreach (var Picker in ViewBag.Pickers)
+    {
+        <ul >
+            <li>@Picker.Name <a href="~/Admin/EditProfile/@Constant.Encode(Picker.Empid)">Edit</a> <a href="~/Admin/DeleteProfile/@Constant.Encode(Picker.Empid)">Delete</a></li>
+        </ul>
+    }
+</body>*@
+</html>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Empid)
+                </th>*@
+            <th>
+                Pickers
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Role
+            </th>
+            @*<th>
+                Picker
+            </th>*@
+            @*<th>
+                  Pickdotit
+                </th>*@
+            @*<th>
+                Max lines
+            </th>
+            <th>
+                Max Weight
+            </th>
+            <th>
+                Line per hour
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Pickers) {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.Role
+                    </td>
+                    @*<td>
+                        @item.Pickncco)
+                    </td>
+                    <td>
+                        @item.Pickdotit
+                    </td>
+                    <td>
+                        @item.Maxlines
+                    </td>
+                    <td>
+                        @item.Maxweight
+                    </td>
+                    <td>
+                        @item.Adminlineperhour
+                    </td>*@
+                    <td>
+                        <a href="~/Admin/EditProfile/@Constant.Encode(item.Empid)">Edit</a>
+                        <a href="~/Admin/DeleteProfile/@Constant.Encode(item.Empid)">Delete</a>
+                    </td>
+                </tr>
+        }
+            </tbody>
+</table>

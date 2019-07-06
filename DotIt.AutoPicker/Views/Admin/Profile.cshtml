@@ -1,0 +1,103 @@
+﻿@model IEnumerable<DotIt.AutoPicker.Models.Warehouseemployee>
+
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profile</title>
+    <script src="~/jquery.min.js"></script>
+    <link href="~/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .emprole {
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @*<div>
+                <span><h3>Pickers</h3></span>
+                <p style="margin-top: -41px;text-align: -webkit-right;">
+                    User: @ViewBag.UserName  |
+                    <a href="~/Admin/LogOut/@ViewBag.LogInName">LogOut</a>
+                </p>
+            </div>*@
+        <label>Name : </label>
+        <input type="text" class="emprole" name="Name" id="NameTextBox" value="@ViewBag.EmployeeDetails.Name" /><br /><br />
+        <label>Email : </label>
+        <input type="text" name="Email" id="EmailTextBox" class="emprole" value="@ViewBag.EmployeeDetails.Email" /><br /><br />
+        <label>
+            Role :  <select class="form-control emprole" id="RoleSelect">
+                <option value="BAS">Basic Picker</option>
+                <option value="EXP">Experienced Picker</option>
+                <option value="SEN">Senior Picker</option>
+                <option value="NCC">NCCO Picker</option>
+            </select>
+        </label>
+        <br /><br />
+        <label>Pick : </label>
+
+        <input type="checkbox" id="NCCOCheckbox" value="NCCO" />NCCO
+        <input type="checkbox" id="DotItCheckbox" value="DotIt" />DotIt<br /><br />
+        <label>Max Lines : </label>
+        <input type="number" id="MaxLines" value="@ViewBag.EmployeeDetails.Maxlines" /><br /><br />
+        <label>Max Weight :</label>
+        <input type="number" id="MaxWeight" value="@ViewBag.EmployeeDetails.Maxweight" /><br /><br />
+        <label>Lines per Hour : </label>
+        <input type="number" id="LinesPerHour" value="@ViewBag.EmployeeDetails.Adminlineperhour" />
+
+        <br /><br />
+        <button class="btn-info-grey" onclick="Cancel()">CANCEL</button>
+        <button class="btn-style-grey" style="margin-left:10px" onclick="UpdateProfile()">SAVE</button>
+    </div>
+
+    <script>
+        $("select option[value='@ViewBag.EmployeeDetails.Role']").attr("selected", "selected");
+        if ('@ViewBag.EmployeeDetails.Pickncco'== "True") {
+            $("#NCCOCheckbox").prop('checked', true);
+        }
+        if ('@ViewBag.EmployeeDetails.Pickdotit'== "True") {
+            $("#DotItCheckbox").prop('checked', true);
+        }
+        var UpdateProfile = function () {
+            debugger;
+            var name = $("#NameTextBox").val();
+            var email = $("#EmailTextBox").val();
+            var role = $("#RoleSelect").children("option:selected").val();
+            var NCCO = $("#NCCOCheckbox").prop("checked");
+            var DotIt = $("#DotItCheckbox").prop("checked");
+            var maxLines = $("#MaxLines").val();
+            var maxWeight = $("#MaxWeight").val();
+            var LinesPerHour = $("#LinesPerHour").val();
+            var Id =@ViewBag.EmployeeDetails.Empid;
+            $.ajax('../../Admin/SaveProfile',
+                {
+                    data: {
+                        Empid:Id,
+                        Name: name,
+                        Email: email,
+                        Role: role,
+                        Pickncco: NCCO,
+                        Pickdotit: DotIt,
+                        Maxlines: maxLines,
+                        Maxweight: maxWeight,
+                        Adminlineperhour: LinesPerHour,
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        if (result == "Profile updated") {
+                            window.location.href = "";
+                            window.location.href = "/Admin/Home";
+                            @*window.location.href ='@Url.Action("Admin", "Home")';*@
+                        }
+                    }
+                })
+        }
+    </script>
+</body>
+</html>

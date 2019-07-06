@@ -1,0 +1,222 @@
+/*!
+ * Start Bootstrap - Landing Page v5.0.4 (https://startbootstrap.com/template-overviews/landing-page)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-landing-page/blob/master/LICENSE)
+ */
+
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
+header.masthead {
+  position: relative;
+  background-color: #343a40;
+  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  background-size: cover;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+header.masthead .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+header.masthead h1 {
+  font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+  header.masthead {
+    padding-top: 12rem;
+    padding-bottom: 12rem;
+  }
+  header.masthead h1 {
+    font-size: 3rem;
+  }
+}
+
+.showcase .showcase-text {
+  padding: 3rem;
+}
+
+.showcase .showcase-img {
+  min-height: 30rem;
+  background-size: cover;
+}
+
+@media (min-width: 768px) {
+  .showcase .showcase-text {
+    padding: 7rem;
+  }
+}
+
+.features-icons {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.features-icons .features-icons-item {
+  max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+  height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+  font-size: 4.5rem;
+}
+
+.features-icons .features-icons-item:hover .features-icons-icon i {
+  font-size: 5rem;
+}
+
+.testimonials {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.testimonials .testimonial-item {
+  max-width: 18rem;
+}
+
+.testimonials .testimonial-item img {
+  max-width: 12rem;
+  -webkit-box-shadow: 0px 5px 5px 0px #adb5bd;
+  box-shadow: 0px 5px 5px 0px #adb5bd;
+}
+
+.call-to-action {
+  position: relative;
+  background-color: #343a40;
+  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  background-size: cover;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+.call-to-action .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+footer.footer {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Custum Css */
+
+/* Horizontal Navigation Bar */
+
+.nav_list ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  
+}
+
+.nav_list li {
+  float: left;
+}
+
+.nav_list li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 20px 37px;
+  text-decoration: none;
+}
+
+.nav_list li a:hover:not(.active) {
+  background-color: lightgray;
+}
+
+.nav_list .active {
+  background-color: white;
+}
+
+/* dropdown */
+
+  .width-100{width:100%;}
+  .pull-left{float:left;}
+
+  .text-left{text-align: left;} 
+
+/* button */
+
+ .btn-style-grey{
+  color: black;
+  background-color: lightgrey;
+  border-color: lightgrey;
+  border-radius: 0px;
+  width:100%;
+  height:auto;
+  padding: 78px;
+}
+
+/* table */
+
+table {
+  border:1px solid black;
+  padding: 2px;
+}
+
+
+.bg-blue {
+  background-color: rgb(14, 100, 212);
+  color: white;
+}
+.btn-info-grey {
+  color: black;
+  background-color:lightgrey;
+  border-color: lightgrey;
+  border-radius: 0px;
+  width: 100%;
+  height: auto;
+}
+.tbl-scroll{display: block;}
+
+.bodr-solid-1{border:1px solid black;}
+img {height: 50px;}
+
+/* Space */
+
+.spc-mg-rt-5{margin-right: 5px;}
+.spc-btm-40{ margin-bottom: 65px;}
+.btn-spc-top-40{ margin-top: 40px;}
+.spc-mrg-tp-20{ margin-top:20px;}
+
+
+@media only screen and (max-width: 800px){
+
+  .tbl-scroll {
+    height: 20%;
+    overflow-x: scroll;
+
+    display: block;
+  }
+
+}
