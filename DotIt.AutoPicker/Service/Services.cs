@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-namespace DotIt.AutoPicker
+namespace DotIt.AutoPicker.Models
 
 {
     public class Services : Controller, IHttpContextAccessor

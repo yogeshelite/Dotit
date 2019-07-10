@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.IO;
 using DotIt.AutoPicker.Models;
 
-namespace DotIt.AutoPicker.Service
+namespace DotIt.AutoPicker.Models
 {
     public class ApiResponse:IDisposable
     {
@@ -37,7 +33,7 @@ namespace DotIt.AutoPicker.Service
         }
         #region Private Declaration
         private HttpWebRequest _request;
-        private AuthenticateModel _authInfo;
+        public AuthenticateModel _authInfo;
         private string _DomainUrl { get; set; } = "https://dis-e10test/epicorerptest/api/V1/";
         #endregion
         public ApiResponse()

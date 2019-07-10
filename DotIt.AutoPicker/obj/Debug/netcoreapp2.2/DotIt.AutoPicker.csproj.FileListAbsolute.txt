@@ -28,3 +28,154 @@ E:\yogesh\Steve\DotIt\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreap
 E:\yogesh\Steve\DotIt\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
 E:\yogesh\Steve\DotIt\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CopyComplete
 E:\yogesh\Steve\DotIt\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csprojAssemblyReference.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.deps.json
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.json
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.dev.json
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.dll
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CoreCompileInputs.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfoInputs.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfo.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.input.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.output.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorCoreGenerate.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Home.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\PickOrder.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Index.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Orders.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Pick.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cache
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CopyComplete
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Profile.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Profile.g.cshtml.cs
+S:\Projects\DotIt\New folder\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csprojAssemblyReference.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.deps.json
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.json
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.dev.json
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.dll
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csprojAssemblyReference.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CoreCompileInputs.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfoInputs.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfo.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.input.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.output.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorCoreGenerate.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Home.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Profile.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\PickOrder.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Index.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Orders.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Pick.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Profile.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cache
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cs
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+C:\Users\Elite\Downloads\ashu\DotIt.zip 5-31-19\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CopyComplete
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csprojAssemblyReference.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CoreCompileInputs.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfoInputs.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfo.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.deps.json
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.json
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.dev.json
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.dll
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.input.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.output.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorCoreGenerate.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Home.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Profile.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\PickOrder.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Index.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Orders.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Pick.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Profile.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cache
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cs
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+D:\Gobind\DotIt\DotIt\EpicorDaily\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CopyComplete
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CoreCompileInputs.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorAssemblyInfo.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfoInputs.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.AssemblyInfo.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.deps.json
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.json
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.runtimeconfig.dev.json
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.dll
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.pdb
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.dll
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\bin\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.input.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.output.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorCoreGenerate.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Home.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Profile.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\PickOrder.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Index.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Orders.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Pick.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Picker\Profile.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_ValidationScriptsPartial.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cache
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CopyComplete
