@@ -1,4 +1,4 @@
-﻿@model DotIt.AutoPicker.Models.OrderHedModel
+﻿@*@model DotIt.AutoPicker.Models.OrderHedModel*@
 
 @{
     Layout = null;
@@ -76,7 +76,7 @@
                     </th>
                 </tr>
             </thead>
-            @foreach (var Orders in ViewBag.OrderList)
+            @foreach (var Orders in ViewBag.OrderList as IEnumerable<DotIt.AutoPicker.Models.OrderHedModel>)
             {
 
                 <tr>

@@ -3,6 +3,7 @@ namespace DotIt.AutoPicker.Models
 {
     public static class Constant
     {
+        public const string EpicorApi_AuthPicker = "Erp.BO.UserFileSvc/UserFiles({0})"; // 0: docuserid 
         public const string EpicorApi_SalesOrder = "/Erp.BO.SalesOrderSvc/SalesOrders";
         public const string EpicorApi_SalesOrderByOrdernum = "Erp.BO.SalesOrderSvc/SalesOrders({0},{1})";
         public const string EpicorApi_SalesOrderRelationByOrdernum = "Erp.BO.OrderRelSearchSvc/OrderRelSearches({0})";
@@ -26,6 +27,7 @@ namespace DotIt.AutoPicker.Models
             return Convert.ToBase64String((System.Text.Encoding.UTF8.GetBytes(id.ToString())));
         }
         public const string EpicorApi_OrderDetails = "/Erp.BO.SalesOrderSvc/OrderDtls";
+        public const string EpicorApi_OrderLine = "/Erp.BO.SalesOrderSvc/OrderDtls({0},{1},{2})"; // 0:Company;1:OrderNum;2:Linenum 
         public const string LogFilePath = @"\log.csv";
         public const string OrderInProcessing = @"\OrderInProcessing.csv";
         public const string OrderStatus = @"\OrderStatus.csv";
@@ -34,6 +36,8 @@ namespace DotIt.AutoPicker.Models
         public const string PickersFilePath = @"\Pickers.csv";
         public const string AdminCredentialsPath = @"\Admin Credentials.csv";
         public const string LoggedInUserPath = @"\LoggedInUsers";
+        public const string UserCookie = "UserCookie";
+
     }
 }
 

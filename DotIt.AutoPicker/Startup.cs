@@ -1,5 +1,4 @@
 ﻿using DotIt.AutoPicker.Models;
-using DotIt.AutoPicker.Models;
 using DotIt.AutoPicker.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +29,18 @@ namespace DotIt.AutoPicker
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = System.TimeSpan.FromHours(120);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+
+
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // var connection = Configuration.GetConnectionString("DotitPickerConnection");  //  "Data Source=192.168.1.150;Initial Catalog=DotItPicker;Persist Security Info=True;User ID=sa;Password=@password1";
             services.AddDbContext<DotItPickerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DotitPickerConnection")));
@@ -54,12 +65,12 @@ namespace DotIt.AutoPicker
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession(); 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Picker}/{action=Index}/{id?}");
+                    template: "{controller=Admin}/{action=Default}/{id?}");
             });
         }
     }

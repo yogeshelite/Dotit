@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DotIt.AutoPicker.Models.OrderHedModel>
+﻿
 
 @{
     Layout = null;
@@ -101,13 +101,13 @@
                             <th scope="col">Qty</th>
                             <th scope="col">Order</th>
                             <th scope="col">Status</th>
-                            <th scope="col">line Item Image</th>
+                            <th scope="col">Image</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var OrderLines in ViewBag.OrderLineItems)
+                        @foreach (var OrderLines in ViewBag.OrderLineItems as IEnumerable<DotIt.AutoPicker.Models.OrderDetModel>)
                         {
                             <tr>
                                 <td>@OrderLines.BinNum</td>
@@ -117,7 +117,7 @@
                                 <td>@OrderLines.OrderQty</td>
                                 <td>@OrderLines.OrderNum</td>
                                 <td></td>
-                                <td>@*<img src="img/bg-showcase-2.jpg" alt="resume" class="icon-spc">*@</td>
+                                <td><img src="@OrderLines.ImageContent " alt="resume" class="icon-spc"></td>
                                 <td>
                                     <button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</button>
                                     @*<button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum">Pick</button>*@

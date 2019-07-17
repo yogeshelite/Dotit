@@ -46,17 +46,17 @@ namespace DotIt.AutoPicker.Models
         {
 			modelBuilder.Entity<UserFile>(entity =>
             {
-                entity.HasKey(e => e.DcdUserId);
+                entity.HasKey(e => e.DcdUserID);
 
                 entity.ToTable("UserFile", "Erp");
 
                 entity.HasIndex(e => e.DspPayrollMgr);
 
-                entity.HasIndex(e => e.SysRowId)
+                entity.HasIndex(e => e.SysRowID)
                     .HasName("IX_UserFile_SysIndex")
                     .IsUnique();
 
-                entity.Property(e => e.DcdUserId)
+                entity.Property(e => e.DcdUserID)
                     .HasColumnName("DcdUserID")
                     .HasMaxLength(75)
                     .ValueGeneratedNever();
@@ -69,17 +69,17 @@ namespace DotIt.AutoPicker.Models
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.AdvBaqrights).HasColumnName("AdvBAQRights");
+                //entity.Property(e => e.AdvBAQRights).HasColumnName("AdvBAQRights");
 
-                entity.Property(e => e.BpmadvancedUser).HasColumnName("BPMAdvancedUser");
+                //entity.Property(e => e.BPMAdvancedUser).HasColumnName("BPMAdvancedUser");
 
-                entity.Property(e => e.CanDesignQsearch).HasColumnName("CanDesignQSearch");
+                //entity.Property(e => e.CanDesignQSearch).HasColumnName("CanDesignQSearch");
 
-                entity.Property(e => e.CanEditHelpLinks)
-                    .IsRequired()
-                    .HasMaxLength(8);
+                //entity.Property(e => e.CanEditHelpLinks)
+                //    .IsRequired()
+                //    .HasMaxLength(8);
 
-                entity.Property(e => e.CanMaintainFavUrls).HasColumnName("CanMaintainFavURLs");
+                //entity.Property(e => e.CanMaintainFavURLs).HasColumnName("CanMaintainFavURLs");
 
                 entity.Property(e => e.City)
                     .IsRequired()
@@ -95,7 +95,7 @@ namespace DotIt.AutoPicker.Models
                     .IsRequired()
                     .HasMaxLength(8);
 
-                entity.Property(e => e.CurMenuId)
+                entity.Property(e => e.CurMenuID)
                     .IsRequired()
                     .HasColumnName("CurMenuID")
                     .HasMaxLength(8);
@@ -104,51 +104,51 @@ namespace DotIt.AutoPicker.Models
                     .IsRequired()
                     .HasMaxLength(30);
 
-                entity.Property(e => e.EmailAddress)
+                entity.Property(e => e.EMailAddress)
                     .IsRequired()
                     .HasColumnName("EMailAddress")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.EntConType)
-                    .IsRequired()
-                    .HasMaxLength(2);
+                //entity.Property(e => e.EntConType)
+                //    .IsRequired()
+                //    .HasMaxLength(2);
 
-                entity.Property(e => e.EntSearchUrl)
-                    .IsRequired()
-                    .HasColumnName("EntSearchURL")
-                    .HasMaxLength(500);
+                //entity.Property(e => e.EntSearchURL)
+                //    .IsRequired()
+                //    .HasColumnName("EntSearchURL")
+                //    .HasMaxLength(500);
 
-                entity.Property(e => e.FormOpenMode)
-                    .IsRequired()
-                    .HasMaxLength(2);
+                //entity.Property(e => e.FormOpenMode)
+                //    .IsRequired()
+                //    .HasMaxLength(2);
 
-                entity.Property(e => e.FormatCulture)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                //entity.Property(e => e.FormatCulture)
+                //    .IsRequired()
+                //    .HasMaxLength(50);
 
-                entity.Property(e => e.GlbCompSm).HasColumnName("GlbCompSM");
+                //entity.Property(e => e.GlbCompSM).HasColumnName("GlbCompSM");
 
                 entity.Property(e => e.GroupList).IsRequired();
 
-                entity.Property(e => e.Jcdept)
-                    .IsRequired()
-                    .HasColumnName("JCDept")
-                    .HasMaxLength(8);
+                //entity.Property(e => e.JCDept)
+                //    .IsRequired()
+                //    .HasColumnName("JCDept")
+                //    .HasMaxLength(8);
 
-                entity.Property(e => e.LangNameId)
-                    .IsRequired()
-                    .HasColumnName("LangNameID")
-                    .HasMaxLength(8);
+                //entity.Property(e => e.LangNameID)
+                //    .IsRequired()
+                //    .HasColumnName("LangNameID")
+                //    .HasMaxLength(8);
 
-                entity.Property(e => e.LastDate).HasColumnType("date");
+                //entity.Property(e => e.LastDate).HasColumnType("date");
 
-                entity.Property(e => e.LastGraphType)
-                    .IsRequired()
-                    .HasMaxLength(8);
+                //entity.Property(e => e.LastGraphType)
+                //    .IsRequired()
+                //    .HasMaxLength(8);
 
-                entity.Property(e => e.MobilePassword)
-                    .IsRequired()
-                    .HasMaxLength(90);
+                //entity.Property(e => e.MobilePassword)
+                //    .IsRequired()
+                //    .HasMaxLength(90);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -158,80 +158,80 @@ namespace DotIt.AutoPicker.Models
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.OsuserId)
-                    .IsRequired()
-                    .HasColumnName("OSUserID")
-                    .HasMaxLength(75);
+                //entity.Property(e => e.OSUserID)
+                //    .IsRequired()
+                //    .HasColumnName("OSUserID")
+                //    .HasMaxLength(75);
 
-                entity.Property(e => e.PassWord)
-                    .IsRequired()
-                    .HasMaxLength(90);
+                //entity.Property(e => e.MobilePassword)
+                //    .IsRequired()
+                //    .HasMaxLength(90);
 
-                entity.Property(e => e.PayrollMgr)
-                    .IsRequired()
-                    .HasMaxLength(32);
+                //entity.Property(e => e.PayrollMgr)
+                //    .IsRequired()
+                //    .HasMaxLength(32);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
                     .HasMaxLength(20);
 
-                entity.Property(e => e.PwdExpires).HasColumnType("date");
+                //entity.Property(e => e.PwdExpires).HasColumnType("date");
 
-                entity.Property(e => e.PwdLastChanged).HasColumnType("date");
+                //entity.Property(e => e.PwdLastChanged).HasColumnType("date");
 
-                entity.Property(e => e.ShopTrackerReuseLast)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                //entity.Property(e => e.ShopTrackerReuseLast)
+                //    .IsRequired()
+                //    .HasMaxLength(50);
 
-                entity.Property(e => e.StartMenuClient)
-                    .IsRequired()
-                    .HasMaxLength(8);
+                //entity.Property(e => e.StartMenuClient)
+                //    .IsRequired()
+                //    .HasMaxLength(8);
 
-                entity.Property(e => e.StartMenuEwa)
-                    .IsRequired()
-                    .HasColumnName("StartMenuEWA")
-                    .HasMaxLength(8);
+                //entity.Property(e => e.StartMenuEWA)
+                //    .IsRequired()
+                //    .HasColumnName("StartMenuEWA")
+                //    .HasMaxLength(8);
 
-                entity.Property(e => e.StartMenuMobile)
-                    .IsRequired()
-                    .HasMaxLength(8);
+                //entity.Property(e => e.StartMenuMobile)
+                //    .IsRequired()
+                //    .HasMaxLength(8);
 
                 entity.Property(e => e.State)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.SysRevId)
+                entity.Property(e => e.SysRevID)
                     .IsRequired()
                     .HasColumnName("SysRevID")
                     .IsRowVersion();
 
-                entity.Property(e => e.SysRowId).HasColumnName("SysRowID");
+                entity.Property(e => e.SysRowID).HasColumnName("SysRowID");
 
-                entity.Property(e => e.TeaprRetrieveApproved).HasColumnName("TEAprRetrieveApproved");
+                //entity.Property(e => e.TEAprRetrieveApproved).HasColumnName("TEAprRetrieveApproved");
 
-                entity.Property(e => e.TeaprRetrieveEntered).HasColumnName("TEAprRetrieveEntered");
+                //entity.Property(e => e.TEAprRetrieveEntered).HasColumnName("TEAprRetrieveEntered");
 
-                entity.Property(e => e.TeaprRetrievePartiallyApproved).HasColumnName("TEAprRetrievePartiallyApproved");
+                //entity.Property(e => e.TEAprRetrievePartiallyApproved).HasColumnName("TEAprRetrievePartiallyApproved");
 
-                entity.Property(e => e.TeaprRetrieveRejected).HasColumnName("TEAprRetrieveRejected");
+                //entity.Property(e => e.TEAprRetrieveRejected).HasColumnName("TEAprRetrieveRejected");
+                
+                //entity.Property(e => e.TEAprRetrieveSubmitted).HasColumnName("TEAprRetrieveSubmitted");
 
-                entity.Property(e => e.TeaprRetrieveSubmitted).HasColumnName("TEAprRetrieveSubmitted");
+                //entity.Property(e => e.TERetrieveApproved).HasColumnName("TERetrieveApproved");
+                
+                //entity.Property(e => e.TERetrieveEntered).HasColumnName("TERetrieveEntered");
 
-                entity.Property(e => e.TeretrieveApproved).HasColumnName("TERetrieveApproved");
+                //entity.Property(e => e.TERetrievePartiallyApproved).HasColumnName("TERetrievePartiallyApproved");
 
-                entity.Property(e => e.TeretrieveEntered).HasColumnName("TERetrieveEntered");
+                //entity.Property(e => e.TERetrieveRejected).HasColumnName("TERetrieveRejected");
 
-                entity.Property(e => e.TeretrievePartiallyApproved).HasColumnName("TERetrievePartiallyApproved");
+                //entity.Property(e => e.TERetrieveSubmitted).HasColumnName("TERetrieveSubmitted");
 
-                entity.Property(e => e.TeretrieveRejected).HasColumnName("TERetrieveRejected");
+                //entity.Property(e => e.ViewStatusPanelUserID).HasColumnName("ViewStatusPanelUserID");
 
-                entity.Property(e => e.TeretrieveSubmitted).HasColumnName("TERetrieveSubmitted");
+                //entity.Property(e => e.ViewStatusPanelWorkstationID).HasColumnName("ViewStatusPanelWorkstationID");
 
-                entity.Property(e => e.ViewStatusPanelUserId).HasColumnName("ViewStatusPanelUserID");
-
-                entity.Property(e => e.ViewStatusPanelWorkstationId).HasColumnName("ViewStatusPanelWorkstationID");
-
-                entity.Property(e => e.Zip)
+                entity.Property(e => e.ZIP)
                     .IsRequired()
                     .HasColumnName("ZIP")
                     .HasMaxLength(10);

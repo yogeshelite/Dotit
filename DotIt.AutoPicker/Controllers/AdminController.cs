@@ -10,67 +10,77 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-//using DotIt.AutoPicker.Models;
+using Newtonsoft.Json;
+using DotIt.AutoPicker.Services;
+
 namespace DotIt.AutoPicker.Controllers
 {
     public class AdminController : Controller
     {
-        Services servicesCookies= new Services();
+
         private readonly IHostingEnvironment _hostingEnvironment;
 
         private readonly DotItPickerContext _context;
 
         public static bool allowaccess = false;
+        ApiResponse _apiResponse;
 
         public AdminController(IHostingEnvironment hostingEnvironment, DotItPickerContext context)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+
         }
 
         public IActionResult Index()
         {
-            var UserLogInName = Get("UserName");
-            if (UserLogInName != string.Empty)
+
+            var UserLogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+            if (UserLogInName != null)
             {
                 return RedirectToAction("Home");
             }
             return View();
         }
 
+        public IActionResult Default()
+        {
+            return View();
+        }
+
+
         public JsonResult Login(AdminModel objModel)
         {
-            TextReader reader = new StreamReader(_hostingEnvironment.WebRootPath + Constant.AdminCredentialsPath);
-            var CSVReader = new CsvReader(reader);
-            var records = CSVReader.GetRecords<AdminModel>();
-            foreach (var credential in records)
+            using (_apiResponse = new ApiResponse())
             {
-                if (objModel.Username == credential.Username)
+                ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, objModel.Username), "GET");
+                var user = JsonConvert.DeserializeObject<UserFile>(ObjResponse.Response);
+
+
+                if (user != null)
                 {
-                    if (objModel.Password == credential.Password)
+
+                    if   (user.GroupList.Split("~").Where(f=> new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString(), UserGroup.WHSELEAD.ToString() }.Contains(f )).Count() >0 ) 
                     {
-                        Set("UserName", credential.Username, 100);
-                          //servicesCookies.Set("UserName", credential.Username,100);
-                            return Json("success");
+                        HttpContext.Session.Set<UserFile>(Constant.UserCookie.ToString(), user);
+
+                        return Json("success");
                     }
-                    else
-                    {
-                        ViewBag.LoginResponse = "Invalid Password";
-                        return Json("password wrong");
-                    }
+
+                    //return Json("Not a picker user");
                 }
+
+                return Json("User not exist");
             }
-            ViewBag.LoginResponse = "Invalid UserName";
-            return Json("username wrong");
         }
 
         public IActionResult Home()
         {
-            var UserLogInName = Get("UserName");
-            
-            if (UserLogInName != string.Empty)
+            var UserLogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+
+            if (UserLogInName != null)
             {
-                ViewBag.LogInName = UserLogInName;
+                ViewBag.LogInName = UserLogInName.DcdUserID;
                 ViewBag.Pickers = GetEmployees();
                 return View();
             }
@@ -82,50 +92,50 @@ namespace DotIt.AutoPicker.Controllers
 
         public IActionResult EditProfile(string id)
         {
-            
+
             int Empid = int.Parse(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id)));
             ViewBag.EmployeeDetails = GetEmployees().Where(x => x.Empid == Empid).Single();
-            ViewBag.LogInName = Get("UserName");
+            ViewBag.LogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
             return View("Profile");
         }
 
         public List<Warehouseemployee> GetEmployees()
         {
             Warehouseemployee objModel = new Warehouseemployee();
-            var context = new DotItPickerContext();
-            return context.Warehouseemployee.FromSql("GetEmployees").ToList();
+
+            return _context.Warehouseemployee.FromSql("GetEmployees").ToList();
         }
 
         public JsonResult SaveProfile(Warehouseemployee warehouseemployee)
         {
-            var context = new DotItPickerContext();
-            var result = context.Database.ExecuteSqlCommand($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
+
+            var result = _context.Database.ExecuteSqlCommand($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
             //FromSql($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
             return Json("Profile updated");
         }
 
-        public void Set(string key, string value, int? expireTime)
-        {
-            CookieOptions option = new CookieOptions();
-            if (expireTime.HasValue)
-                option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
-            else
-                option.Expires = DateTime.Now.AddHours(10);
-            Response.Cookies.Append(key, value,option);
-        }
-        public string Get(string key)
-        {
-            var get = Request.Cookies[key];
-            //var remove = Remove("UserName");
-            return Request.Cookies[key];
-        }
-        public void Remove(string key)
-        {
-            Response.Cookies.Delete(key);
-        }
+        //public void Set(string key, string value, int? expireTime)
+        //{
+        //    CookieOptions option = new CookieOptions();
+        //    if (expireTime.HasValue)
+        //        option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
+        //    else
+        //        option.Expires = DateTime.Now.AddHours(10);
+        //    Response.Cookies.Append(key, value, option);
+        //}
+        //public string Get(string key)
+        //{
+        //    var get = Request.Cookies[key];
+        //    //var remove = Remove("UserName");
+        //    return Request.Cookies[key];
+        //}
+        //public void Remove(string key)
+        //{
+        //    Response.Cookies.Delete(key);
+        //}
         public IActionResult LogOut(string id)
         {
-            Remove("UserName");
+            HttpContext.Session.Remove(Constant.UserCookie.ToString());
             return View("Index");
         }
 

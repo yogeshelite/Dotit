@@ -160,7 +160,6 @@ E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\D
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.TagHelpers.output.cache
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorCoreGenerate.cache
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Home.g.cshtml.cs
-E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Profile.g.cshtml.cs
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Home\PickOrder.g.cshtml.cs
@@ -179,3 +178,5 @@ E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\D
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.RazorTargetAssemblyInfo.cs
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.Views.pdb
 E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csproj.CopyComplete
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Default.g.cshtml.cs
+E:\yogesh\Steve\AutomatedOrderPicking\DotIt.AutoPicker\obj\Debug\netcoreapp2.2\DotIt.AutoPicker.csprojAssemblyReference.cache

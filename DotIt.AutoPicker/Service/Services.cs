@@ -4,34 +4,57 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-namespace DotIt.AutoPicker.Models
+using Newtonsoft.Json;
+
+namespace DotIt.AutoPicker.Services
 
 {
-    public class Services : Controller, IHttpContextAccessor
+    public static class SessionExtensions
     {
-        HttpContext IHttpContextAccessor.HttpContext { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-       
-        public void Set(string key, string value, int? expireTime)
+        public static void Set<T>(this ISession session, string key, T value)
         {
-            
-            CookieOptions option = new CookieOptions();
-            if (expireTime.HasValue)
-            {
-                option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
-            }
-            else
-                option.Expires = DateTime.Now.AddHours(10);
-            Response.Cookies.Append(key, value,option);
+            session.SetString(key, JsonConvert.SerializeObject(value));
         }
-        public string Get(string key)
+
+        public static T Get<T>(this ISession session, string key)
         {
-            var get = Request.Cookies[key];
-            //var remove = Remove("UserName");
-            return Request.Cookies[key];   
-        }
-        public void Remove(string key)
-        {
-            Response.Cookies.Delete(key);
+            var value = session.GetString(key);
+
+            return value == null ? default(T) :
+                JsonConvert.DeserializeObject<T>(value);
         }
     }
+
+
+    //public class DotItService : Controller, IHttpContextAccessor
+    //{
+    //    HttpContext IHttpContextAccessor.HttpContext { get; set; }
+      
+
+    //    public void SetCookie<T>(T datamodel,string key, int? expireTime, HttpResponse httpResponse)
+    //    {
+
+    //        CookieOptions option = new CookieOptions();
+    //        if (expireTime.HasValue)
+    //        {
+    //            option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
+    //        }
+    //        else
+    //            option.Expires = DateTime.Now.AddHours(10);
+
+
+    //        var data = JsonConvert.SerializeObject(datamodel);
+    //        httpResponse.Cookies.Append(key, data, option);
+    //        option = null;
+    //    }
+    //    public T GetCookie<T>(string key,HttpRequest  httpRequest)
+    //    {
+    //        var get = httpRequest.Cookies[key];
+    //        return JsonConvert.DeserializeObject<T>(httpRequest.Cookies[key]);
+    //    }
+    //    public void RemoveCookie(string key,HttpResponse httpResponse )
+    //    {
+    //        httpResponse.Cookies.Delete(key);
+    //    }
+    //}
 }

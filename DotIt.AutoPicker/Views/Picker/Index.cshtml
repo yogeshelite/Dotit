@@ -1,4 +1,4 @@
-﻿@model DotIt.AutoPicker.Models.OrderHedModel
+﻿@*@model DotIt.AutoPicker.Models.OrderHedModel*@
 
 @{
     Layout = null;
@@ -43,7 +43,7 @@
                 <li><a class="active" href="~/Picker/Index">Home</a></li>
                 <li><a href="~/Picker/Orders">Orders</a></li>
                 <li><a onclick="PickerPick()" href="javascript:void(0);">Pick</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a onclick="SelectedProfile();"  href="javascript:void(0);">Profile</a></li>
             </ul>
         </div>
     </nav>
@@ -53,9 +53,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-group spc-mrg-tp-20">
-                    <h4>Hello Andrew</h4>
-                    <select class="form-control" id="Pickerddl"
-                            asp-items="@(new SelectList(@ViewBag.Pickerddl,"Empid", "Name"))"></select>
+                    <h4>Hello </h4>@ViewBag.LogInName
                 </div>
             </div>
         </div>
@@ -67,7 +65,7 @@
                 <a href="~/Picker/Orders?PickerId" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Go</a>
             </div>
             <div class="col-lg-6">
-                <a href="~/Picker/Orders?PickerId" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Orders</a>
+                <a onclick="PickerOrders()" href="javascript:void(0);" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Orders</a>
             </div>
         </div>
     </div>
@@ -75,7 +73,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <a onclick="PickerPick()" href="javascript:void(0);" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" >Pick</a>
+                <a onclick="PickerPick()" href="javascript:void(0);" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button">Pick</a>
             </div>
             <div class="col-lg-6">
                 <a href="#" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true" onclick="SelectedProfile()">Profile</a>
@@ -91,14 +89,23 @@
 </body>
 </html>
 <script>
-    function SelectedProfile() {
-        
-        var Pickerddl = document.getElementById('Pickerddl');
-        var slectedval = Pickerddl.options[Pickerddl.selectedIndex].value;
-        window.location.href = "Picker/Profile/" + slectedval;
+    var Pickerddl = document.getElementById('Pickerddl');
+    SelectedProfile= function () {
+
+       
+     
+        window.location.href = "Picker/Profile/" + Pickerddl.options[Pickerddl.selectedIndex].value;
     }
-    function PickerPick() {
-        
+
+    PickerOrders =  function () {
+
+        window.location.href = "../../Picker/Orders/" + Pickerddl.options[Pickerddl.selectedIndex].text;
+
+    }
+
+
+    PickerPick =function () {
+
         $.ajax({
             url: "../../Picker/PickLineItem",
             type: "Post",
@@ -108,10 +115,10 @@
                     alert(response);
                 }
                 if (response == "Orders Haved") {
-                    window.location.href="../../Picker/Pick";
+                    window.location.href = "../../Picker/Pick";
                 }
-                
-                
+
+
             }
         });
     }

@@ -71,7 +71,7 @@
 <h1>Order contains the folowing line items : </h1>
 <br />
 <br />
-@foreach (var Orders in ViewBag.OrderDetails)
+@foreach (var Orders in ViewBag.OrderDetails as IEnumerable<DotIt.AutoPicker.Models.OrderHedModel> )
 {
     <div id="OrderLineContainer+@Orders.OrderLine" class="container" style="border-style:solid;color:green">
         <div style="width:70%;float:left">
@@ -87,7 +87,7 @@
             <pre><b>Net Weight: </b> @Orders.NetWeight_c</pre>
             <pre><b>Quantity: </b> @Orders.OrderQty</pre>
             <pre><b>Request Date: </b> @Orders.RequestDate</pre>
-            <pre><b>Ship Box Number: </b> @Orders.ShipBoxNumber_c</pre>
+            @*<pre><b>Ship Box Number: </b> @Orders.ShipBoxNumber_c</pre>*@
         </div>
         <div style="width:30%;float:right;">
             <a class="block" style="float:right;margin-top:20%" href="javascript:void()" id="PickButton+@Orders.OrderLine" onclick="PickLineItem(@Orders.OrderLine)">Pick</a>
