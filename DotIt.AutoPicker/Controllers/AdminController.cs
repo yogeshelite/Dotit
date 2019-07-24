@@ -103,7 +103,7 @@ namespace DotIt.AutoPicker.Controllers
         {
             Warehouseemployee objModel = new Warehouseemployee();
 
-            return _context.Warehouseemployee.FromSql("GetEmployees").ToList();
+            return new List<Warehouseemployee> ();//  _context.Warehouseemployee.FromSql("GetEmployees").ToList();
         }
 
         public JsonResult SaveProfile(Warehouseemployee warehouseemployee)

@@ -98,7 +98,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in ViewBag.Pickers) {
+        @foreach (var item in ViewBag.Pickers as List<Warehouseemployee>) {
                 <tr>
                     <td>
                         @item.Name

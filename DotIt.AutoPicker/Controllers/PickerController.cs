@@ -236,18 +236,19 @@ namespace DotIt.AutoPicker.Controllers
         {
 
 
-            var content = (from p in _epicor10Context.Part
-                          from i in _epicor10Context.Image
-                          from fl in _epicor10Context.FileStore
-                          where (new string[] { i.Company, fl.Company }.Contains(p.Company) & p.ImageId.Equals(i.ImageId))
-                          & fl.SysRowId.Equals(i.ImageSysRowId)
-                          & p.PartNum.Equals(PartNumber)
-                          select fl.Content).FirstOrDefault() ;
+            //var content = (from p in _epicor10Context.Part
+            //              from i in _epicor10Context.Image
+            //              from fl in _epicor10Context.FileStore
+            //              where (new string[] { i.Company, fl.Company }.Contains(p.Company) & p.ImageId.Equals(i.ImageId))
+            //              & fl.SysRowId.Equals(i.ImageSysRowId)
+            //              & p.PartNum.Equals(PartNumber)
+            //              select fl.Content).FirstOrDefault() ;
 
 
-            //  var content1 =_dataContext.Part.Join(_dataContext.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p,i)=>new {p,i } ).GroupJoin(_dataContext.FileStore.FirstOrDefault(), pi => new { pi.p.Company , pi.i.ImageSysRowId }, fl => new  { fl.Company, fl.SysRowId }, (pi, fl) => new FileStore { Content  = fl.FirstOrDefault(f => f.SysRowId.Equals(pi.ImageSysRowId) & f.Company.Equals(pi.Company)).Content  });
-            if (content != null) return string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(content);
-            return "img/bg-showcase-2.jpg";
+            var image = _epicor10Context.FileStore.Join(_epicor10Context.Image, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, i => new { i.Company, i.ImageSysRowId }, (fl, i) => new { fl }).Join(_epicor10Context.Part, fl => new { fl.fl.Company, fl.fl.SysRowId }, p => new { p.Company, p.SysRowId }, (fl, p) => new { image = fl.fl.Content, partNum = p.PartNum }).FirstOrDefault(f => f.partNum.Equals(PartNumber));
+            //_epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p,i)=>new {p,i } ).Join(_epicor10Context.FileStore, pi => new { pi.p.Company , pi.i.ImageSysRowId }, fl => new  { Company=fl.Company, ImageSysRowId=fl.SysRowId }, (pi, fl) => new  { PartNumber= pi.p.PartNum , Content  = fl.Content}).FirstOrDefault(f => f.PartNumber.Equals(PartNumber)).Content;
+
+            return (image!=null && image.image.LongCount() >0  )?string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.image)): "img/bg-showcase-2.jpg";
 
 
         }
@@ -267,7 +268,7 @@ namespace DotIt.AutoPicker.Controllers
                         if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                         {
                             var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
-                            if (_result != null) _result.Where(x => Ordernum.Contains(x.OrderNum.ToString()));
+                            if (_result != null) _result.Where(x => Ordernum.Contains(x.SysRowID.ToString()));
 
                             foreach (var _Order in _result)
                             {
