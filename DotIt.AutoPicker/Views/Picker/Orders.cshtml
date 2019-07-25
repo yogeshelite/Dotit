@@ -140,7 +140,7 @@
     }
 
     var TotalCount = 0;
-    var myArray = [];
+    var arrMyPickingItems = [];
     var updateArrayList = [];
 
 
@@ -148,14 +148,14 @@
        
             if (ctrl.checked) {
                 TotalCount = TotalCount + TotalOrderLine;
-                myArray.push(OrderNum);
+                arrMyPickingItems.push(OrderNum);
                 //updateArrayList = myArray;
                 //alert("Total Line Of Items" + TotalCount);
             }
             else {
                 var indexno = myArray.indexOf(OrderNum); 
                 //++indexno;
-                delete myArray[indexno];
+                delete arrMyPickingItems[indexno];
                 //updateArrayList = myArray;
                 //myArray.length=myArray.length-1;                
                 TotalCount = TotalCount - TotalOrderLine;
@@ -164,7 +164,7 @@
 
         if (TotalCount > 50) {
             ctrl.checked = false;
-            myArray.pop(OrderNum);
+            arrMyPickingItems.pop(OrderNum);
             TotalCount = TotalCount - TotalOrderLine;
             alert("Order is Heavy (greater Then 50) ");
         }
@@ -173,8 +173,8 @@
         if (TotalCount > 0) {
             debugger;
             //window.location.href = "../../Picker/Pick";
-            var data = myArray.toString();
-            window.location.href = "../../Picker/Pick?Ordernum3=" + data;
+            var data = arrMyPickingItems.toString();
+            window.location.href = "../../Picker/Pick?Ordernum=" + data;
             //$.ajax({
             //    url: "../../Picker/Pick",
             //    type: "Post",

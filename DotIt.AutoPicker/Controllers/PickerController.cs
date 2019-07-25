@@ -175,9 +175,9 @@ namespace DotIt.AutoPicker.Controllers
 
 
         }
-        public IActionResult Pick(string Ordernum3)
+        public IActionResult Pick(string[] Ordernum)
         {
-            string[] Ordernum = Ordernum3.Split(',');
+          //  string[] Ordernum = Ordernum3.Split(',');
             #region do shorting in saleorderlist for Priority wise but we don't have order status
             if (SaleOrderList != null)
             {
@@ -245,10 +245,10 @@ namespace DotIt.AutoPicker.Controllers
             //              select fl.Content).FirstOrDefault() ;
 
 
-            var image = _epicor10Context.FileStore.Join(_epicor10Context.Image, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, i => new { i.Company, i.ImageSysRowId }, (fl, i) => new { fl }).Join(_epicor10Context.Part, fl => new { fl.fl.Company, fl.fl.SysRowId }, p => new { p.Company, p.SysRowId }, (fl, p) => new { image = fl.fl.Content, partNum = p.PartNum }).FirstOrDefault(f => f.partNum.Equals(PartNumber));
-            //_epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p,i)=>new {p,i } ).Join(_epicor10Context.FileStore, pi => new { pi.p.Company , pi.i.ImageSysRowId }, fl => new  { Company=fl.Company, ImageSysRowId=fl.SysRowId }, (pi, fl) => new  { PartNumber= pi.p.PartNum , Content  = fl.Content}).FirstOrDefault(f => f.PartNumber.Equals(PartNumber)).Content;
+           // var image = _epicor10Context.FileStore.Join(_epicor10Context.Image, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, i => new { i.Company, i.ImageSysRowId }, (fl, i) => new { fl }).Join(_epicor10Context.Part, fl => new { fl.fl.Company, fl.fl.SysRowId }, p => new { p.Company, p.SysRowId }, (fl, p) => new { image = fl.fl.Content, partNum = p.PartNum }).FirstOrDefault(f => f.partNum.Equals(PartNumber));
+            var image = _epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p,i)=>new {p,i } ).Join(_epicor10Context.FileStore, pi => new { pi.p.Company , pi.i.ImageSysRowId }, fl => new  { Company=fl.Company, ImageSysRowId=fl.SysRowId }, (pi, fl) => new  { PartNumber= pi.p.PartNum , Content  = fl.Content}).FirstOrDefault(f => f.PartNumber.Equals(PartNumber));
 
-            return (image!=null && image.image.LongCount() >0  )?string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.image)): "img/bg-showcase-2.jpg";
+            return (image!=null && image.Content.LongCount() >0  )?string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.Content)): "img/bg-showcase-2.jpg";
 
 
         }
@@ -268,7 +268,7 @@ namespace DotIt.AutoPicker.Controllers
                         if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                         {
                             var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
-                            if (_result != null) _result.Where(x => Ordernum.Contains(x.SysRowID.ToString()));
+                            if (_result != null) _result= _result.Where(x => Ordernum.Contains(x.OrderNum.ToString())).ToList();
 
                             foreach (var _Order in _result)
                             {
