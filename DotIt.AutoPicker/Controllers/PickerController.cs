@@ -175,13 +175,13 @@ namespace DotIt.AutoPicker.Controllers
 
 
         }
-        public IActionResult Pick(string[] Ordernum)
+        public IActionResult Pick(string Orders)
         {
-          //  string[] Ordernum = Ordernum3.Split(',');
+            string[] Ordernum = JsonConvert.DeserializeObject<string[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
             #region do shorting in saleorderlist for Priority wise but we don't have order status
             if (SaleOrderList != null)
             {
-                ViewBag.OrderLineItems = GetOrderDetails( Ordernum);
+                ViewBag.OrderLineItems = GetOrderDetails(Ordernum);
                 if (ViewBag.OrderLineItems != null)
                 {
                     WriteToFileOrderProcessing(Ordernum, "Processing");
@@ -253,11 +253,11 @@ namespace DotIt.AutoPicker.Controllers
 
         }
 
-        public List<OrderDetModel> GetOrderDetails( string[] Ordernum)//List<OrderHedModel> Orders,
+        public List<OrderDetModel> GetOrderDetails( string[] Orders)//List<OrderHedModel> Orders,
         {
             using (_apiResponse = new ApiResponse())
             {
-             
+               // var data = JsonConvert.DeserializeObject<string[]>(Orders);
                 ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
                 if (ObjResponse.success == true)
                 {
@@ -268,7 +268,7 @@ namespace DotIt.AutoPicker.Controllers
                         if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                         {
                             var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
-                            if (_result != null) _result= _result.Where(x => Ordernum.Contains(x.OrderNum.ToString())).ToList();
+                            if (_result != null) _result= _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
 
                             foreach (var _Order in _result)
                             {
@@ -441,8 +441,8 @@ namespace DotIt.AutoPicker.Controllers
             Order.PickTime = DateTime.Now.ToString();
             SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == OrderNumber).Single())).OrderPickStatus = "Quarantined";
             WriteToFile(Order, "quarantine");
-            string[] Ordernum = null;
-            ViewBag.OrderLineItems = GetOrderDetails(Ordernum).Where(x => x.OrderNum != OrderNumber);
+           
+            ViewBag.OrderLineItems = GetOrderDetails(new string[] { ordernumber }).Where(x => x.OrderNum != OrderNumber);
             return View("Pick");
         }
 
