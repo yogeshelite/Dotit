@@ -65,15 +65,17 @@
         <table class="scroll_ex3">
             <thead>
                 <tr>
+
                     <th>
-                        <p>Order no</p>
+                        Select<br />Order no
                     </th>
                     <th>
-                        <p>Order Status</p>
+                        Items
                     </th>
                     <th>
-                        <p>Total line of Items</p>
+                        Order Status
                     </th>
+
                 </tr>
             </thead>
             @foreach (var Orders in ViewBag.OrderList as IEnumerable<DotIt.AutoPicker.Models.OrderHedModel>)
@@ -81,35 +83,43 @@
 
                 <tr>
                     <td>
-
-                        <p>@Orders.OrderNum</p>
+                        <input id="CheckBoxCount" onchange="TotalLineItems(@Orders.OrderLine,@Orders.OrderNum,this)" type="checkbox" height="150" width="150" /> @Orders.OrderNum
+                    </td>
+                    <td>
+                        @Orders.OrderLine
                     </td>
                     <td>
                         @if (Orders.OrderPickStatus != null)
                         {
 
-                            <p>@Orders.OrderPickStatus With Line Of Items  @Orders.OrderLine</p>
+                            @Orders.OrderPickStatus
 
                         }
                         else
                         {
-                            <p>General orders With Line Of Items  @Orders.OrderLine</p>
+                            <span>General orders</span>
 
                         }
                     </td>
-                    <td>
 
-                        <input id="CheckBoxCount" onchange="TotalLineItems(@Orders.OrderLine,@Orders.OrderNum,this)" type="checkbox" height="150" width="150" />PICK
-                    </td>
 
                 </tr>
             }
         </table>
+    </div>
+   
+    <h3 id="NextButton"><a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Pick  Item</a> </h3>
+    <div id="OrderSummary1">
 
     </div>
-    @*<h3><a class="btn-spc-top-40 " href="~/Picker/Pick" onclick="OnNextButton">NEXT</a></h3>*@
-    <h3><a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">NEXT</a></h3>
-    
+    <table class="table mb-0">
+        <thead class="bg-light">
+            <tr>
+                <th scope="col" class="border-0">Order No</th>               
+            </tr>
+        </thead>
+        <tbody id="OrderSummary"></tbody>
+    </table>
 
 
     <!-- Bootstrap core JavaScript -->
@@ -145,22 +155,15 @@
 
 
     function TotalLineItems(TotalOrderLine, OrderNum, ctrl) {
-       
-            if (ctrl.checked) {
-                TotalCount = TotalCount + TotalOrderLine;
-                arrMyPickingItems.push(OrderNum);
-                //updateArrayList = myArray;
-                //alert("Total Line Of Items" + TotalCount);
-            }
-            else {
-                var indexno = myArray.indexOf(OrderNum); 
-                //++indexno;
-                delete arrMyPickingItems[indexno];
-                //updateArrayList = myArray;
-                //myArray.length=myArray.length-1;                
-                TotalCount = TotalCount - TotalOrderLine;
-                //alert("Total Line Of Items on Unchecked" + TotalCount);
-            }
+        if (ctrl.checked) {
+            TotalCount = TotalCount + TotalOrderLine;
+            arrMyPickingItems.push(OrderNum);           
+        }
+        else {
+            var indexno = arrMyPickingItems.indexOf(OrderNum);           
+            delete arrMyPickingItems[indexno];  
+            TotalCount = TotalCount - TotalOrderLine;
+        }
 
         if (TotalCount > 50) {
             ctrl.checked = false;
@@ -168,13 +171,35 @@
             TotalCount = TotalCount - TotalOrderLine;
             alert("Order is Heavy (greater Then 50) ");
         }
+        $('#NextButton').html('<a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Picked ' + TotalCount+' Item</a>');
+        
+       
+        
     }
+    var BindTabelsRows = function (Data) {
+        if (Data.length > 0)
+        {
+            //var response = Data.split(",");
+            $('#OrderSummary').html("");
+            var tr = "";
+            var Index = 1;
+            for (var i = 0; i < Data.length; i++) {
+                tr += '<tr>' +
+                    '<td>' + response[i] + '</td>' +                                 
+                    '</tr> ';
+                Index++;
+            }
+            $('#OrderSummary').html(tr);
+        }
+       
+    };
     function OnNextButton() {
         if (TotalCount > 0) {
             debugger;
             //window.location.href = "../../Picker/Pick";
-            var data = arrMyPickingItems.toString();
-            window.location.href = "../../Picker/Pick?Ordernum=" + data;
+            var data = arrMyPickingItems;
+            //alert(JSON.stringify({ "Data": JSON.stringify(data) }));
+            window.location.href = "../../Picker/Pick?Orders=" + JSON.stringify({ "Data": JSON.stringify(data) });
             //$.ajax({
             //    url: "../../Picker/Pick",
             //    type: "Post",
@@ -187,7 +212,7 @@
             //    }
             //});
         }
-        else { alert("First Select Orders");}
+        else { alert("Plz Select Orders"); }
 
     }
 

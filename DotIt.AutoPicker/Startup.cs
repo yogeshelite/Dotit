@@ -37,7 +37,10 @@ namespace DotIt.AutoPicker
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
 
 
 

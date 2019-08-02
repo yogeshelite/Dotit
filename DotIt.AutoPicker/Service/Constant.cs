@@ -38,6 +38,11 @@ namespace DotIt.AutoPicker.Models
         public const string LoggedInUserPath = @"\LoggedInUsers";
         public const string UserCookie = "UserCookie";
 
+        //public const string EpicorApi_PatchSalesOrderByOrdernum = "Erp.BO.SalesOrderSvc/SalesOrders({0},{1},{2})";
+        //public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter=Company eq '{0}' and OrderNum eq {1}";
+        public const string PartBinSearchSvc = "/Erp.BO.PartBinSearchSvc/GetFullBinSearch";
+        public const string PartBinSearchSvc2 = "/Erp.BO.PartBinSearchSvc/GetFullBinSearch?$filter=partNum eq '{0}' and whseCode eq {1}";
+        public const string PartBinSearchSvc3 = "/Erp.BO.PartBinSearchSvc/GetFullBinSearch?$input=partNum eq '{0}' and whseCode eq {1}";
     }
 }
 

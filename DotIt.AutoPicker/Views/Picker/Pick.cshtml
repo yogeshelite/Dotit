@@ -122,11 +122,12 @@
                                     <button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</button>
                                     @*<button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum">Pick</button>*@
                                 <div class="panel">
-                                        <p>
-                                            <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Quarentine</a>
-                                            <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
-                                            <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>
-                                        </p>
+                                    <p>
+                                        @*<a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Picked</a>*@
+                                        <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Quarentine</a>
+                                        <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
+                                        <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>
+                                    </p>
                                     </div>
                                 </td>
                             </tr>
@@ -142,8 +143,7 @@
     <script src="~/jquery.min.js"></script>
     <script>
         var TotalLines = 0;
-        var PickLineItem = function (ordernum, orderline) {
-            debugger;
+        var PickLineItem = function (ordernum, orderline) {            
             console.log(orderline);
             var orderlinebutton = document.getElementById('PickButton+' + orderline + ordernum);
             console.log(orderlinebutton);

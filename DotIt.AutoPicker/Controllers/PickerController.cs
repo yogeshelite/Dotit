@@ -142,7 +142,7 @@ namespace DotIt.AutoPicker.Controllers
 
                         if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                         {
-                            var GetLineOfItems = JsonConvert.DeserializeObject<List<OrderDetModel >>(OrderDetails["value"].ToString());
+                            var GetLineOfItems = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
                             foreach (var lineitems in SaleOrderList.OrderBy(x => x.OrderNum))
                             {
                                 var _GetLineOfItems = GetLineOfItems.Where(x => x.OrderNum == lineitems.OrderNum);
@@ -203,8 +203,6 @@ namespace DotIt.AutoPicker.Controllers
 
         public void GetOrders()//This is a method 
         {
-
-
             try
             {
                 using (_apiResponse = new ApiResponse())
@@ -245,48 +243,86 @@ namespace DotIt.AutoPicker.Controllers
             //              select fl.Content).FirstOrDefault() ;
 
 
-           // var image = _epicor10Context.FileStore.Join(_epicor10Context.Image, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, i => new { i.Company, i.ImageSysRowId }, (fl, i) => new { fl }).Join(_epicor10Context.Part, fl => new { fl.fl.Company, fl.fl.SysRowId }, p => new { p.Company, p.SysRowId }, (fl, p) => new { image = fl.fl.Content, partNum = p.PartNum }).FirstOrDefault(f => f.partNum.Equals(PartNumber));
-            var image = _epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p,i)=>new {p,i } ).Join(_epicor10Context.FileStore, pi => new { pi.p.Company , pi.i.ImageSysRowId }, fl => new  { Company=fl.Company, ImageSysRowId=fl.SysRowId }, (pi, fl) => new  { PartNumber= pi.p.PartNum , Content  = fl.Content}).FirstOrDefault(f => f.PartNumber.Equals(PartNumber));
+            // var image = _epicor10Context.FileStore.Join(_epicor10Context.Image, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, i => new { i.Company, i.ImageSysRowId }, (fl, i) => new { fl }).Join(_epicor10Context.Part, fl => new { fl.fl.Company, fl.fl.SysRowId }, p => new { p.Company, p.SysRowId }, (fl, p) => new { image = fl.fl.Content, partNum = p.PartNum }).FirstOrDefault(f => f.partNum.Equals(PartNumber));
+            var image = _epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p, i) => new { p, i }).Join(_epicor10Context.FileStore, pi => new { pi.p.Company, pi.i.ImageSysRowId }, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, (pi, fl) => new { PartNumber = pi.p.PartNum, Content = fl.Content }).FirstOrDefault(f => f.PartNumber.Equals(PartNumber));
 
-            return (image!=null && image.Content.LongCount() >0  )?string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.Content)): "img/bg-showcase-2.jpg";
+            return (image != null && image.Content.LongCount() > 0) ? string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.Content)) : "img/bg-showcase-2.jpg";
 
 
         }
 
-        public List<OrderDetModel> GetOrderDetails( string[] Orders)//List<OrderHedModel> Orders,
+        public List<OrderDetModel> GetOrderDetails(string[] Orders)//List<OrderHedModel> Orders,
         {
             using (_apiResponse = new ApiResponse())
             {
-               // var data = JsonConvert.DeserializeObject<string[]>(Orders);
-                ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
-                if (ObjResponse.success == true)
+                try
                 {
-                    var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
-                    if (OrderDetails.ContainsKey("value"))
+                    // var data = JsonConvert.DeserializeObject<string[]>(Orders);
+                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
+                    if (ObjResponse.success == true)
                     {
-
-                        if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
+                        var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
+                        if (OrderDetails.ContainsKey("value"))
                         {
-                            var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
-                            if (_result != null) _result= _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
-
-                            foreach (var _Order in _result)
+                            if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                             {
+                                var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
+                                if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
 
-                               
-                                _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
+                                ResponseModel _PObjResponse=null;
+                                Dictionary<string, object> Objbinnum=null;
+                                Dictionary<string, object> retobj = null;
 
+                                string empty = string.Empty;
+
+                                foreach (var _Order in _result)
+                                {
+                                     GetPartBinLocation( _PObjResponse,  Objbinnum, retobj, _Order);
+                                    _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
+                                }
+                                return _result;
                             }
-                            return _result;
                         }
                     }
+                    else
+                    {
+                        RedirectToAction("Error", "Home");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    RedirectToAction("Error", "Home");
+                    var message = ex.Message.ToString();
                 }
             }
             return null;
+        }
+
+        private void GetPartBinLocation( ResponseModel _PObjResponse,  Dictionary<string, object> Objbinnum, Dictionary<string, object> retobj, OrderDetModel _Order)
+        {
+            _PObjResponse = _apiResponse.GetApiResponse(Constant.PartBinSearchSvc, "POST", "{\"partNum\":'" + _Order.PartNum + "',\"whseCode\":''}");
+            if (_PObjResponse.success)
+            {
+                Objbinnum = JsonConvert.DeserializeObject<Dictionary<string, object>>(_PObjResponse.Response);
+
+                //var _resultbinnum1 = JsonConvert.DeserializeObject<List<OrderDetModel>>(_PObjResponse.Response);
+                if (Objbinnum.ContainsKey("returnObj"))
+                {
+                    if (!String.IsNullOrEmpty(Objbinnum["returnObj"].ToString()))
+                    {
+                        retobj = JsonConvert.DeserializeObject<Dictionary<string, object>>(Objbinnum["returnObj"].ToString());
+                        if (retobj.ContainsKey("PartBinSearch"))
+                        {
+                            var partBinList = JsonConvert.DeserializeObject<List<OrderDetModel>>(retobj["PartBinSearch"].ToString()).Select(f => new { BinNum = f.BinNum, BinDesc = f.BinDesc, BinType = f.BinType }).FirstOrDefault();
+                            if (partBinList != null)
+                            {
+                                _Order.BinNum = partBinList.BinNum;
+                                _Order.BinDesc = partBinList.BinDesc;
+                                _Order.BinType = partBinList.BinType;
+                            }
+                        }
+                    }
+                }
+            }            
         }
 
         public JsonResult PickLineItems(int ordernum, int orderline)
@@ -441,7 +477,7 @@ namespace DotIt.AutoPicker.Controllers
             Order.PickTime = DateTime.Now.ToString();
             SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == OrderNumber).Single())).OrderPickStatus = "Quarantined";
             WriteToFile(Order, "quarantine");
-           
+
             ViewBag.OrderLineItems = GetOrderDetails(new string[] { ordernumber }).Where(x => x.OrderNum != OrderNumber);
             return View("Pick");
         }
