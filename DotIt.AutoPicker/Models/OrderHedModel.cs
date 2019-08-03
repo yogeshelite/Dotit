@@ -11,7 +11,7 @@ namespace DotIt.AutoPicker.Models
         //OrderNum(int, optional),
         public int OrderNum { get; set; }
         public string OrderComment { get; set; }
-        
+
 
         //CustNum(int, optional),
         public int CustNum { get; set; }
@@ -93,20 +93,36 @@ namespace DotIt.AutoPicker.Models
 
         //Field for Bin location
         public string BinNum { get; set; }
-        
+
         //Field for SKU
         public string PartNum { get; set; }
 
         //Field for Description
         public string LineDesc { get; set; }
 
-        
+
     }
 
 
 
     public class OrderDetModel
     {
+        public string OrderPickStatus { get; set; }
+        public string PlantName { get; set; }
+        public string  WhseCodeDesc { get; set; }
+        public string  BinDesc { get; set; }
+        public string LotNumberDesc { get; set; }
+        public string DimCodeDesc { get; set; }
+        public string NonNettable { get; set; }
+        public string BinType { get; set; }
+        public string PCID { get; set; }
+        public string SendToFSA { get; set; }
+        public string LotNumber { get; set; }
+        public string QtyOnHand { get; set; }
+        public string PartDesc { get; set; }
+        public string Plant { get; set; }
+        public string WhseCode { get; set; }
+
         public float BoxWeight_c { get; set; }
         public bool VoidLine { get; set; }
         public bool OpenLine { get; set; }

@@ -1,5 +1,6 @@
-﻿using DotIt.AutoPicker.Models;
-using DotIt.AutoPicker.Data;
+﻿using DotIt.AutoPicker.Data;
+using DotIt.AutoPicker.Models;
+//using DotIt.AutoPicker.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +47,7 @@ namespace DotIt.AutoPicker
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // var connection = Configuration.GetConnectionString("DotitPickerConnection");  //  "Data Source=192.168.1.150;Initial Catalog=DotItPicker;Persist Security Info=True;User ID=sa;Password=@password1";
-            services.AddDbContext<DotItPickerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DotitPickerConnection")));
+           services.AddDbContext<DotitExtensionContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DotitPickerConnection")));
             services.AddDbContext<Epicor10Context>(options => options.UseSqlServer(Configuration.GetConnectionString("EpicorDotItConnection")));
           
         }

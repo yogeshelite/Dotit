@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using DotIt.AutoPicker.Models;
-using DotIt.AutoPicker.Data;
+///using DotIt.AutoPicker.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +20,15 @@ namespace DotIt.AutoPicker.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        private readonly DotItPickerContext _context;
+       // private readonly DotItPickerContext _context;
 
         public static bool allowaccess = false;
         ApiResponse _apiResponse;
 
-        public AdminController(IHostingEnvironment hostingEnvironment, DotItPickerContext context)
+        public AdminController(IHostingEnvironment hostingEnvironment)//, DotItPickerContext context)
         {
             _hostingEnvironment = hostingEnvironment;
-            _context = context;
+            //_context = context;
 
         }
 
@@ -109,7 +109,7 @@ namespace DotIt.AutoPicker.Controllers
         public JsonResult SaveProfile(Warehouseemployee warehouseemployee)
         {
 
-            var result = _context.Database.ExecuteSqlCommand($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
+          //  var result = _context.Database.ExecuteSqlCommand($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
             //FromSql($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
             return Json("Profile updated");
         }

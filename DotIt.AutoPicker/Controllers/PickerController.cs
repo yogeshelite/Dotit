@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 //using System.IO;
 using System.Text;
 using CsvFileReader;
+using static DotIt.AutoPicker.Models.Enums;
 
 namespace DotIt.AutoPicker.Controllers
 {
@@ -24,18 +25,26 @@ namespace DotIt.AutoPicker.Controllers
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         public static List<OrderHedModel> SaleOrderList;
-        public static List<OrderHedModel> LineItemList;
+        public static List<OrderDetModel> LineItemList;
         public static List<PickersModel> PickersList;
         public static List<FileStore> FileStoreList;
         Epicor10Context _epicor10Context;
-        DotItPickerContext _dotItPickerContext;
+        //DotItPickerContext _dotItPickerContext;
+        DotitExtensionContext DotitExtensionContext;
         ApiResponse _apiResponse;
-        public PickerController(IHostingEnvironment hostingEnvironment, DotItPickerContext dotItPickerContext, Epicor10Context epicor10Context)
+        //public PickerController(IHostingEnvironment hostingEnvironment, DotItPickerContext dotItPickerContext, Epicor10Context epicor10Context)
+        //{
+        //    _hostingEnvironment = hostingEnvironment;
+        //    _epicor10Context = epicor10Context;
+
+        //    _dotItPickerContext = dotItPickerContext;
+        //}
+        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext, Epicor10Context epicor10Context)
         {
             _hostingEnvironment = hostingEnvironment;
             _epicor10Context = epicor10Context;
 
-            _dotItPickerContext = dotItPickerContext;
+            DotitExtensionContext = dotItExtensionContext;
         }
         public IActionResult Index()//this is our landing view string PickerDI
         {
@@ -53,9 +62,11 @@ namespace DotIt.AutoPicker.Controllers
                 #endregion
 
                 #region Picking for local db hare 
+                var Picker = DotitExtensionContext.Warehouseemployee.ToList();
+                ViewBag.Pickerddl = Picker.ToList();
+                //var picker = _dotItPickerContext.Warehouseemployee.FromSql("GetEmployees").ToList();//hare we geting all pickers in local db
+                //ViewBag.Pickerddl = picker.ToList();
 
-                var picker = _dotItPickerContext.Warehouseemployee.FromSql("GetEmployees").ToList();//hare we geting all pickers in local db
-                ViewBag.Pickerddl = picker.ToList();
                 #endregion
 
 
@@ -269,17 +280,18 @@ namespace DotIt.AutoPicker.Controllers
                                 var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
                                 if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
 
-                                ResponseModel _PObjResponse=null;
-                                Dictionary<string, object> Objbinnum=null;
+                                ResponseModel _PObjResponse = null;
+                                Dictionary<string, object> Objbinnum = null;
                                 Dictionary<string, object> retobj = null;
 
                                 string empty = string.Empty;
 
                                 foreach (var _Order in _result)
                                 {
-                                     GetPartBinLocation( _PObjResponse,  Objbinnum, retobj, _Order);
+                                    GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
                                     _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
                                 }
+                                LineItemList = _result;
                                 return _result;
                             }
                         }
@@ -297,7 +309,7 @@ namespace DotIt.AutoPicker.Controllers
             return null;
         }
 
-        private void GetPartBinLocation( ResponseModel _PObjResponse,  Dictionary<string, object> Objbinnum, Dictionary<string, object> retobj, OrderDetModel _Order)
+        private void GetPartBinLocation(ResponseModel _PObjResponse, Dictionary<string, object> Objbinnum, Dictionary<string, object> retobj, OrderDetModel _Order)
         {
             _PObjResponse = _apiResponse.GetApiResponse(Constant.PartBinSearchSvc, "POST", "{\"partNum\":'" + _Order.PartNum + "',\"whseCode\":''}");
             if (_PObjResponse.success)
@@ -322,36 +334,70 @@ namespace DotIt.AutoPicker.Controllers
                         }
                     }
                 }
-            }            
+            }
         }
 
-        public JsonResult PickLineItems(int ordernum, int orderline)
+        public JsonResult PickLineItems(int ordernum, int orderline, string status)
         {
+            string msg = string.Empty;
             var Order = SaleOrderList.Where(o => o.OrderNum == ordernum).Single();
             Order.OrderLine = orderline.ToString();
-            Order.PickTime = DateTime.Now.ToString();
-            #region
-            //SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == ordernum).Single())).OrderPickStatus = "Processing";
-            //SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == id && o.OrderLine== orderline.ToString()).Single())).OrderPickStatus = "Processing";
+            Order.PickTime = DateTime.Now.ToString();           
+
+            if (status == Status.Picked.ToString())
+            {
+                var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderLine == orderline).Single().OrderPickStatus = "Processing";
+                msg = orderline + " LineItem is Picked";
+            }
+            if (status == Status.UnPicked.ToString())
+            {
+                var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderLine == orderline).Single().OrderPickStatus = null;
+                msg = orderline + " LineItem is UnPicked";
+            }
+            #region status order in Quarentine (Hold)
+            if (status == Status.Quarentine.ToString())
+            {
+                //var list = _DotitExtensionContext.Pickerorder.ToList();
+                //var _list = list.FirstOrDefault(x => x.Ordernum == ordernum).Pickstatus = Status.Quarentine.ToString();
+                //var Orderno1 = list.Find(x => x.Ordernum == ordernum);
+                //#region code for remove from local list
+                ////LineItemList.RemoveAt();
+                ////LineItemList.Remove(Orderno1);
+                //#endregion
+            }
             #endregion
 
-            var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderLine == orderline.ToString()).Single().OrderPickStatus = "Processing";
-
-
-            WriteToFile(Order, "pick");
-
-            var orderstatus = OrderCompleteOrNot(ordernum);
-            if (orderstatus != "Completed")
+            if (status == Status.Replenish.ToString())
             {
-                return Json("Order in  Pick Process");
+                //hare we sent the email to stave for Replenish
+
+            }
+            if (status == Status.InventoryControl.ToString())
+            {
+                //hare we sent the email to stave for InventoryControl
+                // or update order status Hold
+
+            }
+            //WriteToFile(Order, "pick");
+            var orderstatus = OrderCompleteOrNot(ordernum);
+
+            if (orderstatus != "Completed")
+            { 
+                return Json(msg);
             }
             else
             {
+                #region status order Picked
+                //var list = _DotitExtensionContext.Pickerorder.ToList();
+                //var _list = list.FirstOrDefault(x => x.Ordernum == ordernum).Pickstatus = Status.Picked.ToString();
 
+                //#region code for remove from local list
+                ////LineItemList.RemoveAt();
+                ////LineItemList.Remove(Orderno1);
+                //#endregion
+                #endregion
                 return Json("Completed");
             }
-
-
         }
 
         public string OrderCompleteOrNot(int ordernum)
@@ -484,23 +530,22 @@ namespace DotIt.AutoPicker.Controllers
 
         public IActionResult Profile(int id)
         {
-
-
-            var AllPickers = _dotItPickerContext.Warehouseemployee.FromSql("GetEmployees").ToList();
-            var model = AllPickers.FirstOrDefault(x => x.Empid == id);
-            return View(model);
+            //var AllPickers = _dotItPickerContext.Warehouseemployee.FromSql("GetEmployees").ToList();
+            //var model = AllPickers.FirstOrDefault(x => x.Empid == id);
+            //return View(model);
+            return View();
         }
-        [HttpPost]
-        public ActionResult ProfileChanges(Warehouseemployee model)
-        {
+        //[HttpPost]
+        //public ActionResult ProfileChanges(Warehouseemployee model)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                _dotItPickerContext.Entry(model).State = EntityState.Modified;
-                _dotItPickerContext.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View("Index");
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _dotItPickerContext.Entry(model).State = EntityState.Modified;
+        //        _dotItPickerContext.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View("Index");
+        //}
     }
 }
