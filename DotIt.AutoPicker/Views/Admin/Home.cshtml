@@ -1,7 +1,4 @@
-﻿@model DotIt.AutoPicker.Models.AdminModel
-@{
-//Layout = null;
-}
+﻿@model IEnumerable<DotIt.AutoPicker.Models.PickerModel>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -47,88 +44,81 @@
     </style>*@
     <title>Home</title>
 </head>
-@*<body>
-    <div>
-        <span><h3>Pickers</h3></span>
-        <p style="margin-top: -41px;text-align: -webkit-right;">
-            User: @ViewBag.LogInName  |
-            <a href="~/Admin/LogOut/@ViewBag.LogInName">LogOut</a>
-        </p>
-    </div>
-    @foreach (var Picker in ViewBag.Pickers)
-    {
-        <ul >
-            <li>@Picker.Name <a href="~/Admin/EditProfile/@Constant.Encode(Picker.Empid)">Edit</a> <a href="~/Admin/DeleteProfile/@Constant.Encode(Picker.Empid)">Delete</a></li>
-        </ul>
-    }
-</body>*@
-</html>
-
-<table class="table">
-    <thead>
-        <tr>
-            @*<th>
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                @*<th>
                     @Html.DisplayNameFor(model => model.Empid)
                 </th>*@
-            <th>
-                Pickers
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Role
-            </th>
-            @*<th>
-                Picker
-            </th>*@
-            @*<th>
+                <th>
+                    Pickers
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Role
+                </th>
+                @*<th>
+                    Picker
+                </th>*@
+                @*<th>
                   Pickdotit
                 </th>*@
-            @*<th>
-                Max lines
-            </th>
-            <th>
-                Max Weight
-            </th>
-            <th>
-                Line per hour
-            </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.Pickers as List<Warehouseemployee>) {
+                @*<th>
+                    Max lines
+                </th>*@
+                <th>
+                    Max Weight
+                </th>
+                @*<th>
+                    Line per hour
+                </th>
+                <th></th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var item in ViewBag.Pickers as List<DotIt.AutoPicker.Models.PickerModel>)*@
+            @foreach (var item in Model)
+            {
                 <tr>
                     <td>
+
                         @item.Name
                     </td>
                     <td>
-                        @item.Email
+                        @item.EMailAddress
                     </td>
                     <td>
-                        @item.Role
+                        <div style="width:200px;overflow-wrap:break-word">
+                            @item.Grouplist
+                        </div>
+
                     </td>
                     @*<td>
-                        @item.Pickncco)
+                    @item.Pickncco)
+                </td>
+                <td>
+                    @item.Pickdotit
+                </td>
+                <td>
+                    @item.Maxlines
+                </td>*@
+                    <td>
+                        @item.MaxWeight
                     </td>
+                    @*<td>
+                    @item.Adminlineperhour
+                </td>*@
                     <td>
-                        @item.Pickdotit
-                    </td>
-                    <td>
-                        @item.Maxlines
-                    </td>
-                    <td>
-                        @item.Maxweight
-                    </td>
-                    <td>
-                        @item.Adminlineperhour
-                    </td>*@
-                    <td>
-                        <a href="~/Admin/EditProfile/@Constant.Encode(item.Empid)">Edit</a>
-                        <a href="~/Admin/DeleteProfile/@Constant.Encode(item.Empid)">Delete</a>
+                        <a href="~/Admin/EditProfile/@Constant.Encode(item.DcdUserID)">Edit</a>
+                        @*<a href="~/Admin/DeleteProfile/@Constant.Encode(item.DcdUserID,false)">Delete</a>*@
                     </td>
                 </tr>
-        }
-            </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+

@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DotIt.AutoPicker.Services;
+using DotIt.AutoPicker.Data.Epicor;
+using DotIt.AutoPicker.Data;
+using DotIt.AutoPicker.Data.DotIt;
 
 namespace DotIt.AutoPicker.Controllers
 {
@@ -20,15 +23,17 @@ namespace DotIt.AutoPicker.Controllers
 
         private readonly IHostingEnvironment _hostingEnvironment;
 
-       // private readonly DotItPickerContext _context;
+        private readonly DotitExtensionContext _DotitExtensionContext;
+
+
 
         public static bool allowaccess = false;
         ApiResponse _apiResponse;
 
-        public AdminController(IHostingEnvironment hostingEnvironment)//, DotItPickerContext context)
+        public AdminController(IHostingEnvironment hostingEnvironment, DotitExtensionContext context)
         {
             _hostingEnvironment = hostingEnvironment;
-            //_context = context;
+            _DotitExtensionContext = context;
 
         }
 
@@ -49,20 +54,20 @@ namespace DotIt.AutoPicker.Controllers
         }
 
 
-        public JsonResult Login(AdminModel objModel)
+        public JsonResult Login(string UserName)
         {
             using (_apiResponse = new ApiResponse())
             {
-                ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, objModel.Username), "GET");
-                var user = JsonConvert.DeserializeObject<UserFile>(ObjResponse.Response);
+                ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
+                var user = JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
 
 
                 if (user != null)
                 {
 
-                    if   (user.GroupList.Split("~").Where(f=> new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString(), UserGroup.WHSELEAD.ToString() }.Contains(f )).Count() >0 ) 
+                    if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString(), UserGroup.WHSELEAD.ToString() }.Contains(f)).Count() > 0)
                     {
-                        HttpContext.Session.Set<UserFile>(Constant.UserCookie.ToString(), user);
+                        HttpContext.Session.Set<PickerModel>(Constant.UserCookie.ToString(), user);
 
                         return Json("success");
                     }
@@ -76,13 +81,13 @@ namespace DotIt.AutoPicker.Controllers
 
         public IActionResult Home()
         {
-            var UserLogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+            var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
 
             if (UserLogInName != null)
             {
-                ViewBag.LogInName = UserLogInName.DcdUserID;
-                ViewBag.Pickers = GetEmployees();
-                return View();
+                //ViewBag.LogInName = UserLogInName.DcdUserID;
+                //ViewBag.Pickers = GetPickers(dcduserid: UserLogInName.DcdUserID);
+                return View(GetPickers(dcduserid: UserLogInName.DcdUserID));
             }
             else
             {
@@ -92,26 +97,117 @@ namespace DotIt.AutoPicker.Controllers
 
         public IActionResult EditProfile(string id)
         {
+            string DcdUserID = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id));
 
-            int Empid = int.Parse(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id)));
-            ViewBag.EmployeeDetails = GetEmployees().Where(x => x.Empid == Empid).Single();
-            ViewBag.LogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
-            return View("Profile");
+            Warehouseemployee warehouseemployee = _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Dcduserid == DcdUserID);
+
+            if (warehouseemployee != null)
+            {
+                PickerModel pickerModel = new PickerModel()
+                {
+                    EMailAddress = warehouseemployee.Emailaddress,
+                    Grouplist = warehouseemployee.Grouplist.Replace(",", "~"),
+                    Name = warehouseemployee.Pickername,
+                    RecordDate = warehouseemployee.Recorddate,
+                    DcdUserID = warehouseemployee.Dcduserid,
+                    // EmpID = pickerModel.Empid;
+                    Active = warehouseemployee.active,
+                    AdminlineperHour = warehouseemployee.Adminlineperhour,
+                    LastLogin = warehouseemployee.Lastlogin,
+                    MaxLines = warehouseemployee.Maxlines,
+                    MaxWeight = warehouseemployee.Maxweight,
+                };
+                return View(pickerModel);
+
+            }
+            //ViewBag.EmployeeDetails = GetPickers(dcduserid: DcdUserID).Single();
+            //ViewBag.LogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+            return View("Home");
         }
 
-        public List<Warehouseemployee> GetEmployees()
+        public List<PickerModel> GetPickers(string dcduserid, string company = "")
         {
-            Warehouseemployee objModel = new Warehouseemployee();
+            List<PickerModel> result = null;
+            try
+            {
+                //  var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
 
-            return new List<Warehouseemployee> ();//  _context.Warehouseemployee.FromSql("GetEmployees").ToList();
+
+
+                var result2 = _DotitExtensionContext.Warehouseemployee.ToList();
+
+                // (string.IsNullOrEmpty(company) | f.Company.Equals(company))
+                result2 = result2.Where(f => (string.IsNullOrEmpty(dcduserid) | f.Dcduserid.Equals(dcduserid))).ToList();
+                if (result2 == null)
+                { return result; }
+
+
+                result = result2.Select(f => new PickerModel()
+                {
+                    EMailAddress = f.Emailaddress,
+                    Grouplist = f.Grouplist.Replace("~", ","),
+                    Name = f.Pickername,
+                    RecordDate = f.Recorddate,
+                    DcdUserID = f.Dcduserid,
+                    // EmpID = f.Empid,
+                    Active = f.active,
+                    AdminlineperHour = f.Adminlineperhour,
+                    LastLogin = f.Lastlogin,
+                    MaxLines = f.Maxlines,
+                    MaxWeight = f.Maxweight
+                }).ToList();
+
+
+                //DLog.Log("Epicor Picker user sync successfully");
+
+                //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
+
+
+            }
+            catch (Exception ex)
+            {
+                // DLog.Log("Error No picker  can not desealize ");
+            }
+            return result;
         }
 
-        public JsonResult SaveProfile(Warehouseemployee warehouseemployee)
-        {
 
-          //  var result = _context.Database.ExecuteSqlCommand($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
-            //FromSql($"UpdateProfile {warehouseemployee.Empid},{warehouseemployee.Name},{warehouseemployee.Email},{warehouseemployee.Role},{warehouseemployee.Pickncco},{warehouseemployee.Pickdotit},{warehouseemployee.Maxlines},{warehouseemployee.Maxweight},{warehouseemployee.Adminlineperhour}");
+        public JsonResult SaveProfile(PickerModel warehouseemployee)
+        {
+           var user= _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Dcduserid == warehouseemployee.DcdUserID);
+            if (user != null)
+            {
+                user.Emailaddress = warehouseemployee.EMailAddress;
+                user.Grouplist = warehouseemployee.Grouplist.Replace(",", "~");
+                user.Pickername = warehouseemployee.Name;
+                user.Recorddate = warehouseemployee.RecordDate;
+                user.Dcduserid = warehouseemployee.DcdUserID;              
+                user.active = warehouseemployee.Active;
+                user.Adminlineperhour = warehouseemployee.AdminlineperHour;
+                user.Lastlogin = warehouseemployee.LastLogin;
+                user.Maxlines = warehouseemployee.MaxLines;
+                user.Maxweight = warehouseemployee.MaxWeight; 
+            }
+            _DotitExtensionContext.SaveChanges();           
             return Json("Profile updated");
+        }
+        public IActionResult DeleteProfile(string id ,bool active)
+        {
+            string DcdUserID = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id));
+
+            var user = _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Dcduserid == DcdUserID);
+            if (user != null)
+            {
+                PickerModel pickerModel = new PickerModel()
+                {
+                    Active = active
+                };
+
+                    //user.Active = warehouseemployee.Active;
+                
+            }
+            _DotitExtensionContext.SaveChanges();
+            return View("Home");
         }
 
         //public void Set(string key, string value, int? expireTime)

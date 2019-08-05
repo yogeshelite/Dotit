@@ -107,7 +107,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var OrderLines in ViewBag.OrderLineItems as IEnumerable<DotIt.AutoPicker.Models.OrderDetModel>)
+                        @foreach (var OrderLines in ViewBag.OrderLineItems as IEnumerable<DotIt.AutoPicker.Models.OrderDetailModel>)
                         {
                             <tr>
                                 <td>@OrderLines.BinNum</td>
@@ -121,20 +121,22 @@
                                 <td>
                                     <button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</button>
                                     @*<button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum">Pick</button>*@
-                                <div class="panel">
-                                    <p>
-                                        @*<a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Picked</a>*@
-                                        <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Quarentine</a>
-                                        <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
-                                        <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>
-                                    </p>
+                                    <div class="panel">
+                                        <p>
+                                            <a onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine')">Quarentine</a>
+                                            <a onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish')">Replenish</a>
+                                            <a onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Inventory Control')">Inventory Control</a>
+                                            @*<a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Quarentine</a>
+                                                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
+                                                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>*@
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
                         }
 
                     </tbody>
-                </table>              
+                </table>
             </div>
         </div>
     </div>
@@ -142,38 +144,68 @@
     <!-- Bootstrap core JavaScript -->
     <script src="~/jquery.min.js"></script>
     <script>
+        var UpdateStatus = function (ordernum, orderline, status) {
+            $.ajax({
+                type: "POST",
+                url: "../../Picker/PickLineItems",
+                data: {
+                    ordernum: ordernum,
+                    orderline: orderline,
+                    status:status
+                },
+                success: function (response) {
+                    alert(response);
+
+                },
+                failure: function (response) {
+                    alert(response);
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        }
         var TotalLines = 0;
-        var PickLineItem = function (ordernum, orderline) {            
-            console.log(orderline);
-            var orderlinebutton = document.getElementById('PickButton+' + orderline + ordernum);
-            console.log(orderlinebutton);
-            if (orderlinebutton.innerText == "Picked") {
-                //orderlinebutton.style.backgroundColor = "green";
+        var PickLineItem = function (ordernum, orderline) {           
+            var orderlinebutton = document.getElementById('PickButton+' + orderline + ordernum);           
+            debugger;
+            if (orderlinebutton.innerText == "Picked") {              
                 orderlinebutton.innerText = "Pick";
                 orderlinebutton.style.backgroundColor = "#87CEEB";
                 TotalLines--;
                 console.log(TotalLines);
-                if (TotalLines == 0) {
+                //if (TotalLines == 0) {
                     $.ajax({
                         type: "POST",
-                        url: "/Home/UnPickLineItem/",
-                        data: { id: ordernum, orderline: orderline },
+                        url: "../../Picker/PickLineItems",
+                        data: {
+                            ordernum: ordernum,
+                            orderline: orderline,
+                            status: "UnPicked"
+                        },
                         success: function (response) {
-                            //alert(response.responseText);
-                            console.log('Unprocessing  Successful');
+                            alert(response);
+
+                        },
+                        failure: function (response) {
+                            alert(response);
+                        },
+                        error: function (response) {
+                            alert(response);
                         }
                     });
-                }
+                //}
             }
-            else {               
+            else {
                 orderlinebutton.innerText = "Picked";
                 orderlinebutton.style.backgroundColor = "green";
                 $.ajax({
                     type: "POST",
-                    url: "../../Picker/PickLineItems",                    
+                    url: "../../Picker/PickLineItems",
                     data: {
                         ordernum: ordernum,
-                        orderline: orderline
+                        orderline: orderline,
+                        status: "Picked"
                     },
 
                     success: function (response) {

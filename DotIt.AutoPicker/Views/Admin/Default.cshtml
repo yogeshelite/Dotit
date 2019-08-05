@@ -1,4 +1,5 @@
-﻿@*@model DotIt.AutoPicker.Models.AdminModel*@
+﻿@model DotIt.AutoPicker.Models.AuthenticateModel
+
 @{
     Layout = null;
 }
@@ -18,8 +19,8 @@
                 
                 
                     <div class="form-group">
-                        <label for="Username">UserName:</label>
-                        <input class="form-control" id="Username" name="Username" type="text" />
+                        <label for="UserName">UserName:</label>
+                        <input class="form-control" id="Username" name="UserName" type="text" />
                         <span id="spanforusername"></span>
                     </div>
                     @*<div class="form-group">
@@ -43,11 +44,12 @@
 <script>
     var Login = function () {
         var username = $("#Username").val();
+        console.log(username);
         //var password = $("#Password").val();
         $.ajax('../../Admin/Login', {
             type: 'POST',
             data: {
-                Username: username,
+                UserName: username
                // Password: password
             },
             success: function(result) {

@@ -21,16 +21,17 @@
 <body>
     <div class="container">
         @*<div>
-                <span><h3>Pickers</h3></span>
-                <p style="margin-top: -41px;text-align: -webkit-right;">
-                    User: @ViewBag.UserName  |
-                    <a href="~/Admin/LogOut/@ViewBag.LogInName">LogOut</a>
-                </p>
-            </div>*@
+            <span><h3>Pickers</h3></span>
+            <p style="margin-top: -41px;text-align: -webkit-right;">
+                User: @ViewBag.UserName  |
+                <a href="~/Admin/LogOut/@ViewBag.LogInName">LogOut</a>
+            </p>
+        </div>*@
         <label>Name : </label>
-        <input type="text" class="emprole" name="Name" id="NameTextBox" value="@ViewBag.EmployeeDetails.Name" /><br /><br />
+        <input type="hidden"  name="DcdUserID" id="DcdUserID" value="@Model.DcdUserID" />
+        <input type="text" class="emprole" name="Name" id="NameTextBox" value="@Model.Name" /><br /><br />
         <label>Email : </label>
-        <input type="text" name="Email" id="EmailTextBox" class="emprole" value="@ViewBag.EmployeeDetails.Email" /><br /><br />
+        <input type="text" name="Email" id="EmailTextBox" class="emprole" value="@Model.EMailAddress" /><br /><br />
         <label>
             Role :  <select class="form-control emprole" id="RoleSelect">
                 <option value="BAS">Basic Picker</option>
@@ -42,14 +43,14 @@
         <br /><br />
         <label>Pick : </label>
 
-        <input type="checkbox" id="NCCOCheckbox" value="NCCO" />NCCO
-        <input type="checkbox" id="DotItCheckbox" value="DotIt" />DotIt<br /><br />
+        @*<input type="checkbox" id="NCCOCheckbox" value="NCCO" />NCCO
+        <input type="checkbox" id="DotItCheckbox" value="DotIt" />DotIt<br /><br />*@
         <label>Max Lines : </label>
-        <input type="number" id="MaxLines" value="@ViewBag.EmployeeDetails.Maxlines" /><br /><br />
+        <input type="number" id="MaxLines" value="@Model.MaxLines" /><br /><br />
         <label>Max Weight :</label>
-        <input type="number" id="MaxWeight" value="@ViewBag.EmployeeDetails.Maxweight" /><br /><br />
+        <input type="number" id="MaxWeight" value="@Model.MaxWeight" /><br /><br />
         <label>Lines per Hour : </label>
-        <input type="number" id="LinesPerHour" value="@ViewBag.EmployeeDetails.Adminlineperhour" />
+        <input type="number" id="LinesPerHour" value="@Model.AdminlineperHour" />
 
         <br /><br />
         <button class="btn-info-grey" onclick="Cancel()">CANCEL</button>
@@ -57,13 +58,13 @@
     </div>
 
     <script>
-        $("select option[value='@ViewBag.EmployeeDetails.Role']").attr("selected", "selected");
+        @*$("select option[value='@ViewBag.EmployeeDetails.Role']").attr("selected", "selected");
         if ('@ViewBag.EmployeeDetails.Pickncco'== "True") {
             $("#NCCOCheckbox").prop('checked', true);
         }
         if ('@ViewBag.EmployeeDetails.Pickdotit'== "True") {
             $("#DotItCheckbox").prop('checked', true);
-        }
+        }*@
         var UpdateProfile = function () {
             debugger;
             var name = $("#NameTextBox").val();
@@ -74,26 +75,28 @@
             var maxLines = $("#MaxLines").val();
             var maxWeight = $("#MaxWeight").val();
             var LinesPerHour = $("#LinesPerHour").val();
-            var Id =@ViewBag.EmployeeDetails.Empid;
+            var dcdUserID = $("#DcdUserID").val();
+            //var Id =model.Empid;
+            var Id = "";
             $.ajax('../../Admin/SaveProfile',
                 {
                     data: {
                         Empid:Id,
                         Name: name,
-                        Email: email,
-                        Role: role,
+                        EMailAddress: email,
+                        Grouplist: role,
                         Pickncco: NCCO,
                         Pickdotit: DotIt,
-                        Maxlines: maxLines,
-                        Maxweight: maxWeight,
-                        Adminlineperhour: LinesPerHour,
+                        MaxLines: maxLines,
+                        MaxWeight: maxWeight,
+                        AdminlineperHour: LinesPerHour,
+                        DcdUserID: dcdUserID,
                     },
                     success: function (result) {
                         console.log(result);
                         if (result == "Profile updated") {
-                            window.location.href = "";
-                            window.location.href = "/Admin/Home";
-                            @*window.location.href ='@Url.Action("Admin", "Home")';*@
+                            alert("Profile updated");
+                            window.location.href = "/Admin/Home";                           
                         }
                     }
                 })

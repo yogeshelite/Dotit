@@ -1,5 +1,4 @@
-﻿@model DotIt.AutoPicker.Models.OrderHedModel
-@{
+﻿@{
     ViewData["Title"] = "PickOrder";
 }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.js" type="text/javascript"></script>
@@ -71,21 +70,22 @@
 <h1>Order contains the folowing line items : </h1>
 <br />
 <br />
-@foreach (var Orders in ViewBag.OrderDetails as IEnumerable<DotIt.AutoPicker.Models.OrderHedModel> )
+@foreach (var Orders in ViewBag.OrderDetails as IEnumerable<DotIt.AutoPicker.Models.OrderHeadModel> )
 {
-    <div id="OrderLineContainer+@Orders.OrderLine" class="container" style="border-style:solid;color:green">
+    <div id="OrderLineContainer+@Orders.TotalLines" class="container" style="border-style:solid;color:green">
         <div style="width:70%;float:left">
             <b>Order Line:</b>
-            @Orders.OrderLine<pre><b>Customer Number:</b> @Orders.CustNum</pre>
-            <pre><b>Alloc Priority Code: </b> @Orders.AllocPriorityCode</pre>
-            <pre><b>Reserve Priority Code: </b> @Orders.ReservePriorityCode</pre>
+            @Orders.TotalLines<pre><b>Customer Number:</b> @Orders.CustNum</pre>
+            @*<pre><b>Alloc Priority Code: </b> @Orders.AllocPriorityCode</pre>
+            <pre><b>Reserve Priority Code: </b> @Orders.ReservePriorityCode</pre>*@
             <pre><b>Order Date: </b> @Orders.OrderDateTime</pre>
             <pre><b>Company: </b> @Orders.Company</pre>
-            <pre><b>Line Status: </b> @Orders.LineStatus</pre>
+            @*<pre><b>Line Status: </b> @Orders.LineStatus</pre> 
             <pre><b>Line Type: </b> @Orders.LineType</pre>
-            <pre><b>Need By Date: </b> @Orders.NeedByDate</pre>
-            <pre><b>Net Weight: </b> @Orders.NetWeight_c</pre>
-            <pre><b>Quantity: </b> @Orders.OrderQty</pre>
+            <pre><b>Need By Date: </b> @Orders.NeedByDate</pre>*@
+            <pre><b>Net Weight: </b> @Orders.Weight.ToString()</pre>
+            @*<pre><b>Quantity: </b> @Orders.OrderQty</pre>*@
+
             <pre><b>Request Date: </b> @Orders.RequestDate</pre>
             @*<pre><b>Ship Box Number: </b> @Orders.ShipBoxNumber_c</pre>*@
         </div>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EpicorDaily.Model
+namespace DotIt.AutoPicker.Models
 {
     public class ResponseModel
     {

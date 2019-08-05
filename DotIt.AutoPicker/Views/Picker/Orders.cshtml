@@ -1,6 +1,4 @@
-﻿@*@model DotIt.AutoPicker.Models.OrderHedModel*@
-
-@{
+﻿@{
     Layout = null;
 }
 
@@ -78,15 +76,15 @@
 
                 </tr>
             </thead>
-            @foreach (var Orders in ViewBag.OrderList as IEnumerable<DotIt.AutoPicker.Models.OrderHedModel>)
+            @foreach (var Orders in ViewBag.OrderList as IEnumerable<DotIt.AutoPicker.Models.OrderHeadModel>)
             {
 
                 <tr>
                     <td>
-                        <input id="CheckBoxCount" onchange="TotalLineItems(@Orders.OrderLine,@Orders.OrderNum,this)" type="checkbox" height="150" width="150" /> @Orders.OrderNum
+                        <input id="CheckBoxCount" onchange="TotalLineItems(@Orders.TotalLines,@Orders.OrderNum,this)" type="checkbox" height="150" width="150" /> @Orders.OrderNum
                     </td>
                     <td>
-                        @Orders.OrderLine
+                        @Orders.TotalLines
                     </td>
                     <td>
                         @if (Orders.OrderPickStatus != null)
@@ -195,11 +193,11 @@
     };
     function OnNextButton() {
         if (TotalCount > 0) {
-            debugger;
+           
             //window.location.href = "../../Picker/Pick";
             var data = arrMyPickingItems;
             //alert(JSON.stringify({ "Data": JSON.stringify(data) }));
-            window.location.href = "../../Picker/Pick?Orders=" + JSON.stringify({ "Data": JSON.stringify(data) });
+            window.location.href = "../../Picker/Pick?Orders=" + JSON.stringify({ "Data": JSON.stringify(data)});
             //$.ajax({
             //    url: "../../Picker/Pick",
             //    type: "Post",

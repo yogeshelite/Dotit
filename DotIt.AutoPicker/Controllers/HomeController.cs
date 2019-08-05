@@ -13,7 +13,7 @@ namespace DotIt.AutoPicker.Controllers
     public class HomeController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
-        public static List<OrderHedModel> SaleOrderList;
+        public static List<OrderHeadModel> SaleOrderList;
         public HomeController(IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -44,7 +44,7 @@ namespace DotIt.AutoPicker.Controllers
             int OrderNum = int.Parse(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id)));
 
             ViewBag.OrderDetails = GetOrderDetails(OrderNum);
-            OrderHedModel ObjModel = new OrderHedModel();
+            OrderHeadModel ObjModel = new OrderHeadModel();
             ObjModel.TotalLines = ViewBag.OrderDetails.Count;
             ObjModel.OrderNum = OrderNum;
             return View(ObjModel);
@@ -53,11 +53,11 @@ namespace DotIt.AutoPicker.Controllers
         public JsonResult PickLineItem(int id, int orderline)
         {
             var Order = SaleOrderList.Where(o => o.OrderNum == id).Single();
-            Order.OrderLine = orderline.ToString();
-            Order.PickTime = DateTime.Now.ToString();
+            Order.TotalLines  = orderline;
+            Order.PickDate = DateTime.Now;
             SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == id).Single())).OrderPickStatus = "Processing";
 
-            WriteToFile(Order);
+            //WriteToFile(Order);
             return Json("Order in  Pick Process");
         }
 
@@ -91,7 +91,7 @@ namespace DotIt.AutoPicker.Controllers
             return View("Index");
         }
 
-        public List<OrderHedModel> GetOrders()
+        public List<OrderHeadModel> GetOrders()
         {
             ApiResponse apiResponse = new ApiResponse();
             ResponseModel ObjResponse = apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrder, "GET");
@@ -100,7 +100,7 @@ namespace DotIt.AutoPicker.Controllers
             {
                 if (!String.IsNullOrEmpty(OrderList["value"].ToString()))
                 {
-                    SaleOrderList = JsonConvert.DeserializeObject<List<OrderHedModel>>(OrderList["value"].ToString());
+                    SaleOrderList = JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
                     foreach (var OrderDate in SaleOrderList)
                     {
                         OrderDate.OrderDateTime = Convert.ToDateTime(OrderDate.OrderDate);
@@ -110,7 +110,7 @@ namespace DotIt.AutoPicker.Controllers
             }
             return null;
         }
-        public OrderHedModel GetOrderbyordernum()
+        public OrderHeadModel GetOrderbyordernum()
         {
             string url = string.Format(Constant.EpicorApi_SalesOrderByOrdernum, "DIRF", "210847");
             ApiResponse apiResponse = new ApiResponse();
@@ -120,14 +120,14 @@ namespace DotIt.AutoPicker.Controllers
             {
                 if (!String.IsNullOrEmpty(OrderList["value"].ToString()))
                 {
-                    var list = JsonConvert.DeserializeObject<OrderHedModel>(OrderList["value"].ToString());
+                    var list = JsonConvert.DeserializeObject<OrderHeadModel>(OrderList["value"].ToString());
                     return list;
                 }
             }
             return null;
         }
 
-        public List<OrderHedModel> GetOrderDetails(int ordernum)
+        public List<OrderDetailModel> GetOrderDetails(int ordernum)
         {
             ApiResponse apiResponse = new ApiResponse();
             ResponseModel ObjResponse = apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
@@ -137,24 +137,24 @@ namespace DotIt.AutoPicker.Controllers
 
                 if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                 {
-                    var _result = JsonConvert.DeserializeObject<List<OrderHedModel>>(OrderDetails["value"].ToString());
-                    foreach (var OrderDate in _result)
-                    {
-                        OrderDate.OrderDateTime = Convert.ToDateTime(OrderDate.OrderDate);
-                    }
-                    return _result.OrderBy(o => o.OrderDateTime).Where(o => o.OrderNum == ordernum).ToList();
+                    var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
+                    //foreach (var OrderDate in _result)
+                    //{
+                    //    OrderDate.OrderDate = Convert.ToDateTime(OrderDate.OrderDate);
+                    //}
+                    return _result.Where(o => o.OrderNum == ordernum).ToList();
                 }
             }
             return null;
         }
 
-        public void WriteToFile(OrderHedModel ObjModel)
+        public void WriteToFile(OrderHeadModel ObjModel)
         {
-            string WebRootPath = _hostingEnvironment.WebRootPath;
-            var logPath =  WebRootPath+Constant.LogFilePath;
-            var LogWriter = System.IO.File.AppendText(logPath);
-            LogWriter.WriteLine(ObjModel.OrderNum + "," + ObjModel.OrderLine + "," + ObjModel.Company + "," + ObjModel.CustNum + "," + ObjModel.OrderDateTime + "," + ObjModel.AllocPriorityCode + "," + ObjModel.ReservePriorityCode + "," + ObjModel.TotalLines + "," + ObjModel.PONum + "," + ObjModel.PickTime + "," + ObjModel.UserId);
-            LogWriter.Dispose();
+            //string WebRootPath = _hostingEnvironment.WebRootPath;
+            //var logPath =  WebRootPath+Constant.LogFilePath;
+            //var LogWriter = System.IO.File.AppendText(logPath);
+            //LogWriter.WriteLine(ObjModel.OrderNum + "," + ObjModel.TotalLines + "," + ObjModel.Company + "," + ObjModel.CustNum + "," + ObjModel.OrderDateTime + "," + ObjModel.AllocPriorityCode + "," + ObjModel.ReservePriorityCode + "," + ObjModel.TotalLines + "," + ObjModel.PONum + "," + ObjModel.PickDate + "," + ObjModel.PickerUserId);
+            //LogWriter.Dispose();
         }
     }
 }

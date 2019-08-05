@@ -14,5 +14,10 @@ namespace DotIt.AutoPicker.Data.DotIt
         public string Pickstatus { get; set; }
         public DateTime? Recorddate { get; set; }
         public DateTime? Recordupdatedon { get; set; }
+        public DateTime? PickDate { get; set; }
+
+        public string ReasionPickFail { get; set; }
+        
+
     }
 }

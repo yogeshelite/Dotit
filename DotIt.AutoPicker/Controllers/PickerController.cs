@@ -18,17 +18,20 @@ using Microsoft.AspNetCore.Http;
 using System.Text;
 using CsvFileReader;
 using static DotIt.AutoPicker.Models.Enums;
+using DotIt.AutoPicker.Data.Epicor;
+using DotIt.AutoPicker.Data.DotIt;
+//using EpicorDaily.Model;
 
 namespace DotIt.AutoPicker.Controllers
 {
     public class PickerController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
-        public static List<OrderHedModel> SaleOrderList;
-        public static List<OrderDetModel> LineItemList;
-        public static List<PickersModel> PickersList;
-        public static List<FileStore> FileStoreList;
-        Epicor10Context _epicor10Context;
+        public static List<OrderHeadModel> SaleOrderList;
+        public static List<OrderDetailModel> LineItemList;
+        public static List<PickerModel> PickersList;
+        // public static List<FileStore> FileStoreList;
+        Erp102TestContext _epicor10Context;
         //DotItPickerContext _dotItPickerContext;
         DotitExtensionContext DotitExtensionContext;
         ApiResponse _apiResponse;
@@ -39,7 +42,7 @@ namespace DotIt.AutoPicker.Controllers
 
         //    _dotItPickerContext = dotItPickerContext;
         //}
-        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext, Epicor10Context epicor10Context)
+        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext, Erp102TestContext epicor10Context)
         {
             _hostingEnvironment = hostingEnvironment;
             _epicor10Context = epicor10Context;
@@ -84,7 +87,9 @@ namespace DotIt.AutoPicker.Controllers
             {
 
                 #region /*Gobind*/ Sorting by picker by PickerId NCCO company or DIRF
-                var dbpicker = _epicor10Context.UserFile.FirstOrDefault(x => x.DcdUserID == id);
+
+                var dbpicker = _epicor10Context.UserFile.FirstOrDefault(x => x.DcdUserId == id);
+                var warehouseemployee = DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Dcduserid == id);
                 #endregion
 
                 if (SaleOrderList == null)
@@ -103,14 +108,7 @@ namespace DotIt.AutoPicker.Controllers
                 {
                     SaleOrderList = SaleOrderList.Where(Com => Com.CustNum != 1).Take(1000).ToList();
                 }
-                #region for not repeting order for next picker need picker userid
-                //List<OrderHedModel> LocalSaleOrderList = new List<OrderHedModel>();
-                //var CsvordernumlistFrom = ReadOrderProcessing();
-                //foreach (var _CsvordernumlistFrom in CsvordernumlistFrom)
-                //{
-                //    LocalSaleOrderList = SaleOrderList.Where(Com => Com.OrderNum != _CsvordernumlistFrom[0]).Take(1000).ToList();
-                //}
-                #endregion
+               
 
                 ViewBag.OrderList = SaleOrderList;
                 #endregion
@@ -139,7 +137,7 @@ namespace DotIt.AutoPicker.Controllers
         }
         public void GetTotalLineOfItems()
         {
-            List<OrderHedModel> _LocalSaleOrderList = new List<OrderHedModel>();
+            List<OrderHeadModel> _LocalSaleOrderList = new List<OrderHeadModel>();
             if (SaleOrderList != null)
             {
 
@@ -153,12 +151,12 @@ namespace DotIt.AutoPicker.Controllers
 
                         if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                         {
-                            var GetLineOfItems = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
+                            var GetLineOfItems = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
                             foreach (var lineitems in SaleOrderList.OrderBy(x => x.OrderNum))
                             {
                                 var _GetLineOfItems = GetLineOfItems.Where(x => x.OrderNum == lineitems.OrderNum);
 
-                                lineitems.OrderLine = _GetLineOfItems.Count().ToString();
+                                lineitems.TotalLines = _GetLineOfItems.Count();
                                 _LocalSaleOrderList.Add(lineitems);
                             }
                         }
@@ -195,7 +193,7 @@ namespace DotIt.AutoPicker.Controllers
                 ViewBag.OrderLineItems = GetOrderDetails(Ordernum);
                 if (ViewBag.OrderLineItems != null)
                 {
-                    WriteToFileOrderProcessing(Ordernum, "Processing");
+                    //WriteToFileOrderProcessing(Ordernum, "Processing");
                 }
                 //Entry in log
                 return View();
@@ -224,7 +222,7 @@ namespace DotIt.AutoPicker.Controllers
                     {
                         if (!String.IsNullOrEmpty(OrderList["value"].ToString()))
                         {
-                            SaleOrderList = JsonConvert.DeserializeObject<List<OrderHedModel>>(OrderList["value"].ToString());
+                            SaleOrderList = JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
                             foreach (var _Order in SaleOrderList)
                             {
                                 _Order.OrderDateTime = Convert.ToDateTime(_Order.OrderDate);
@@ -244,25 +242,13 @@ namespace DotIt.AutoPicker.Controllers
         public string GetItemImageByPartNumber(string PartNumber)
         {
 
-
-            //var content = (from p in _epicor10Context.Part
-            //              from i in _epicor10Context.Image
-            //              from fl in _epicor10Context.FileStore
-            //              where (new string[] { i.Company, fl.Company }.Contains(p.Company) & p.ImageId.Equals(i.ImageId))
-            //              & fl.SysRowId.Equals(i.ImageSysRowId)
-            //              & p.PartNum.Equals(PartNumber)
-            //              select fl.Content).FirstOrDefault() ;
-
-
-            // var image = _epicor10Context.FileStore.Join(_epicor10Context.Image, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, i => new { i.Company, i.ImageSysRowId }, (fl, i) => new { fl }).Join(_epicor10Context.Part, fl => new { fl.fl.Company, fl.fl.SysRowId }, p => new { p.Company, p.SysRowId }, (fl, p) => new { image = fl.fl.Content, partNum = p.PartNum }).FirstOrDefault(f => f.partNum.Equals(PartNumber));
-            var image = _epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p, i) => new { p, i }).Join(_epicor10Context.FileStore, pi => new { pi.p.Company, pi.i.ImageSysRowId }, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, (pi, fl) => new { PartNumber = pi.p.PartNum, Content = fl.Content }).FirstOrDefault(f => f.PartNumber.Equals(PartNumber));
-
+            var image = _epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p, i) => new { p, i }).Join(_epicor10Context.FileStore, pi => new { pi.p.Company, pi.i.ImageSysRowId }, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, (pi, fl) => new { PartNumber = pi.p.PartNum, Content = fl.Content }).FirstOrDefault(f => f.PartNumber==PartNumber );
             return (image != null && image.Content.LongCount() > 0) ? string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.Content)) : "img/bg-showcase-2.jpg";
-
+                    
 
         }
 
-        public List<OrderDetModel> GetOrderDetails(string[] Orders)//List<OrderHedModel> Orders,
+        public List<OrderDetailModel> GetOrderDetails(string[] Orders)
         {
             using (_apiResponse = new ApiResponse())
             {
@@ -277,7 +263,7 @@ namespace DotIt.AutoPicker.Controllers
                         {
                             if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
                             {
-                                var _result = JsonConvert.DeserializeObject<List<OrderDetModel>>(OrderDetails["value"].ToString());
+                                var _result = JsonConvert.DeserializeObject < List < OrderDetailModel>>(OrderDetails["value"].ToString());
                                 if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
 
                                 ResponseModel _PObjResponse = null;
@@ -289,7 +275,7 @@ namespace DotIt.AutoPicker.Controllers
                                 foreach (var _Order in _result)
                                 {
                                     GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
-                                    _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
+                                    //_Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
                                 }
                                 LineItemList = _result;
                                 return _result;
@@ -309,7 +295,7 @@ namespace DotIt.AutoPicker.Controllers
             return null;
         }
 
-        private void GetPartBinLocation(ResponseModel _PObjResponse, Dictionary<string, object> Objbinnum, Dictionary<string, object> retobj, OrderDetModel _Order)
+        private void GetPartBinLocation(ResponseModel _PObjResponse, Dictionary<string, object> Objbinnum, Dictionary<string, object> retobj, OrderDetailModel _Order)
         {
             _PObjResponse = _apiResponse.GetApiResponse(Constant.PartBinSearchSvc, "POST", "{\"partNum\":'" + _Order.PartNum + "',\"whseCode\":''}");
             if (_PObjResponse.success)
@@ -324,7 +310,7 @@ namespace DotIt.AutoPicker.Controllers
                         retobj = JsonConvert.DeserializeObject<Dictionary<string, object>>(Objbinnum["returnObj"].ToString());
                         if (retobj.ContainsKey("PartBinSearch"))
                         {
-                            var partBinList = JsonConvert.DeserializeObject<List<OrderDetModel>>(retobj["PartBinSearch"].ToString()).Select(f => new { BinNum = f.BinNum, BinDesc = f.BinDesc, BinType = f.BinType }).FirstOrDefault();
+                            var partBinList = JsonConvert.DeserializeObject<List<OrderDetailModel>>(retobj["PartBinSearch"].ToString()).Select(f => new { BinNum = f.BinNum, BinDesc = f.BinDesc, BinType = f.BinType }).FirstOrDefault();
                             if (partBinList != null)
                             {
                                 _Order.BinNum = partBinList.BinNum;
@@ -341,8 +327,11 @@ namespace DotIt.AutoPicker.Controllers
         {
             string msg = string.Empty;
             var Order = SaleOrderList.Where(o => o.OrderNum == ordernum).Single();
-            Order.OrderLine = orderline.ToString();
-            Order.PickTime = DateTime.Now.ToString();           
+            var Orderlist = LineItemList.Where(o => o.OrderNum == ordernum).Single();
+            Pickerorder model=null;
+            var list = DotitExtensionContext.Pickerorder.ToList();
+            Order.TotalLines = orderline;
+            Order.PickDate = DateTime.Now;           
 
             if (status == Status.Picked.ToString())
             {
@@ -357,25 +346,41 @@ namespace DotIt.AutoPicker.Controllers
             #region status order in Quarentine (Hold)
             if (status == Status.Quarentine.ToString())
             {
-                //var list = _DotitExtensionContext.Pickerorder.ToList();
-                //var _list = list.FirstOrDefault(x => x.Ordernum == ordernum).Pickstatus = Status.Quarentine.ToString();
-                //var Orderno1 = list.Find(x => x.Ordernum == ordernum);
-                //#region code for remove from local list
-                ////LineItemList.RemoveAt();
-                ////LineItemList.Remove(Orderno1);
-                //#endregion
+                 model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+
+                if (model != null)
+                {
+                    model.Pickstatus = Status.Hold.ToString();
+                    model.ReasionPickFail = string.Format(" Part# {0} in bin location {1} has been quarentine,'"+ Orderlist.PartNum + "','"+ Orderlist.BinNum+ "'");
+                    DotitExtensionContext.SaveChanges();
+                }
+                
             }
             #endregion
 
             if (status == Status.Replenish.ToString())
             {
+
                 //hare we sent the email to stave for Replenish
+                model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+                if (model != null)
+                {
+                    model.Pickstatus = Status.Picked.ToString();
+                    DotitExtensionContext.SaveChanges();
+                }
 
             }
             if (status == Status.InventoryControl.ToString())
             {
                 //hare we sent the email to stave for InventoryControl
-                // or update order status Hold
+                model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+
+                if (model != null)
+                {
+                    model.Pickstatus = Status.Hold.ToString();
+                    model.ReasionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + Orderlist.PartNum + "','" + Orderlist.BinNum + "'");
+                    DotitExtensionContext.SaveChanges();
+                }
 
             }
             //WriteToFile(Order, "pick");
@@ -388,7 +393,19 @@ namespace DotIt.AutoPicker.Controllers
             else
             {
                 #region status order Picked
-                //var list = _DotitExtensionContext.Pickerorder.ToList();
+                
+                 model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+                if(model!=null)
+                {
+                    model.Pickstatus = Status.Picked.ToString();                    
+                    DotitExtensionContext.SaveChanges();
+                }
+                #endregion
+
+                #region
+                //DotitExtensionContext.Entry(model).State = EntityState.Modified;
+                //        _dotItPickerContext.SaveChanges();
+
                 //var _list = list.FirstOrDefault(x => x.Ordernum == ordernum).Pickstatus = Status.Picked.ToString();
 
                 //#region code for remove from local list
@@ -396,6 +413,8 @@ namespace DotIt.AutoPicker.Controllers
                 ////LineItemList.Remove(Orderno1);
                 //#endregion
                 #endregion
+
+                var _LineItemList= LineItemList;
                 return Json("Completed");
             }
         }
@@ -413,31 +432,31 @@ namespace DotIt.AutoPicker.Controllers
             else
             {
                 WriteToFileOrderStatus(ordernum, "Completed");
-                var completeorder = LineItemList.Find(o => o.OrderNum == ordernum);
-                LineItemList.Remove(completeorder);
+                //var completeorder = LineItemList.Find(o => o.OrderNum == ordernum);
+                //LineItemList.Remove(completeorder);
 
                 orderstatus = "Completed";
 
             }
             return orderstatus;
         }
-        public void WriteToFile(OrderHedModel ObjModel, string whattowrite)
+        public void WriteToFile(OrderHeadModel ObjModel, string whattowrite)
         {
             var LogWriter = System.IO.File.AppendText(_hostingEnvironment.WebRootPath + Constant.LogFilePath);
             if (whattowrite == "pick")
             {
                 var PickWriter = System.IO.File.AppendText(_hostingEnvironment.WebRootPath + Constant.PickFilePath);
-                PickWriter.WriteLine("Order Line " + ObjModel.OrderLine + " from order number " + ObjModel.OrderNum + " was picked by " + ObjModel.UserId + " at time " + ObjModel.PickTime);
+                PickWriter.WriteLine("Order Line " + ObjModel.TotalLines + " from order number " + ObjModel.OrderNum + " was picked by " + ObjModel.PickerUserId + " at time " + ObjModel.PickDate);
                 PickWriter.Dispose();
-                LogWriter.WriteLine("Order Line " + ObjModel.OrderLine + " from order number " + ObjModel.OrderNum + " was picked by " + ObjModel.UserId + " at time " + ObjModel.PickTime);
+                LogWriter.WriteLine("Order Line " + ObjModel.TotalLines + " from order number " + ObjModel.OrderNum + " was picked by " + ObjModel.PickerUserId + " at time " + ObjModel.PickDate);
                 LogWriter.Dispose();
             }
             if (whattowrite == "quarantine")
             {
                 var QuarantineWriter = System.IO.File.AppendText(_hostingEnvironment.WebRootPath + Constant.QuarantineFilePath);
-                QuarantineWriter.WriteLine("Order Number " + ObjModel.OrderNum + " was Quarantined by " + ObjModel.UserId + " at " + ObjModel.PickTime);
+                QuarantineWriter.WriteLine("Order Number " + ObjModel.OrderNum + " was Quarantined by " + ObjModel.PickerUserId + " at " + ObjModel.PickDate);
                 QuarantineWriter.Dispose();
-                LogWriter.WriteLine("Order Number " + ObjModel.OrderNum + " was Quarantined by " + ObjModel.UserId + " at " + ObjModel.PickTime);
+                LogWriter.WriteLine("Order Number " + ObjModel.OrderNum + " was Quarantined by " + ObjModel.PickerUserId + " at " + ObjModel.PickDate);
                 LogWriter.Dispose();
             }
         }
@@ -520,7 +539,7 @@ namespace DotIt.AutoPicker.Controllers
         {
             int OrderNumber = int.Parse(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(ordernumber)));
             var Order = SaleOrderList.Where(o => o.OrderNum == OrderNumber).Single();
-            Order.PickTime = DateTime.Now.ToString();
+            Order.PickDate = DateTime.Now;
             SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == OrderNumber).Single())).OrderPickStatus = "Quarantined";
             WriteToFile(Order, "quarantine");
 

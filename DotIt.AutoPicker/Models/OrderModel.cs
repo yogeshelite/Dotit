@@ -1,6 +1,6 @@
 using System;
 
-namespace EpicorDaily.Model
+namespace DotIt.AutoPicker.Models
 {
 
 

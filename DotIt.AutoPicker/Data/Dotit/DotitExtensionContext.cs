@@ -908,7 +908,7 @@ namespace DotIt.AutoPicker.Data.DotIt
 
                 entity.Property(e => e.Docuserid)
                     .IsRequired()
-                    .HasColumnName("DOCUSERID")
+                    .HasColumnName("DCDUSERID")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -922,6 +922,13 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ReasionPickFail)
+                    .IsRequired()   
+                    .HasColumnName("REASIONPICKFAIL")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                
+
                 entity.Property(e => e.Recorddate)
                     .HasColumnName("RECORDDATE")
                     .HasColumnType("datetime");
@@ -929,6 +936,11 @@ namespace DotIt.AutoPicker.Data.DotIt
                 entity.Property(e => e.Recordupdatedon)
                     .HasColumnName("RECORDUPDATEDON")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.PickDate)
+                   .HasColumnName("PICKDATE")
+                   .HasColumnType("datetime");
+                
 
                 entity.Property(e => e.Totalitems).HasColumnName("TOTALITEMS");
 
@@ -1371,7 +1383,7 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .IsUnicode(false)
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.Active).HasColumnName("ACTIVE");
+                entity.Property(e => e.active).HasColumnName("ACTIVE");
 
                 entity.Property(e => e.Adminlineperhour).HasColumnName("ADMINLINEPERHOUR");
 
@@ -1383,7 +1395,7 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasColumnName("EMAILADDRESS")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Empid).HasColumnName("EMPID");
+                //entity.Property(e => e.Empid).HasColumnName("EMPID");
 
                 entity.Property(e => e.Grouplist)
                     .IsRequired()

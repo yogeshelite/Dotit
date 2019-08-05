@@ -22,9 +22,9 @@ namespace DotIt.AutoPicker.Models
         public const string EpicorApi_GetCustomerGroups = "/Erp.BO.CustGrupSvc/List";
         public const string EpicorApi_ShipVias = "/Erp.BO.ShipViaSvc/ShipVias";
         public const int NumberOfOrdersToShow = 50;
-        public static string Encode(int id)
+        public static string Encode(string id)
         {
-            return Convert.ToBase64String((System.Text.Encoding.UTF8.GetBytes(id.ToString())));
+            return Convert.ToBase64String((System.Text.Encoding.UTF8.GetBytes(id)));
         }
         public const string EpicorApi_OrderDetails = "/Erp.BO.SalesOrderSvc/OrderDtls";
         public const string EpicorApi_OrderLine = "/Erp.BO.SalesOrderSvc/OrderDtls({0},{1},{2})"; // 0:Company;1:OrderNum;2:Linenum 

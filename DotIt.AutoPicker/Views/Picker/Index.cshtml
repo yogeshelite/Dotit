@@ -1,6 +1,4 @@
-﻿@*@model DotIt.AutoPicker.Models.OrderHedModel*@
-
-@{
+﻿@{
     Layout = null;
 }
 
@@ -94,10 +92,12 @@
         window.location.href = "../../Picker/Profile" ;
     }
 
-    PickerOrders =  function () {
-
+    PickerOrders = function () {
+        debugger;
         window.location.href = "../../Picker/Orders";
-
+        //var data =@ViewBag.LogInName;
+        console.log(data);
+        //window.location.href = "../../Picker/Orders?id=" +@ViewBag.LogInName;;
     }
 
 
