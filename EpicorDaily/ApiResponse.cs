@@ -69,6 +69,9 @@ namespace EpicorDaily
                 _request = (HttpWebRequest)WebRequest.Create(string.Format("{0}{1}", _DomainUrl, url));
                 _request.Method = method;
                 _request.ContentType = contentType;
+               
+
+
                 string credentials = string.Format("{0}:{1}", _authInfo.UserName, _authInfo.Password);
                 CredentialCache mycache = new CredentialCache();
                 _request.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(credentials));
@@ -81,7 +84,8 @@ namespace EpicorDaily
 
                     }
                 }
-                var _response = ((HttpWebResponse)_request.GetResponse());
+              //  _request.Headers.Add(requestData);
+               var _response = ((HttpWebResponse)_request.GetResponse());
 
                 if (_response == null) return new ResponseModel() { Response = string.Empty, success = false };
                 //---------- Get Api response stream

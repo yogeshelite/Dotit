@@ -52,14 +52,14 @@
     <Reference Include="DotCommon">
       <HintPath>..\Assemblies\DotCommon.dll</HintPath>
     </Reference>
-    <Reference Include="DotitBllDal">
-      <HintPath>..\Assemblies\DotitBllDal.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Epicor.App.Version">
       <HintPath>..\Assemblies\Epicor.App.Version.dll</HintPath>
-    </Reference>
-    <Reference Include="Epicor.Ice.Version">
-      <HintPath>..\Assemblies\Epicor.Ice.Version.dll</HintPath>
     </Reference>
     <Reference Include="Epicor.ServiceModel">
       <HintPath>..\Assemblies\Epicor.ServiceModel.dll</HintPath>
@@ -69,15 +69,6 @@
     </Reference>
     <Reference Include="EpicorRestAPI, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EpicorRestAPI.1.1.5\lib\net461\EpicorRestAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="Erp.Contracts.BO.Customer">
-      <HintPath>..\Assemblies\Erp.Contracts.BO.Customer.dll</HintPath>
-    </Reference>
-    <Reference Include="Erp.Contracts.BO.CustShip">
-      <HintPath>..\Assemblies\Erp.Contracts.BO.CustShip.dll</HintPath>
-    </Reference>
-    <Reference Include="Erp.Contracts.BO.SalesOrder">
-      <HintPath>..\Assemblies\Erp.Contracts.BO.SalesOrder.dll</HintPath>
     </Reference>
     <Reference Include="Ice.Core.Session, Version=3.1.400.0, Culture=neutral, PublicKeyToken=5d3fa3c7105d7992, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -101,10 +92,12 @@
       <HintPath>..\Assemblies\smartystreets-dotnet-sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
@@ -121,12 +114,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiResponse.cs" />
-    <Compile Include="Auditing.cs" />
     <Compile Include="Constant.cs" />
-    <Compile Include="EpicorBusinessApi.cs" />
-    <Compile Include="EpicorCleanup.cs" />
-    <Compile Include="EpicorModel.cs" />
-    <Compile Include="MethodExtenssion.cs" />
+    <Compile Include="Model\OrderModel.cs" />
+    <Compile Include="Model\PickerModel.cs" />
+    <Compile Include="Model\ResponseModel.cs" />
+    <Compile Include="Persistance\Data\DoitExtension.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoitExtension.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Data\DoitExtension.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoitExtension.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Data\DoitExtension.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DoitExtension.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Data\PICKERORDER.cs">
+      <DependentUpon>DoitExtension.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Data\PICKORDERDETAIL.cs">
+      <DependentUpon>DoitExtension.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Data\WAREHOUSEEMPLOYEE.cs">
+      <DependentUpon>DoitExtension.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Persistance\Repository\PickerRepository.cs" />
+    <Compile Include="PickerJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -144,13 +161,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="WebOrders.cs" />
+    <Compile Include="Service\Enum.cs" />
+    <Compile Include="Service\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <EntityDeploy Include="Persistance\Data\DoitExtension.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DoitExtension.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Persistance\Data\DoitExtension.edmx.diagram">
+      <DependentUpon>DoitExtension.edmx</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -236,6 +261,20 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Persistance\Data\DoitExtension.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DoitExtension.edmx</DependentUpon>
+      <LastGenOutput>DoitExtension.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Persistance\Data\DoitExtension.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DoitExtension.edmx</DependentUpon>
+      <LastGenOutput>DoitExtension.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

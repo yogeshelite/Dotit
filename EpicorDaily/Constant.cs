@@ -38,6 +38,8 @@ namespace EpicorDaily
 
 
         public const string EpicorApi_ShipVias = "/Erp.BO.ShipViaSvc/ShipVias";
-        internal static string EpicorApi_PatchOrderHead= "/Erp.BO.ShipViaSvc/SalesOrders({0},{1})";
+        internal static string EpicorApi_PatchOrderHead   = "/Erp.BO.ShipViaSvc/SalesOrders({0},{1})";
+
+        public static string EpicorApi_PickerList = "/Erp.BO.UserFileSvc/GetList";
     }
 }

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DotitExtensionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PICKERORDER">
+          <Key>
+            <PropertyRef Name="ORDERNUM" />
+            <PropertyRef Name="COMPANY" />
+          </Key>
+          <Property Name="ORDERNUM" Type="int" Nullable="false" />
+          <Property Name="COMPANY" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="ORDERDATE" Type="datetime" Nullable="false" />
+          <Property Name="TOTALITEMS" Type="int" />
+          <Property Name="WEIGHT" Type="float" />
+          <Property Name="DOCUSERID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PICKSTATUS" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RECORDDATE" Type="datetime" />
+          <Property Name="RECORDUPDATEDON" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PICKORDERDETAIL">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+            <PropertyRef Name="COMPANY" />
+            <PropertyRef Name="PARTNUM" />
+          </Key>
+          <Property Name="ORDERNO" Type="int" Nullable="false" />
+          <Property Name="COMPANY" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="PARTNUM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BINNUM" Type="nvarchar" MaxLength="10" />
+          <Property Name="DAMAGEQTY" Type="int" />
+          <Property Name="PICKSTATUS" Type="int" />
+        </EntityType>
+        <EntityType Name="WAREHOUSEEMPLOYEE">
+          <Key>
+            <PropertyRef Name="DCDUSERID" />
+          </Key>
+          <Property Name="EMPID" Type="uniqueidentifier" />
+          <Property Name="COMPANY" Type="nvarchar" MaxLength="8" />
+          <Property Name="DCDUSERID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PICKERNAME" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="EMAILADDRESS" Type="nvarchar" MaxLength="50" />
+          <Property Name="GROUPLIST" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MAXLINES" Type="int" />
+          <Property Name="MAXWEIGHT" Type="int" />
+          <Property Name="ADMINLINEPERHOUR" Type="int" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="200" />
+          <Property Name="ACTIVE" Type="bit" />
+          <Property Name="LASTLOGIN" Type="datetime" />
+          <Property Name="RECORDDATE" Type="datetime" />
+          <Property Name="RECORDUPDATEDATE" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="DotitExtensionModelStoreContainer">
+          <EntitySet Name="PICKERORDER" EntityType="Self.PICKERORDER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PICKORDERDETAIL" EntityType="Self.PICKORDERDETAIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WAREHOUSEEMPLOYEE" EntityType="Self.WAREHOUSEEMPLOYEE" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DotitExtensionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PICKERORDER">
+          <Key>
+            <PropertyRef Name="ORDERNUM" />
+            <PropertyRef Name="COMPANY" />
+          </Key>
+          <Property Name="ORDERNUM" Type="Int32" Nullable="false" />
+          <Property Name="COMPANY" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ORDERDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TOTALITEMS" Type="Int32" />
+          <Property Name="WEIGHT" Type="Double" />
+          <Property Name="DOCUSERID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PICKSTATUS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RECORDDATE" Type="DateTime" Precision="3" />
+          <Property Name="RECORDUPDATEDON" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PICKORDERDETAIL">
+          <Key>
+            <PropertyRef Name="ORDERNO" />
+            <PropertyRef Name="COMPANY" />
+            <PropertyRef Name="PARTNUM" />
+          </Key>
+          <Property Name="ORDERNO" Type="Int32" Nullable="false" />
+          <Property Name="COMPANY" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PARTNUM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BINNUM" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DAMAGEQTY" Type="Int32" />
+          <Property Name="PICKSTATUS" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="DotitExtensionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PICKERORDERs" EntityType="Self.PICKERORDER" />
+          <EntitySet Name="PICKORDERDETAILs" EntityType="Self.PICKORDERDETAIL" />
+          <EntitySet Name="WAREHOUSEEMPLOYEEs" EntityType="DotitExtensionModel.WAREHOUSEEMPLOYEE" />
+        </EntityContainer>
+        <EntityType Name="WAREHOUSEEMPLOYEE">
+          <Key>
+            <PropertyRef Name="DCDUSERID" />
+          </Key>
+          <Property Name="EMPID" Type="Guid" />
+          <Property Name="COMPANY" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="DCDUSERID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PICKERNAME" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="EMAILADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GROUPLIST" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MAXLINES" Type="Int32" />
+          <Property Name="MAXWEIGHT" Type="Int32" />
+          <Property Name="ADMINLINEPERHOUR" Type="Int32" />
+          <Property Name="PASSWORD" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIVE" Type="Boolean" />
+          <Property Name="LASTLOGIN" Type="DateTime" Precision="3" />
+          <Property Name="RECORDDATE" Type="DateTime" Precision="3" />
+          <Property Name="RECORDUPDATEDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DotitExtensionModelStoreContainer" CdmEntityContainer="DotitExtensionEntities">
+          <EntitySetMapping Name="PICKERORDERs">
+            <EntityTypeMapping TypeName="DotitExtensionModel.PICKERORDER">
+              <MappingFragment StoreEntitySet="PICKERORDER">
+                <ScalarProperty Name="ORDERNUM" ColumnName="ORDERNUM" />
+                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="TOTALITEMS" ColumnName="TOTALITEMS" />
+                <ScalarProperty Name="WEIGHT" ColumnName="WEIGHT" />
+                <ScalarProperty Name="DOCUSERID" ColumnName="DOCUSERID" />
+                <ScalarProperty Name="PICKSTATUS" ColumnName="PICKSTATUS" />
+                <ScalarProperty Name="RECORDDATE" ColumnName="RECORDDATE" />
+                <ScalarProperty Name="RECORDUPDATEDON" ColumnName="RECORDUPDATEDON" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PICKORDERDETAILs">
+            <EntityTypeMapping TypeName="DotitExtensionModel.PICKORDERDETAIL">
+              <MappingFragment StoreEntitySet="PICKORDERDETAIL">
+                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
+                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
+                <ScalarProperty Name="PARTNUM" ColumnName="PARTNUM" />
+                <ScalarProperty Name="BINNUM" ColumnName="BINNUM" />
+                <ScalarProperty Name="DAMAGEQTY" ColumnName="DAMAGEQTY" />
+                <ScalarProperty Name="PICKSTATUS" ColumnName="PICKSTATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WAREHOUSEEMPLOYEEs">
+            <EntityTypeMapping TypeName="DotitExtensionModel.WAREHOUSEEMPLOYEE">
+              <MappingFragment StoreEntitySet="WAREHOUSEEMPLOYEE">
+                <ScalarProperty Name="RECORDUPDATEDATE" ColumnName="RECORDUPDATEDATE" />
+                <ScalarProperty Name="RECORDDATE" ColumnName="RECORDDATE" />
+                <ScalarProperty Name="LASTLOGIN" ColumnName="LASTLOGIN" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="ADMINLINEPERHOUR" ColumnName="ADMINLINEPERHOUR" />
+                <ScalarProperty Name="MAXWEIGHT" ColumnName="MAXWEIGHT" />
+                <ScalarProperty Name="MAXLINES" ColumnName="MAXLINES" />
+                <ScalarProperty Name="GROUPLIST" ColumnName="GROUPLIST" />
+                <ScalarProperty Name="EMAILADDRESS" ColumnName="EMAILADDRESS" />
+                <ScalarProperty Name="PICKERNAME" ColumnName="PICKERNAME" />
+                <ScalarProperty Name="DCDUSERID" ColumnName="DCDUSERID" />
+                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
+                <ScalarProperty Name="EMPID" ColumnName="EMPID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

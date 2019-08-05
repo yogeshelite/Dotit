@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Erp.BO;
-using Erp.Proxy.BO;
+//using Erp.BO;
+//using Erp.Proxy.BO;
 using Ice.Lib.Framework;
 using Ice.Core;
 
 using DotCommon;
-using DotitBllDal;
+//using DotitBllDal;
 
 
 namespace EpicorDaily
@@ -39,15 +39,16 @@ namespace EpicorDaily
 
                 try
                 {
-                    WebOrders.OrderAdjustments(session);
+                    //WebOrders.OrderAdjustments(session);
                     //AFS.ProcessNewAFSLineItems(session);
                     //Yext.OrderProcessing(session);
 
-                   // NCCOEDIOrderSubmission ncco = new NCCOEDIOrderSubmission();
-                   // ncco.EDIOrderSubmission();
-
+                    // NCCOEDIOrderSubmission ncco = new NCCOEDIOrderSubmission();
+                    // ncco.EDIOrderSubmission();
+                    PickerJob.SyncEpicorPickers();
                     if (ProcessOnceADay())
                     {
+
                       //  PunchhSwag.CheckSWAGOrders(session);
                       //  Notifications.SendShippingNotification();
                        // JobManagement.ManageJobs();
@@ -68,7 +69,7 @@ namespace EpicorDaily
             catch (Exception ex)
             {
                 DLog.Log("Issues creating session: " + ex.Message, DLog.LogLevel.Error);
-                throw;
+               // throw;
             }
             DLog.EndModule();
         }
