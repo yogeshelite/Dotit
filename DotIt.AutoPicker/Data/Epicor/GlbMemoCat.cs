@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DotIt.AutoPicker.Data.Epicor
+{
+    public partial class GlbMemoCat
+    {
+        public string CategoryId { get; set; }
+        public string Company { get; set; }
+        public string Description { get; set; }
+        public string RelatedToFile { get; set; }
+        public string GlbCompany { get; set; }
+        public string GlbRelatedToFile { get; set; }
+        public string GlbCategoryId { get; set; }
+        public bool Skipped { get; set; }
+        public bool GlobalLock { get; set; }
+        public bool GlobalMemoCat { get; set; }
+        public byte[] SysRevId { get; set; }
+        public Guid SysRowId { get; set; }
+    }
+}

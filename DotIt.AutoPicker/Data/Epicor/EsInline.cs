@@ -1,0 +1,146 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DotIt.AutoPicker.Data.Epicor
+{
+    public partial class EsInline
+    {
+        public EsInline()
+        {
+            EsInlinecut = new HashSet<EsInlinecut>();
+            EsInlinee = new HashSet<EsInlinee>();
+            EsInlinefinish = new HashSet<EsInlinefinish>();
+            EsInlinefold = new HashSet<EsInlinefold>();
+            EsInlinepress = new HashSet<EsInlinepress>();
+            EsStdplant = new HashSet<EsStdplant>();
+        }
+
+        public string RecId { get; set; }
+        public string Company { get; set; }
+        public string InlineUserId { get; set; }
+        public string InlineDesc { get; set; }
+        public string CustomerDesc { get; set; }
+        public bool? Inactive { get; set; }
+        public string GroupId { get; set; }
+        public string GroupUserId { get; set; }
+        public bool? TmpTrue { get; set; }
+        public string StdType { get; set; }
+        public string ResGroupId { get; set; }
+        public string ResGroupDesc { get; set; }
+        public bool? LaborIncluded { get; set; }
+        public string HelperResGroupId { get; set; }
+        public string HelperResGroupDesc { get; set; }
+        public decimal? SetupHr { get; set; }
+        public int? SetUpUnits { get; set; }
+        public decimal? LaborAdjPctUi { get; set; }
+        public decimal? LaborAdjPct { get; set; }
+        public decimal? SpoilAdjPctUi { get; set; }
+        public decimal? SpoilAdjPct { get; set; }
+        public decimal? MaxSpeed { get; set; }
+        public bool? MatIncluded { get; set; }
+        public string MatPartNum { get; set; }
+        public string MatPartDesc { get; set; }
+        public string MatCalcBy { get; set; }
+        public decimal? CostPer { get; set; }
+        public string MaterialMarkupLevels { get; set; }
+        public string MaterialMarkupPercents { get; set; }
+        public int? VendorNum { get; set; }
+        public string VendorId { get; set; }
+        public string VendorDesc { get; set; }
+        public string UirecIdentifier { get; set; }
+        public string MatCalcByRatioCaptionUi { get; set; }
+        public bool? MatLaborNotIncluded { get; set; }
+        public int? Uomselected { get; set; }
+        public int? CostSourceSelected { get; set; }
+        public string CostSourceOptions { get; set; }
+        public bool? PrListPriority { get; set; }
+        public bool? IsMatInPartsTbl { get; set; }
+        public string EstUom { get; set; }
+        public string Ium { get; set; }
+        public bool? IsZeroEstOrinvUomfactorToBase { get; set; }
+        public decimal? ConversionFactor { get; set; }
+        public decimal? SelectedUomcost { get; set; }
+        public string CostSourceTexts { get; set; }
+        public string UomoptionsCombo { get; set; }
+        public string CostSourceTextsCombo { get; set; }
+        public decimal? MatRatio { get; set; }
+        public bool? MatProdQty { get; set; }
+        public bool? SheetWidth { get; set; }
+        public decimal? AddSheetWidth { get; set; }
+        public bool? SheetLength { get; set; }
+        public decimal? AddSheetLength { get; set; }
+        public bool? ProductThickness { get; set; }
+        public decimal? AddProductThickness { get; set; }
+        public bool? ProductWeight { get; set; }
+        public decimal? AddProductWeight { get; set; }
+        public bool? FpieceWidth { get; set; }
+        public decimal? AddFpieceWidth { get; set; }
+        public bool? FpieceLength { get; set; }
+        public decimal? AddFpieceLength { get; set; }
+        public bool? OpFpieceWidth { get; set; }
+        public decimal? AddOpFpieceWidth { get; set; }
+        public bool? OpFpieceLength { get; set; }
+        public decimal? AddOpFpieceLength { get; set; }
+        public string MatAnalysisCode { get; set; }
+        public bool? MatIsMissingAnalysCode { get; set; }
+        public string MarkupLevels { get; set; }
+        public bool? AddToFinPcSpec { get; set; }
+        public decimal? AddToFinPcWeight { get; set; }
+        public decimal? AddToFinPcVolume { get; set; }
+        public decimal? AddToFinPcCaliper { get; set; }
+        public int? CustomerDescOvrd { get; set; }
+        public int? MatPartDescOvrd { get; set; }
+        public int? VendorNumOvrd { get; set; }
+        public int? EstUomOvrd { get; set; }
+        public int? SelectedUomcostOvrd { get; set; }
+        public int? MatAnalysisCodeOvrd { get; set; }
+        public int? RowVersion { get; set; }
+        public int? TableVersion { get; set; }
+        public string StdTypeUserId { get; set; }
+        public Guid SysRowId { get; set; }
+        public byte[] SysRevId { get; set; }
+        public string UserChar1 { get; set; }
+        public string UserChar2 { get; set; }
+        public string UserChar3 { get; set; }
+        public string UserChar4 { get; set; }
+        public string UserChar5 { get; set; }
+        public string UserChar6 { get; set; }
+        public DateTime? UserDate1 { get; set; }
+        public DateTime? UserDate2 { get; set; }
+        public DateTime? UserDate3 { get; set; }
+        public DateTime? UserDate4 { get; set; }
+        public DateTime? UserDate5 { get; set; }
+        public DateTime? UserDate6 { get; set; }
+        public decimal? UserDecimal1 { get; set; }
+        public decimal? UserDecimal2 { get; set; }
+        public decimal? UserDecimal3 { get; set; }
+        public decimal? UserDecimal4 { get; set; }
+        public decimal? UserDecimal5 { get; set; }
+        public decimal? UserDecimal6 { get; set; }
+        public decimal? UserDecimal7 { get; set; }
+        public decimal? UserDecimal8 { get; set; }
+        public decimal? UserDecimal9 { get; set; }
+        public decimal? UserDecimal10 { get; set; }
+        public decimal? UserDecimal11 { get; set; }
+        public decimal? UserDecimal12 { get; set; }
+        public int? UserInteger1 { get; set; }
+        public int? UserInteger2 { get; set; }
+        public int? UserInteger3 { get; set; }
+        public int? UserInteger4 { get; set; }
+        public int? UserInteger5 { get; set; }
+        public int? UserInteger6 { get; set; }
+        public decimal? SetupAdjPctUi { get; set; }
+        public decimal? SetupAdjPct { get; set; }
+        public bool? RoundupFinalQty { get; set; }
+        public decimal? TotalSetupAdjPctUi { get; set; }
+        public decimal? TotalSetupAdjPct { get; set; }
+
+        public virtual EsGroups Group { get; set; }
+        public virtual ICollection<EsInlinecut> EsInlinecut { get; set; }
+        public virtual ICollection<EsInlinee> EsInlinee { get; set; }
+        public virtual ICollection<EsInlinefinish> EsInlinefinish { get; set; }
+        public virtual ICollection<EsInlinefold> EsInlinefold { get; set; }
+        public virtual ICollection<EsInlinepress> EsInlinepress { get; set; }
+        public virtual ICollection<EsStdplant> EsStdplant { get; set; }
+    }
+}
