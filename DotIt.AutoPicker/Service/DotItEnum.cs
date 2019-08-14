@@ -5,7 +5,18 @@ using System.Threading.Tasks;
 
 namespace DotIt.AutoPicker.Services
 {
+    public enum PickerUserGroup
+    {
+        WHSE, WHSEMGR, WHSELEAD
+    }
 
+    enum PickerOrderStatus
+    {
+        Picked,
+        Hold,
+        Assigned,
+        AssignPending
+    }
 
 
     public enum UserGroup

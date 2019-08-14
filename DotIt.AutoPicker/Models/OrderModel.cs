@@ -35,7 +35,7 @@ namespace DotIt.AutoPicker.Models
         public string Company { get; set; }
 
       
-        public float Weight { get; set; }
+        public Double Weight { get; set; }
 
    
 

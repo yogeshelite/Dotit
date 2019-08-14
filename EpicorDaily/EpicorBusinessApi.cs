@@ -1,6 +1,8 @@
 ﻿using DotCommon;
 using DotitBllDal;
+
 using EpicorDaily.Model;
+using EpicorDaily.Service;
 using Erp.BO;
 using Newtonsoft.Json;
 using System;
@@ -10,12 +12,29 @@ using System.Text;
 using System.Threading.Tasks;
 using static Erp.BO.CustShipDataSet;
 using static Erp.BO.SalesOrderDataSet;
-
+using EpicorDaily.Persistance.Repository;
 namespace EpicorDaily
 {
-    public class EpicorBusinessApi : IDisposable
+    public class EpicorBusinessApi
     {
-        ApiResponse apiResponse;
+        ApiResponse _apiResponse;
+      
+        //public List<PickerUserModel> GetEpicorPickers()
+        //{
+        //    ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, objModel.Username), "GET");
+        //    var user = JsonConvert.DeserializeObject<UserFile>(ObjResponse.Response);
+
+        //}
+        // DotitExtensionEntities _dotitExtDataContext;
+      
+    
+
+
+
+
+    
+
+
         /// <summary>
         /// GetReleaseOrder
         /// </summary>
@@ -24,13 +43,13 @@ namespace EpicorDaily
         public List<OrderRelModel> GetReleaseOrder(int orderNum)
         {
             DLog.Log("GetReleaseOrder for orderNum: " + orderNum);
-         
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_ReleaseOrders);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_ReleaseOrders, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_ReleaseOrders, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_ReleaseOrders);
@@ -65,13 +84,13 @@ namespace EpicorDaily
         public ShipHeadRow GetCustomerShip(int packNum, string company)
         {
             DLog.Log("GetCustomerShip for packNum :" + packNum);
-           
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_CustomerShips);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_CustomerShips, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_CustomerShips, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_CustomerShips);
@@ -105,15 +124,15 @@ namespace EpicorDaily
         {
             DLog.Log("GetCustomerShip for packNum :" + shipHeadRow.PackNum);
 
-         
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     var _Request = JsonConvert.SerializeObject(shipHeadRow);
 
                     DLog.Log("Calling Epicor api :" + string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum));
-                    var _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
+                    var _response = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum));
@@ -134,12 +153,12 @@ namespace EpicorDaily
                     }
                 }
                 DLog.Log("Epicor api return no record");
-              
+
             }
             catch (Exception ex)
             {
                 DLog.Log("Exception in GetOrderLine : " + ex.Message);
-               
+
             }
         }
 
@@ -188,13 +207,13 @@ namespace EpicorDaily
         {
 
             DLog.Log("GetOrderShipDetail");
-            
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_GetCustomerGroups);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_GetCustomerGroups, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_GetCustomerGroups, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_GetCustomerGroups);
@@ -269,13 +288,13 @@ namespace EpicorDaily
         public List<ShipHeadModel> GetShipHead()
         {
             DLog.Log("GetShipHead");
-          
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_ShipHead);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_ShipHead, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_ShipHead, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_ShipHead);
@@ -310,13 +329,13 @@ namespace EpicorDaily
         public List<Customer> GetCustomers()
         {
             DLog.Log("GetShipHead");
-           
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_GetCustomers);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_GetCustomers, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_GetCustomers, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_GetCustomers);
@@ -353,13 +372,13 @@ namespace EpicorDaily
         public ShipToModel GetShipTos(string shipToNum)
         {
             DLog.Log("GetShipTos for shipToNum :" + shipToNum);
-          
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_ShipTos);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_ShipTos, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_ShipTos, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_ShipTos);
@@ -441,7 +460,7 @@ namespace EpicorDaily
 
         /// <returns></returns>
 
-        
+
 
         /// <summary>
         /// GetWebOrder
@@ -450,13 +469,13 @@ namespace EpicorDaily
         public List<OrderHeadModel> GetOrderHead()
         {
             DLog.Log("GetWebOrder");
-           
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     DLog.Log("Calling Epicor api :" + Constant.EpicorApi_SalesOrder);
-                    var _response = apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrder, "Get");
+                    var _response = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrder, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_SalesOrder);
@@ -486,18 +505,18 @@ namespace EpicorDaily
             }
         }
 
-        internal List<OrderDtlRow> GetOrderLineItemByOrdernum(string company, int orderNum)
+        internal List<OrderDetailModel> GetOrderLineItemByOrdernum(string company, int orderNum)
         {
             DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + company);
-            
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     string uri = string.Format(Constant.EpicorApi_OrderLineItems, company, orderNum);
                     DLog.Log("Calling Epicor api :" + uri);
 
-                    var _response = apiResponse.GetApiResponse(uri, "Get");
+                    var _response = _apiResponse.GetApiResponse(uri, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + uri);
@@ -515,15 +534,10 @@ namespace EpicorDaily
 
                                 var _result2 = _data["value"];
 
-                                var _result = JsonConvert.DeserializeObject<OrderRelDataTable>(_data["value"].ToString());
+                                var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(_data["value"].ToString());
 
-                                DLog.Log("Epicor api return records  " + _result.Rows.Count);
-                                List<OrderDtlRow> OrderRelRows = new List<OrderDtlRow>();
-                                foreach (var row in _result.Rows)
-                                {
-                                    OrderRelRows.Add(row as OrderDtlRow);
-                                }
-                                return OrderRelRows;
+                               
+                                return _result;
                             }
 
                         }
@@ -546,10 +560,10 @@ namespace EpicorDaily
         {
             DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum);
 
-          
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     var _Request = JsonConvert.SerializeObject(rsEpicorLineItems);
 
@@ -620,14 +634,14 @@ namespace EpicorDaily
         public OrderHedRow GetOrderByOrdernum(string Company, int OrderNum)
         {
             DLog.Log("GetWebOrder");
-          
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     string uri = string.Format(Constant.EpicorApi_SalesOrderByOrdernum, Company, OrderNum);
                     DLog.Log("Calling Epicor api :" + uri);
-                    var _response = apiResponse.GetApiResponse(uri, "Get");
+                    var _response = _apiResponse.GetApiResponse(uri, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_SalesOrder);
@@ -652,17 +666,17 @@ namespace EpicorDaily
                 return null;
             }
         }
-        public List<OrderDetailModel> GetOrderDtlOrdernum(string Company, int OrderNum ,int Linenum)
+        public List<OrderDetailModel> GetOrderDtlOrdernum(string Company, int OrderNum, int Linenum)
         {
             DLog.Log("GetOrderDtl Company Ordernum Linenum");
 
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     string uri = string.Format(Constant.EpicorApi_OrderDtlByOrdernum, Company, OrderNum, Linenum);
                     DLog.Log("Calling Epicor api :" + uri);
-                    var _response = apiResponse.GetApiResponse(uri, "Get");
+                    var _response = _apiResponse.GetApiResponse(uri, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_OrderDtlByOrdernum);
@@ -694,19 +708,19 @@ namespace EpicorDaily
             }
         }
 
-        internal void UpdateOrderRelease(OrderHedRow orderHedRow ,    List<OrderRelRow> rsEpicorReleaseItems)
+        internal void UpdateOrderRelease(OrderHedRow orderHedRow, List<OrderRelRow> rsEpicorReleaseItems)
         {
-            DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum );
+            DLog.Log("UpdateOrderRelease for OrderNum :" + orderHedRow.OrderNum);
 
-           
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     var _Request = JsonConvert.SerializeObject(rsEpicorReleaseItems);
 
                     //DLog.Log("Calling Epicor api :" + string.Format(Constant.EpicorApi_CustomerShips, orderHedRow.Company, shipHeadRow.PackNum));
-                   var _response = apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
+                    var _response = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum), "Patch", _Request);
                     //if (!_response.success)
                     //{
                     //    DLog.Log("Epicor api failed  " + string.Format(Constant.EpicorApi_CustomerShips, shipHeadRow.Company, shipHeadRow.PackNum));
@@ -736,18 +750,18 @@ namespace EpicorDaily
             }
         }
 
-        public List<OrderRelRow> GetOrderRelationByOrdernum(string Company,int  OrderNum)
+        public List<OrderRelRow> GetOrderRelationByOrdernum(string Company, int OrderNum)
         {
             DLog.Log("Get OrderRelationByOrdernum for OrderNum :" + OrderNum);
-           
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     string uri = string.Format(Constant.EpicorApi_ReleaseOrders, Company, OrderNum);
                     DLog.Log("Calling Epicor api :" + uri);
 
-                    var _response = apiResponse.GetApiResponse(uri, "Get");
+                    var _response = _apiResponse.GetApiResponse(uri, "Get");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + uri);
@@ -794,10 +808,10 @@ namespace EpicorDaily
         public string PatchtOrderByOrdernum(OrderHedRow data, OrderHeadModel Input, string datainputs)
         {
             DLog.Log("PatchWebOrder");
-          
+
             try
             {
-                using (apiResponse = new ApiResponse())
+                using (_apiResponse = new ApiResponse())
                 {
                     //var data json.par
                     //string uri = string.Format(Constant.EpicorApi_PatchSalesOrderByOrdernum, data.Company, data.OrderNum, JsonConvert.SerializeObject(Input));
@@ -809,7 +823,7 @@ namespace EpicorDaily
 
                     DLog.Log("Calling Epicor api :" + uri);
 
-                    var _response = apiResponse.GetApiResponse(uri, "Patch");
+                    var _response = _apiResponse.GetApiResponse(uri, "Patch");
                     if (!_response.success)
                     {
                         DLog.Log("Epicor api failed  " + Constant.EpicorApi_PatchSalesOrderByOrdernum);
@@ -888,7 +902,7 @@ namespace EpicorDaily
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
-                apiResponse = null;
+                _apiResponse = null;
                 disposedValue = true;
             }
         }

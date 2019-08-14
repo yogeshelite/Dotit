@@ -15,10 +15,12 @@
           <Property Name="ORDERDATE" Type="datetime" Nullable="false" />
           <Property Name="TOTALITEMS" Type="int" />
           <Property Name="WEIGHT" Type="float" />
-          <Property Name="DOCUSERID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="PICKSTATUS" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DCDUSERID" Type="varchar" MaxLength="50" />
+          <Property Name="PICKSTATUS" Type="varchar" MaxLength="50" />
+          <Property Name="PICKDATE" Type="datetime" />
           <Property Name="RECORDDATE" Type="datetime" />
           <Property Name="RECORDUPDATEDON" Type="datetime" />
+          <Property Name="REASIONPICKFAIL" Type="nvarchar" MaxLength="4000" />
         </EntityType>
         <EntityType Name="PICKORDERDETAIL">
           <Key>
@@ -61,20 +63,27 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DotitExtensionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DotitExtensionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PICKERORDERs" EntityType="DotitExtensionModel.PICKERORDER" />
+          <EntitySet Name="PICKORDERDETAILs" EntityType="DotitExtensionModel.PICKORDERDETAIL" />
+          <EntitySet Name="WAREHOUSEEMPLOYEEs" EntityType="DotitExtensionModel.WAREHOUSEEMPLOYEE" />
+        </EntityContainer>
         <EntityType Name="PICKERORDER">
           <Key>
             <PropertyRef Name="ORDERNUM" />
             <PropertyRef Name="COMPANY" />
           </Key>
           <Property Name="ORDERNUM" Type="Int32" Nullable="false" />
-          <Property Name="COMPANY" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="COMPANY" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="ORDERDATE" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TOTALITEMS" Type="Int32" />
           <Property Name="WEIGHT" Type="Double" />
-          <Property Name="DOCUSERID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PICKSTATUS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DCDUSERID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PICKSTATUS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PICKDATE" Type="DateTime" Precision="3" />
           <Property Name="RECORDDATE" Type="DateTime" Precision="3" />
           <Property Name="RECORDUPDATEDON" Type="DateTime" Precision="3" />
+          <Property Name="REASIONPICKFAIL" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PICKORDERDETAIL">
           <Key>
@@ -83,17 +92,12 @@
             <PropertyRef Name="PARTNUM" />
           </Key>
           <Property Name="ORDERNO" Type="Int32" Nullable="false" />
-          <Property Name="COMPANY" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PARTNUM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="COMPANY" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="PARTNUM" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BINNUM" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="DAMAGEQTY" Type="Int32" />
           <Property Name="PICKSTATUS" Type="Int32" />
         </EntityType>
-        <EntityContainer Name="DotitExtensionEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="PICKERORDERs" EntityType="Self.PICKERORDER" />
-          <EntitySet Name="PICKORDERDETAILs" EntityType="Self.PICKORDERDETAIL" />
-          <EntitySet Name="WAREHOUSEEMPLOYEEs" EntityType="DotitExtensionModel.WAREHOUSEEMPLOYEE" />
-        </EntityContainer>
         <EntityType Name="WAREHOUSEEMPLOYEE">
           <Key>
             <PropertyRef Name="DCDUSERID" />
@@ -113,7 +117,7 @@
           <Property Name="RECORDDATE" Type="DateTime" Precision="3" />
           <Property Name="RECORDUPDATEDATE" Type="DateTime" Precision="3" />
         </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -122,27 +126,29 @@
           <EntitySetMapping Name="PICKERORDERs">
             <EntityTypeMapping TypeName="DotitExtensionModel.PICKERORDER">
               <MappingFragment StoreEntitySet="PICKERORDER">
-                <ScalarProperty Name="ORDERNUM" ColumnName="ORDERNUM" />
-                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
-                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
-                <ScalarProperty Name="TOTALITEMS" ColumnName="TOTALITEMS" />
-                <ScalarProperty Name="WEIGHT" ColumnName="WEIGHT" />
-                <ScalarProperty Name="DOCUSERID" ColumnName="DOCUSERID" />
-                <ScalarProperty Name="PICKSTATUS" ColumnName="PICKSTATUS" />
-                <ScalarProperty Name="RECORDDATE" ColumnName="RECORDDATE" />
+                <ScalarProperty Name="REASIONPICKFAIL" ColumnName="REASIONPICKFAIL" />
                 <ScalarProperty Name="RECORDUPDATEDON" ColumnName="RECORDUPDATEDON" />
+                <ScalarProperty Name="RECORDDATE" ColumnName="RECORDDATE" />
+                <ScalarProperty Name="PICKDATE" ColumnName="PICKDATE" />
+                <ScalarProperty Name="PICKSTATUS" ColumnName="PICKSTATUS" />
+                <ScalarProperty Name="DCDUSERID" ColumnName="DCDUSERID" />
+                <ScalarProperty Name="WEIGHT" ColumnName="WEIGHT" />
+                <ScalarProperty Name="TOTALITEMS" ColumnName="TOTALITEMS" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
+                <ScalarProperty Name="ORDERNUM" ColumnName="ORDERNUM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PICKORDERDETAILs">
             <EntityTypeMapping TypeName="DotitExtensionModel.PICKORDERDETAIL">
               <MappingFragment StoreEntitySet="PICKORDERDETAIL">
-                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
-                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
-                <ScalarProperty Name="PARTNUM" ColumnName="PARTNUM" />
-                <ScalarProperty Name="BINNUM" ColumnName="BINNUM" />
-                <ScalarProperty Name="DAMAGEQTY" ColumnName="DAMAGEQTY" />
                 <ScalarProperty Name="PICKSTATUS" ColumnName="PICKSTATUS" />
+                <ScalarProperty Name="DAMAGEQTY" ColumnName="DAMAGEQTY" />
+                <ScalarProperty Name="BINNUM" ColumnName="BINNUM" />
+                <ScalarProperty Name="PARTNUM" ColumnName="PARTNUM" />
+                <ScalarProperty Name="COMPANY" ColumnName="COMPANY" />
+                <ScalarProperty Name="ORDERNO" ColumnName="ORDERNO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

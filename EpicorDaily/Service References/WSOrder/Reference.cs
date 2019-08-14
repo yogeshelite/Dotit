@@ -2234,7 +2234,7 @@ namespace EpicorDaily.WSOrder {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://dotit.com.org/", ConfigurationName="WSOrder.DotitOrdersSoap")]
     public interface DotitOrdersSoap {
         
-        // CODEGEN: Generating message contract since element name sessionGuid from namespace http://dotit.com.org/ is not marked nillable
+        // CODEGEN: Generating message contract since element name Guid from namespace http://dotit.com.org/ is not marked nillable
         [System.ServiceModel.OperationContractAttribute(Action="http://dotit.com.org/CreateSalesOrder", ReplyAction="*")]
         EpicorDaily.WSOrder.CreateSalesOrderResponse CreateSalesOrder(EpicorDaily.WSOrder.CreateSalesOrderRequest request);
         
@@ -2273,7 +2273,7 @@ namespace EpicorDaily.WSOrder {
     public partial class CreateSalesOrderRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string sessionGuid;
+        public string Guid;
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
         public EpicorDaily.WSOrder.SalesOrder so;
@@ -2281,8 +2281,8 @@ namespace EpicorDaily.WSOrder {
         public CreateSalesOrderRequestBody() {
         }
         
-        public CreateSalesOrderRequestBody(string sessionGuid, EpicorDaily.WSOrder.SalesOrder so) {
-            this.sessionGuid = sessionGuid;
+        public CreateSalesOrderRequestBody(string Guid, EpicorDaily.WSOrder.SalesOrder so) {
+            this.Guid = Guid;
             this.so = so;
         }
     }
@@ -2425,10 +2425,10 @@ namespace EpicorDaily.WSOrder {
             return base.Channel.CreateSalesOrder(request);
         }
         
-        public EpicorDaily.WSOrder.SalesOrder CreateSalesOrder(string sessionGuid, EpicorDaily.WSOrder.SalesOrder so) {
+        public EpicorDaily.WSOrder.SalesOrder CreateSalesOrder(string Guid, EpicorDaily.WSOrder.SalesOrder so) {
             EpicorDaily.WSOrder.CreateSalesOrderRequest inValue = new EpicorDaily.WSOrder.CreateSalesOrderRequest();
             inValue.Body = new EpicorDaily.WSOrder.CreateSalesOrderRequestBody();
-            inValue.Body.sessionGuid = sessionGuid;
+            inValue.Body.Guid = Guid;
             inValue.Body.so = so;
             EpicorDaily.WSOrder.CreateSalesOrderResponse retVal = ((EpicorDaily.WSOrder.DotitOrdersSoap)(this)).CreateSalesOrder(inValue);
             return retVal.Body.CreateSalesOrderResult;
@@ -2439,10 +2439,10 @@ namespace EpicorDaily.WSOrder {
             return base.Channel.CreateSalesOrderAsync(request);
         }
         
-        public System.Threading.Tasks.Task<EpicorDaily.WSOrder.CreateSalesOrderResponse> CreateSalesOrderAsync(string sessionGuid, EpicorDaily.WSOrder.SalesOrder so) {
+        public System.Threading.Tasks.Task<EpicorDaily.WSOrder.CreateSalesOrderResponse> CreateSalesOrderAsync(string Guid, EpicorDaily.WSOrder.SalesOrder so) {
             EpicorDaily.WSOrder.CreateSalesOrderRequest inValue = new EpicorDaily.WSOrder.CreateSalesOrderRequest();
             inValue.Body = new EpicorDaily.WSOrder.CreateSalesOrderRequestBody();
-            inValue.Body.sessionGuid = sessionGuid;
+            inValue.Body.Guid = Guid;
             inValue.Body.so = so;
             return ((EpicorDaily.WSOrder.DotitOrdersSoap)(this)).CreateSalesOrderAsync(inValue);
         }

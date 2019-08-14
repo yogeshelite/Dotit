@@ -15,6 +15,8 @@ using DotIt.AutoPicker.Services;
 using DotIt.AutoPicker.Data.Epicor;
 using DotIt.AutoPicker.Data;
 using DotIt.AutoPicker.Data.DotIt;
+using DotIt.AutoPicker.Persistance.Repository;
+using System.Diagnostics;
 
 namespace DotIt.AutoPicker.Controllers
 {
@@ -24,8 +26,8 @@ namespace DotIt.AutoPicker.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
 
         private readonly DotitExtensionContext _DotitExtensionContext;
-
-
+        private readonly IPickerRepository _pickerRepository;
+        private StackTrace _stackTrace ;
 
         public static bool allowaccess = false;
         ApiResponse _apiResponse;
@@ -34,7 +36,8 @@ namespace DotIt.AutoPicker.Controllers
         {
             _hostingEnvironment = hostingEnvironment;
             _DotitExtensionContext = context;
-
+            _stackTrace = new StackTrace();
+            _pickerRepository = new PickerRepository(_stackTrace);
         }
 
         public IActionResult Index()
@@ -58,8 +61,13 @@ namespace DotIt.AutoPicker.Controllers
         {
             using (_apiResponse = new ApiResponse())
             {
-                ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
-                var user = JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
+                //ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
+                //if(!ObjResponse.success) return Json(ObjResponse.Response);
+
+
+
+                var user = _pickerRepository.GetPickers(docuserid: UserName).FirstOrDefault();
+                    //JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
 
 
                 if (user != null)
@@ -67,15 +75,15 @@ namespace DotIt.AutoPicker.Controllers
 
                     if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString(), UserGroup.WHSELEAD.ToString() }.Contains(f)).Count() > 0)
                     {
-                        HttpContext.Session.Set<PickerModel>(Constant.UserCookie.ToString(), user);
-
-                        return Json("success");
+                        HttpContext.Session.Set(Constant.UserCookie.ToString(), user);
+                       // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
+                        return Json(user.Grouplist);
                     }
 
-                    //return Json("Not a picker user");
+                    return Json("Not a picker user");
                 }
 
-                return Json("User not exist");
+                return Json(new { success = true, action = "User not exist" });
             }
         }
 
@@ -86,8 +94,8 @@ namespace DotIt.AutoPicker.Controllers
             if (UserLogInName != null)
             {
                 //ViewBag.LogInName = UserLogInName.DcdUserID;
-                //ViewBag.Pickers = GetPickers(dcduserid: UserLogInName.DcdUserID);
-                return View(GetPickers(dcduserid: UserLogInName.DcdUserID));
+                ViewBag.Pickers = GetPickers(dcduserid: UserLogInName.DcdUserID);
+                return View();
             }
             else
             {
@@ -106,7 +114,7 @@ namespace DotIt.AutoPicker.Controllers
                 PickerModel pickerModel = new PickerModel()
                 {
                     EMailAddress = warehouseemployee.Emailaddress,
-                    Grouplist = warehouseemployee.Grouplist.Replace(",", "~"),
+                    Grouplist = warehouseemployee.Grouplist.Replace("~", ","),
                     Name = warehouseemployee.Pickername,
                     RecordDate = warehouseemployee.Recorddate,
                     DcdUserID = warehouseemployee.Dcduserid,
@@ -137,7 +145,7 @@ namespace DotIt.AutoPicker.Controllers
                 var result2 = _DotitExtensionContext.Warehouseemployee.ToList();
 
                 // (string.IsNullOrEmpty(company) | f.Company.Equals(company))
-                result2 = result2.Where(f => (string.IsNullOrEmpty(dcduserid) | f.Dcduserid.Equals(dcduserid))).ToList();
+                result2 = result2.Where(f => (string.IsNullOrEmpty(dcduserid) | ! f.Dcduserid.Equals(dcduserid))).ToList();
                 if (result2 == null)
                 { return result; }
 
@@ -178,9 +186,9 @@ namespace DotIt.AutoPicker.Controllers
             if (user != null)
             {
                 user.Emailaddress = warehouseemployee.EMailAddress;
-                user.Grouplist = warehouseemployee.Grouplist.Replace(",", "~");
+               // user.Grouplist = warehouseemployee.Grouplist.Replace(",", "~");
                 user.Pickername = warehouseemployee.Name;
-                user.Recorddate = warehouseemployee.RecordDate;
+                user.Recordupdatedate =DateTime.Now;
                 user.Dcduserid = warehouseemployee.DcdUserID;              
                 user.active = warehouseemployee.Active;
                 user.Adminlineperhour = warehouseemployee.AdminlineperHour;

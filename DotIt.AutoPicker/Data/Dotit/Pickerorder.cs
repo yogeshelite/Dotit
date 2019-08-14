@@ -10,7 +10,7 @@ namespace DotIt.AutoPicker.Data.DotIt
         public DateTime Orderdate { get; set; }
         public int? Totalitems { get; set; }
         public double? Weight { get; set; }
-        public string Docuserid { get; set; }
+        public string Dcduserid { get; set; }
         public string Pickstatus { get; set; }
         public DateTime? Recorddate { get; set; }
         public DateTime? Recordupdatedon { get; set; }

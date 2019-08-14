@@ -11,6 +11,14 @@ namespace EpicorDaily.Service
          WHSE, WHSEMGR, WHSELEAD
     }
 
+    enum PickerOrderStatus
+    {
+        Picked,
+        Hold,
+        Assigned,
+        AssignPending
+    }
+
     public enum Company
     {
         DIRF,

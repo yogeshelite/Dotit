@@ -29,13 +29,13 @@ namespace EpicorDaily.Model
         public DateTime RequestDate { get; set; }
 
         // field for OrderDate in DateTime Format
-        public DateTime OrderDateTime { get; set; }
-
-        //Company (string, optional),
+        public DateTime OrderDateTime { get { return Convert.ToDateTime(OrderDate); } set { value = Convert.ToDateTime(OrderDate); } }
+            
+        //Company (string, optionalval
         public string Company { get; set; }
 
       
-        public float Weight { get; set; }
+        public Double Weight { get; set; }
 
    
 

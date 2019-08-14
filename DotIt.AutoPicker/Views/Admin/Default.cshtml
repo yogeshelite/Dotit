@@ -52,16 +52,21 @@
                 UserName: username
                // Password: password
             },
-            success: function(result) {
-                if (result == 'username wrong') {
-                    $("#spanforusername").text('Invalid Username');
-                }
-                if (result == 'password wrong') {
-                    $("#spanforpassword").text('Invalid Password');
-                }
-                if (result == 'success') {
-                    window.location.href = '../../Admin/Home/';
-                }
+            success: function (result) {
+                debugger;
+               // var data = JSON.parse(result);
+
+
+                //if (result == 'username wrong') {
+                //    $("#spanforusername").text('Invalid Username');
+                //}
+                //if (result == 'password wrong') {
+                //    $("#spanforpassword").text('Invalid Password');
+                //}
+                if (result.toString().indexOf("WHSEMGR") > 0) { window.location.href = '../../Admin/Home/'; }
+                else if (result.toString().indexOf("WHSE") > 0) { window.location.href = '../../Picker/Index/'; }
+                else { alert(result); return; }
+               
             }
         })
     }

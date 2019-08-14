@@ -19,9 +19,11 @@ namespace EpicorDaily.Persistance.Data
         public System.DateTime ORDERDATE { get; set; }
         public Nullable<int> TOTALITEMS { get; set; }
         public Nullable<double> WEIGHT { get; set; }
-        public string DOCUSERID { get; set; }
+        public string DCDUSERID { get; set; }
         public string PICKSTATUS { get; set; }
+        public Nullable<System.DateTime> PICKDATE { get; set; }
         public Nullable<System.DateTime> RECORDDATE { get; set; }
         public Nullable<System.DateTime> RECORDUPDATEDON { get; set; }
+        public string REASIONPICKFAIL { get; set; }
     }
 }

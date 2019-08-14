@@ -20,7 +20,7 @@ namespace EpicorDaily
         public const string EpicorApi_SalesOrderList = "/Erp.BO.SalesOrderSvc/List";
         
         public const string EpicorApi_VendBankSearchList = "/Erp.BO.VendBankSearchSvc/List";
-        public const string EpicorApi_OrderLineItems = "rp.BO.OrderDtlSearchSvc/OrderDtlSearches?$filter=Company eq '{0}' and OrderNum eq {1}";
+        public const string EpicorApi_OrderLineItems = "/Erp.BO.OrderDtlSearchSvc/OrderDtlSearches?$filter=Company eq '{0}' and OrderNum eq {1}";
 
         public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter=Company eq '{0}' and OrderNum eq {1}";
         public const string EpicorApi_PatchReleaseOrders = "/Erp.BO.OrderRelSearchSvc/OrderRel({0},{1},{2},{3})";

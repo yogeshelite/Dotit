@@ -15,11 +15,11 @@ namespace EpicorDaily.Model
         public string EMailAddress { get; set; }
         public string Grouplist { get; set; }
         public int PickerType { get; set; }
-        public int MaxLines { get; set; }
-        public int MaxWeight { get; set; }
-        public int AdminlineperHour { get; set; }
+        public int? MaxLines { get; set; }
+        public int? MaxWeight { get; set; }
+        public int? AdminlineperHour { get; set; }
         public string Password { get; set; }
-        public bool Active { get; set; }
+        public bool? Active { get; set; }
         public Nullable<DateTime> LastLogin { get; set; }
         public Nullable<DateTime> RecordDate { get; set; }
 

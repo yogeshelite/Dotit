@@ -906,7 +906,7 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Docuserid)
+                entity.Property(e => e.Dcduserid)
                     .IsRequired()
                     .HasColumnName("DCDUSERID")
                     .HasMaxLength(50)

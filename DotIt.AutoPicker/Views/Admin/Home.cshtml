@@ -1,47 +1,46 @@
-﻿@model IEnumerable<DotIt.AutoPicker.Models.PickerModel>
-<html>
+﻿<html>
 <head>
     <meta name="viewport" content="width=device-width" />
     @*<style>
-        * {
-            box-sizing: border-box;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-            ul li {
-                border: 1px solid #ddd;
-                margin-top: -1px; /* Prevent double borders */
-                background-color: #f6f6f6;
-                padding: 12px;
-                text-decoration: none;
-                font-size: 18px;
-                color: black;
-                display: block;
-                position: relative;
+            * {
+                box-sizing: border-box;
             }
 
-                ul li:hover {
-                    background-color: #eee;
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+
+                ul li {
+                    border: 1px solid #ddd;
+                    margin-top: -1px; /* Prevent double borders */
+                    background-color: #f6f6f6;
+                    padding: 12px;
+                    text-decoration: none;
+                    font-size: 18px;
+                    color: black;
+                    display: block;
+                    position: relative;
                 }
 
-        .close {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            right: 0%;
-            padding: 12px 16px;
-            transform: translate(0%, -50%);
-        }
+                    ul li:hover {
+                        background-color: #eee;
+                    }
 
-            .close:hover {
-                background: #bbb;
+            .close {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                right: 0%;
+                padding: 12px 16px;
+                transform: translate(0%, -50%);
             }
-    </style>*@
+
+                .close:hover {
+                    background: #bbb;
+                }
+        </style>*@
     <title>Home</title>
 </head>
 <body>
@@ -49,8 +48,8 @@
         <thead>
             <tr>
                 @*<th>
-                    @Html.DisplayNameFor(model => model.Empid)
-                </th>*@
+                        @Html.DisplayNameFor(model => model.Empid)
+                    </th>*@
                 <th>
                     Pickers
                 </th>
@@ -60,27 +59,25 @@
                 <th>
                     Role
                 </th>
-                @*<th>
-                    Picker
-                </th>*@
-                @*<th>
-                  Pickdotit
-                </th>*@
-                @*<th>
+                <th>
+                    Company
+                </th>
+
+                <th>
                     Max lines
-                </th>*@
+                </th>
                 <th>
                     Max Weight
                 </th>
-                @*<th>
+                <th>
                     Line per hour
                 </th>
-                <th></th>*@
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @*@foreach (var item in ViewBag.Pickers as List<DotIt.AutoPicker.Models.PickerModel>)*@
-            @foreach (var item in Model)
+            @foreach (var item in ViewBag.Pickers as List<DotIt.AutoPicker.Models.PickerModel>)
             {
                 <tr>
                     <td>
@@ -96,21 +93,19 @@
                         </div>
 
                     </td>
-                    @*<td>
-                    @item.Pickncco)
-                </td>
-                <td>
-                    @item.Pickdotit
-                </td>
-                <td>
-                    @item.Maxlines
-                </td>*@
+                    <td>
+                        @item.Company
+                    </td>
+
+                    <td>
+                        @item.MaxLines
+                    </td>
                     <td>
                         @item.MaxWeight
                     </td>
-                    @*<td>
-                    @item.Adminlineperhour
-                </td>*@
+                    <td>
+                        @item.AdminlineperHour
+                    </td>
                     <td>
                         <a href="~/Admin/EditProfile/@Constant.Encode(item.DcdUserID)">Edit</a>
                         @*<a href="~/Admin/DeleteProfile/@Constant.Encode(item.DcdUserID,false)">Delete</a>*@

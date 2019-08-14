@@ -4,6 +4,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace EpicorDaily.Model
 {
@@ -12,6 +13,54 @@ namespace EpicorDaily.Model
         public string UserName { get; set; }
         public string Password { get; set; }
     }
+
+
+
+    public class PickerUserModel
+    {
+
+        [XmlAttribute(AttributeName = "EMPID", DataType = "uniqueidentifier")]
+        public Guid Empid { get; set; }
+
+        [XmlAttribute(AttributeName = "DCDUSERID", DataType = "string")]
+        public string DcdUserID { get; set; }
+
+        [XmlAttribute(AttributeName = "PICKERNAME", DataType = "string")]
+        public string Name { get; set; }
+
+        [XmlAttribute(AttributeName = "EMAILADDRESS", DataType = "string")]
+        public string EmailAddress { get; set; }
+
+        [XmlAttribute(AttributeName = "GROUPLIST", DataType = "string")]
+        public string GroupList { get; set; }
+
+        [XmlAttribute(AttributeName = "PICKERTYPE", DataType = "int")]
+        public int PickerType { get; set; }
+
+        [XmlAttribute(AttributeName = "MAXLINES", DataType = "int")]
+        public int Maxlines { get; set; }
+
+        [XmlAttribute(AttributeName = "MAXWEIGHT", DataType = "int")]
+        public int Maxweight { get; set; }
+
+        [XmlAttribute(AttributeName = "ADMINLINEPERHOUR", DataType = "int")]
+        public int Adminlineperhour { get; set; }
+
+        [XmlAttribute(AttributeName = "PASSWORD", DataType = "string")]
+        public string PASSWORD { get; set; }
+
+        [XmlAttribute(AttributeName = "ACTIVE", DataType = "boolean")]
+        public bool Active { get; set; }
+
+        [XmlAttribute(AttributeName = "LASTLOGIN", DataType = "dateTime")]
+        public DateTime LastLogin { get; set; }
+
+        [XmlAttribute(AttributeName = "RECORDDATE", DataType = "dateTime")]
+        public DateTime RecordDate { get; set; }
+    }
+
+
+
 
     public class ResponseModel
     {
@@ -30,7 +79,7 @@ namespace EpicorDaily.Model
 
         public string LineType { get; set; }
 
-        public  Nullable< DateTime> ReqDate { get; set; }
+        public Nullable<DateTime> ReqDate { get; set; }
 
         public decimal OurReqQty { get; set; }
 
@@ -64,7 +113,7 @@ namespace EpicorDaily.Model
 
         public int ShpConNum { get; set; }
 
-        public  Nullable< DateTime> NeedByDate { get; set; }
+        public Nullable<DateTime> NeedByDate { get; set; }
 
         public string Reference { get; set; }
 
@@ -90,7 +139,7 @@ namespace EpicorDaily.Model
 
         public decimal CumeQty { get; set; }
 
-        public  Nullable< DateTime> CumeDate { get; set; }
+        public Nullable<DateTime> CumeDate { get; set; }
 
         public bool Linked { get; set; }
 
@@ -114,7 +163,7 @@ namespace EpicorDaily.Model
 
         public bool DemandSchedRejected { get; set; }
 
-        public  Nullable< DateTime> DatePickTicketPrinted { get; set; }
+        public Nullable<DateTime> DatePickTicketPrinted { get; set; }
 
         public bool ResDelivery { get; set; }
 
@@ -168,7 +217,7 @@ namespace EpicorDaily.Model
 
         public string DeliveryType { get; set; }
 
-        public  Nullable< DateTime> ServDeliveryDate { get; set; }
+        public Nullable<DateTime> ServDeliveryDate { get; set; }
 
         public string ServPhone { get; set; }
 
@@ -202,7 +251,7 @@ namespace EpicorDaily.Model
 
         public string ChangedBy { get; set; }
 
-        public  Nullable< DateTime> ChangeDate { get; set; }
+        public Nullable<DateTime> ChangeDate { get; set; }
 
         public int ChangeTime { get; set; }
 
@@ -280,9 +329,9 @@ namespace EpicorDaily.Model
 
         public string PrevXPartNum { get; set; }
 
-        public  Nullable< DateTime> PrevNeedByDate { get; set; }
+        public Nullable<DateTime> PrevNeedByDate { get; set; }
 
-        public  Nullable< DateTime> PrevReqDate { get; set; }
+        public Nullable<DateTime> PrevReqDate { get; set; }
 
         public string PrevShipToNum { get; set; }
 
@@ -328,7 +377,7 @@ namespace EpicorDaily.Model
 
         public Binary SysRevID { get; set; }
 
-        public  Guid SysRowID { get; set; }
+        public Guid SysRowID { get; set; }
 
         public string EntityUseCode { get; set; }
 
@@ -400,7 +449,7 @@ namespace EpicorDaily.Model
     }
 
 
-        public class OrderHeadModel : OrderHeadUDModel 
+    public class OrderHeadModel : OrderHeadUDModel
     {
         //New Property Added
         public string OTSCntryDescription { get; set; }
@@ -433,7 +482,7 @@ namespace EpicorDaily.Model
 
         public Nullable<DateTime> RequestDate { get; set; }
 
-        public  Nullable< DateTime> OrderDate { get; set; }
+        public Nullable<DateTime> OrderDate { get; set; }
 
         public string FOB { get; set; }
 
@@ -461,13 +510,13 @@ namespace EpicorDaily.Model
 
         public decimal DocDepositBal { get; set; }
 
-        public  Nullable< DateTime> NeedByDate { get; set; }
+        public Nullable<DateTime> NeedByDate { get; set; }
 
         public bool CreditOverride { get; set; }
 
         public string CreditOverrideUserID { get; set; }
 
-        public  Nullable< DateTime> CreditOverrideDate { get; set; }
+        public Nullable<DateTime> CreditOverrideDate { get; set; }
 
         public string CreditOverrideTime { get; set; }
 
@@ -587,11 +636,11 @@ namespace EpicorDaily.Model
 
         public int DemandContractNum { get; set; }
 
-        public  Nullable< DateTime> DoNotShipBeforeDate { get; set; }
+        public Nullable<DateTime> DoNotShipBeforeDate { get; set; }
 
         public bool ResDelivery { get; set; }
 
-        public  Nullable< DateTime> DoNotShipAfterDate { get; set; }
+        public Nullable<DateTime> DoNotShipAfterDate { get; set; }
 
         public bool SatDelivery { get; set; }
 
@@ -625,7 +674,7 @@ namespace EpicorDaily.Model
 
         public decimal DeclaredAmt { get; set; }
 
-        public  Nullable< DateTime> CancelAfterDate { get; set; }
+        public Nullable<DateTime> CancelAfterDate { get; set; }
 
         public bool DemandRejected { get; set; }
 
@@ -687,7 +736,7 @@ namespace EpicorDaily.Model
 
         public string ChangedBy { get; set; }
 
-        public  Nullable< DateTime> ChangeDate { get; set; }
+        public Nullable<DateTime> ChangeDate { get; set; }
 
         public int ChangeTime { get; set; }
 
@@ -713,7 +762,7 @@ namespace EpicorDaily.Model
 
         public string DeliveryType { get; set; }
 
-        public  Nullable< DateTime> ServDeliveryDate { get; set; }
+        public Nullable<DateTime> ServDeliveryDate { get; set; }
 
         public string ServInstruct { get; set; }
 
@@ -893,9 +942,9 @@ namespace EpicorDaily.Model
 
         public decimal Rpt3OrderAmt { get; set; }
 
-        public  Nullable< DateTime> TaxPoint { get; set; }
+        public Nullable<DateTime> TaxPoint { get; set; }
 
-        public  Nullable< DateTime> TaxRateDate { get; set; }
+        public Nullable<DateTime> TaxRateDate { get; set; }
 
         public string TaxRegionCode { get; set; }
 
@@ -1007,9 +1056,9 @@ namespace EpicorDaily.Model
 
         public string XRefContractNum { get; set; }
 
-        public  Nullable< DateTime> XRefContractDate { get; set; }
+        public Nullable<DateTime> XRefContractDate { get; set; }
 
-        public  Nullable< DateTime> DemandProcessDate { get; set; }
+        public Nullable<DateTime> DemandProcessDate { get; set; }
 
         public int DemandProcessTime { get; set; }
 
@@ -1043,13 +1092,13 @@ namespace EpicorDaily.Model
 
         public string UserChar4 { get; set; }
 
-        public  Nullable< DateTime> UserDate1 { get; set; }
+        public Nullable<DateTime> UserDate1 { get; set; }
 
-        public  Nullable< DateTime> UserDate2 { get; set; }
+        public Nullable<DateTime> UserDate2 { get; set; }
 
-        public  Nullable< DateTime> UserDate3 { get; set; }
+        public Nullable<DateTime> UserDate3 { get; set; }
 
-        public  Nullable< DateTime> UserDate4 { get; set; }
+        public Nullable<DateTime> UserDate4 { get; set; }
 
         public decimal UserDecimal1 { get; set; }
 
@@ -1059,9 +1108,9 @@ namespace EpicorDaily.Model
 
         public int UserInteger2 { get; set; }
 
-        public  Binary SysRevID { get; set; }
+        public Binary SysRevID { get; set; }
 
-        public  Guid SysRowID { get; set; }
+        public Guid SysRowID { get; set; }
 
         public bool IsCSRSet { get; set; }
 
@@ -1093,7 +1142,7 @@ namespace EpicorDaily.Model
     }
 
 
-    public class OrderDetailModel : CustomerModel 
+    public class OrderDetailModel : CustomerModel
     {
         //New Property
         public int ShipBoxNumber_c { get; set; }
@@ -1136,7 +1185,7 @@ namespace EpicorDaily.Model
 
         public decimal DocDiscount;
 
-        public  Nullable< DateTime> RequestDate;
+        public Nullable<DateTime> RequestDate;
 
         public string ProdCode;
 
@@ -1168,7 +1217,7 @@ namespace EpicorDaily.Model
 
         public string OrigWhyNoTax;
 
-        public  Nullable< DateTime> NeedByDate;
+        public Nullable<DateTime> NeedByDate;
 
         public int CustNum;
 
@@ -1222,7 +1271,7 @@ namespace EpicorDaily.Model
 
         public decimal CumeQty;
 
-        public  Nullable< DateTime> CumeDate;
+        public Nullable<DateTime> CumeDate;
 
         public string MktgCampaignID;
 
@@ -1238,7 +1287,7 @@ namespace EpicorDaily.Model
 
         public string ExtCompany;
 
-        public  Nullable< DateTime> LastConfigDate;
+        public Nullable<DateTime> LastConfigDate;
 
         public int LastConfigTime;
 
@@ -1316,11 +1365,11 @@ namespace EpicorDaily.Model
 
         public bool CreateNewJob;
 
-        public  Nullable< DateTime> DoNotShipBeforeDate;
+        public Nullable<DateTime> DoNotShipBeforeDate;
 
         public bool GetDtls;
 
-        public  Nullable< DateTime> DoNotShipAfterDate;
+        public Nullable<DateTime> DoNotShipAfterDate;
 
         public bool SchedJob;
 
@@ -1356,7 +1405,7 @@ namespace EpicorDaily.Model
 
         public string ChangedBy;
 
-        public  Nullable< DateTime> ChangeDate;
+        public Nullable<DateTime> ChangeDate;
 
         public int ChangeTime;
 
@@ -1520,9 +1569,9 @@ namespace EpicorDaily.Model
 
         public int ECCQuoteLine;
 
-        public  Binary SysRevID;
+        public Binary SysRevID;
 
-        public  Guid SysRowID;
+        public Guid SysRowID;
 
         public string MfgJobType;
 
@@ -1607,7 +1656,7 @@ namespace EpicorDaily.Model
 
         public string Comment;
 
-        public  Nullable< DateTime> EstDate;
+        public Nullable<DateTime> EstDate;
 
         public string FaxNum;
 
@@ -1625,15 +1674,15 @@ namespace EpicorDaily.Model
 
         public bool CreditIncludeOrders;
 
-        public  Nullable< DateTime> CreditReviewDate;
+        public Nullable<DateTime> CreditReviewDate;
 
-        public  Nullable< DateTime> CreditHoldDate;
+        public Nullable<DateTime> CreditHoldDate;
 
         public string CreditHoldSource;
 
         public string CreditClearUserID;
 
-        public  Nullable< DateTime> CreditClearDate;
+        public Nullable<DateTime> CreditClearDate;
 
         public string CreditClearTime;
 
@@ -1825,7 +1874,7 @@ namespace EpicorDaily.Model
 
         public string DeliveryType;
 
-        public  Nullable< DateTime> ServDeliveryDate;
+        public Nullable<DateTime> ServDeliveryDate;
 
         public string ServPhone;
 
@@ -1869,7 +1918,7 @@ namespace EpicorDaily.Model
 
         public string ChangedBy;
 
-        public  Nullable< DateTime> ChangeDate;
+        public Nullable<DateTime> ChangeDate;
 
         public int ChangeTime;
 
@@ -2113,9 +2162,9 @@ namespace EpicorDaily.Model
 
         public string BusinessCust;
 
-        public  Binary SysRevID;
+        public Binary SysRevID;
 
-        public  Guid SysRowID;
+        public Guid SysRowID;
 
         public string THBranchID;
 
@@ -2139,9 +2188,9 @@ namespace EpicorDaily.Model
 
         public bool Collections;
 
-        public  Nullable< DateTime> CollectionsDate;
+        public Nullable<DateTime> CollectionsDate;
 
-        public  Nullable< DateTime> DateCollectionPosted;
+        public Nullable<DateTime> DateCollectionPosted;
 
         public string MXMunicipio;
 
@@ -2217,7 +2266,7 @@ namespace EpicorDaily.Model
 
         public string ExternalCRMCustomerType;
 
-        public  Nullable< DateTime> ExternalCRMLastSync;
+        public Nullable<DateTime> ExternalCRMLastSync;
 
         public bool ExternalCRMSyncRequired;
 
@@ -2236,45 +2285,46 @@ namespace EpicorDaily.Model
         public string Rating;
     }
 
-    public class CustomerUDModel {
-        public bool notifyviaemailc{get;set;}
+    public class CustomerUDModel
+    {
+        public bool notifyviaemailc { get; set; }
 
-        public bool notifyviaprintc{get;set;}
+        public bool notifyviaprintc { get; set; }
 
-        public string storenumberc{get;set;}
+        public string storenumberc { get; set; }
 
-        public bool ApplyChrOverridec{get;set;}
+        public bool ApplyChrOverridec { get; set; }
 
-        public bool DropShipc{get;set;}
+        public bool DropShipc { get; set; }
 
-        public bool Inactivec{get;set;}
+        public bool Inactivec { get; set; }
 
-        public bool InvoiceSummaryc{get;set;}
+        public bool InvoiceSummaryc { get; set; }
 
-        public string ARNotesc{get;set;}
+        public string ARNotesc { get; set; }
 
-        public bool BadDebtc{get;set;}
+        public bool BadDebtc { get; set; }
 
-        public bool IsSupressOrderNotificationc{get;set;}
+        public bool IsSupressOrderNotificationc { get; set; }
 
-        public bool YextActivec{get;set;}
+        public bool YextActivec { get; set; }
 
-        public bool YextAutoRenewc{get;set;}
+        public bool YextAutoRenewc { get; set; }
 
-        public string YextCustomerNumberc{get;set;}
+        public string YextCustomerNumberc { get; set; }
 
-        public decimal YextFeec{get;set;}
+        public decimal YextFeec { get; set; }
 
-        public  Nullable< DateTime> YextRenewDatec{get;set;}
+        public Nullable<DateTime> YextRenewDatec { get; set; }
 
-        public string YextSSOTokenc{get;set;}
+        public string YextSSOTokenc { get; set; }
 
-        public  Nullable< DateTime> YextStartDatec{get;set;}
+        public Nullable<DateTime> YextStartDatec { get; set; }
 
-        public bool SendShippingNotificationsc{get;set;}
+        public bool SendShippingNotificationsc { get; set; }
     }
 
-    public class CustomerGroupModel: CustomerGroupUDModel
+    public class CustomerGroupModel : CustomerGroupUDModel
     {
         public string Company { get; set; }
 
@@ -2297,33 +2347,33 @@ namespace EpicorDaily.Model
 
     public class CustomerGroupUDModel
     {
-        public bool allowBillToEditc{ get; set; }
+        public bool allowBillToEditc { get; set; }
 
-        public bool allowShipToEditc{ get; set; }
+        public bool allowShipToEditc { get; set; }
 
-        public string eCommURLc{ get; set; }
+        public string eCommURLc { get; set; }
 
-        public string parentCustomerGroupc{ get; set; }
+        public string parentCustomerGroupc { get; set; }
 
-        public bool AllowAutomaticApprovalc{ get; set; }
+        public bool AllowAutomaticApprovalc { get; set; }
 
-        public int AutomaticApprovalLapseInMinsc{ get; set; }
+        public int AutomaticApprovalLapseInMinsc { get; set; }
 
-        public int DotitNotificationLapseInMinsc{ get; set; }
+        public int DotitNotificationLapseInMinsc { get; set; }
 
-        public string EmailDotitNotificationsc{ get; set; }
+        public string EmailDotitNotificationsc { get; set; }
 
-        public bool IsAllPartsc{ get; set; }
+        public bool IsAllPartsc { get; set; }
 
-        public bool IsCompanyWideEscalationc{ get; set; }
+        public bool IsCompanyWideEscalationc { get; set; }
 
-        public bool IsRequisitionCustomerc{ get; set; }
+        public bool IsRequisitionCustomerc { get; set; }
 
-        public int RequisitionNotificationLapseInMinsc{ get; set; }
+        public int RequisitionNotificationLapseInMinsc { get; set; }
 
-        public int SeniorNotificationLapseInMinsc{ get; set; }
+        public int SeniorNotificationLapseInMinsc { get; set; }
 
-        public bool IsBrandFulfillmentc{ get; set; }
+        public bool IsBrandFulfillmentc { get; set; }
     }
 
     public class VebdorBankModel
@@ -2384,9 +2434,9 @@ namespace EpicorDaily.Model
 
         public string DFIIdentification { get; set; }
 
-        public  Binary SysRevID { get; set; }
+        public Binary SysRevID { get; set; }
 
-        public  Guid SysRowID { get; set; }
+        public Guid SysRowID { get; set; }
 
         public string CHDTAID { get; set; }
 
@@ -2455,797 +2505,797 @@ namespace EpicorDaily.Model
     public class YextHeaderModel
     {
 
-        public int YEXTID{get;set;}
+        public int YEXTID { get; set; }
 
-        public bool ISACTIVE{get;set;}
+        public bool ISACTIVE { get; set; }
 
-        public bool ISAUTORENEW{get;set;}
+        public bool ISAUTORENEW { get; set; }
 
-        public decimal NEXTFEE{get;set;}
+        public decimal NEXTFEE { get; set; }
 
-        public  DateTime RENEWALDATE{get;set;}
+        public DateTime RENEWALDATE { get; set; }
 
-        public  DateTime STARTDATE{get;set;}
+        public DateTime STARTDATE { get; set; }
 
-        public string YEXTSSOTOKEN{get;set;}
+        public string YEXTSSOTOKEN { get; set; }
 
-        public string YEXTCUSTNUM{get;set;}
+        public string YEXTCUSTNUM { get; set; }
 
-        public int EPICORCUSTNUM{get;set;}
+        public int EPICORCUSTNUM { get; set; }
 
-        public  Nullable<int> MAGENTOCUSTNUM{get;set;}
+        public Nullable<int> MAGENTOCUSTNUM { get; set; }
 
-        public string MAGENTOEMAIL{get;set;}
+        public string MAGENTOEMAIL { get; set; }
 
-        public  DateTime CREATEDATE{get;set;}
+        public DateTime CREATEDATE { get; set; }
 
-        public string CREATEDBY{get;set;}
+        public string CREATEDBY { get; set; }
 
-        public  DateTime MODIFIEDDATE{get;set;}
+        public DateTime MODIFIEDDATE { get; set; }
 
-        public string MODIFIEDBY{get;set;}
+        public string MODIFIEDBY { get; set; }
 
-        public List<YextDetailModel> YEXTDETAILs{get;set;}
+        public List<YextDetailModel> YEXTDETAILs { get; set; }
 
     }
     public class YextDetailModel
     {
-        public int EPICORORDERNUM{get;set;}
+        public int EPICORORDERNUM { get; set; }
 
-        public int YEXTID{get;set;}
+        public int YEXTID { get; set; }
 
-        public string PARTNUM{get;set;}
+        public string PARTNUM { get; set; }
 
-        public int ORDERQTY{get;set;}
+        public int ORDERQTY { get; set; }
 
-        public  DateTime ORDERDATE{get;set;}
+        public DateTime ORDERDATE { get; set; }
 
-        public bool ISONLINE{get;set;}
+        public bool ISONLINE { get; set; }
 
-        public decimal PRICE{get;set;}
+        public decimal PRICE { get; set; }
 
-        public string ENTRYPERSON{get;set;}
+        public string ENTRYPERSON { get; set; }
 
     }
 
 
     public class ShipHeadModel : ShipHeadHDModel
     {
-        public string Company{ get; set; }
+        public string Company { get; set; }
 
-        public int PackNum{ get; set; }
+        public int PackNum { get; set; }
 
-        public System.Nullable<System.DateTime> ShipDate{ get; set; }
+        public System.Nullable<System.DateTime> ShipDate { get; set; }
 
-        public string ShipViaCode{ get; set; }
+        public string ShipViaCode { get; set; }
 
-        public string ShipPerson{ get; set; }
+        public string ShipPerson { get; set; }
 
-        public string EntryPerson{ get; set; }
+        public string EntryPerson { get; set; }
 
-        public string ShipLog{ get; set; }
+        public string ShipLog { get; set; }
 
-        public string LabelComment{ get; set; }
+        public string LabelComment { get; set; }
 
-        public string ShipComment{ get; set; }
+        public string ShipComment { get; set; }
 
-        public bool Invoiced{ get; set; }
+        public bool Invoiced { get; set; }
 
-        public string ShipToNum{ get; set; }
+        public string ShipToNum { get; set; }
 
-        public bool ReadyToInvoice{ get; set; }
+        public bool ReadyToInvoice { get; set; }
 
-        public int CustNum{ get; set; }
+        public int CustNum { get; set; }
 
-        public string Plant{ get; set; }
+        public string Plant { get; set; }
 
-        public string TrackingNumber{ get; set; }
+        public string TrackingNumber { get; set; }
 
-        public string LegalNumber{ get; set; }
+        public string LegalNumber { get; set; }
 
-        public bool Voided{ get; set; }
+        public bool Voided { get; set; }
 
-        public bool ExternalDeliveryNote{ get; set; }
+        public bool ExternalDeliveryNote { get; set; }
 
-        public string ExternalID{ get; set; }
+        public string ExternalID { get; set; }
 
-        public bool ICReceived{ get; set; }
+        public bool ICReceived { get; set; }
 
-        public string XRefPackNum{ get; set; }
+        public string XRefPackNum { get; set; }
 
-        public int BTCustNum{ get; set; }
+        public int BTCustNum { get; set; }
 
-        public int BTConNum{ get; set; }
+        public int BTConNum { get; set; }
 
-        public string ShipStatus{ get; set; }
+        public string ShipStatus { get; set; }
 
-        public string ShipGroup{ get; set; }
+        public string ShipGroup { get; set; }
 
-        public string PkgCode{ get; set; }
+        public string PkgCode { get; set; }
 
-        public string PkgClass{ get; set; }
+        public string PkgClass { get; set; }
 
-        public decimal Weight{ get; set; }
+        public decimal Weight { get; set; }
 
-        public bool ResDelivery{ get; set; }
+        public bool ResDelivery { get; set; }
 
-        public bool SatDelivery{ get; set; }
+        public bool SatDelivery { get; set; }
 
-        public bool SatPickup{ get; set; }
+        public bool SatPickup { get; set; }
 
-        public bool VerbalConf{ get; set; }
+        public bool VerbalConf { get; set; }
 
-        public bool Hazmat{ get; set; }
+        public bool Hazmat { get; set; }
 
-        public bool DocOnly{ get; set; }
+        public bool DocOnly { get; set; }
 
-        public string RefNotes{ get; set; }
+        public string RefNotes { get; set; }
 
-        public bool ApplyChrg{ get; set; }
+        public bool ApplyChrg { get; set; }
 
-        public decimal ChrgAmount{ get; set; }
+        public decimal ChrgAmount { get; set; }
 
-        public bool COD{ get; set; }
+        public bool COD { get; set; }
 
-        public bool CODFreight{ get; set; }
+        public bool CODFreight { get; set; }
 
-        public bool CODCheck{ get; set; }
+        public bool CODCheck { get; set; }
 
-        public decimal CODAmount{ get; set; }
+        public decimal CODAmount { get; set; }
 
-        public string GroundType{ get; set; }
+        public string GroundType { get; set; }
 
-        public bool NotifyFlag{ get; set; }
+        public bool NotifyFlag { get; set; }
 
-        public string NotifyEMail{ get; set; }
+        public string NotifyEMail { get; set; }
 
-        public bool DeclaredIns{ get; set; }
+        public bool DeclaredIns { get; set; }
 
-        public decimal DeclaredAmt{ get; set; }
+        public decimal DeclaredAmt { get; set; }
 
-        public string MFTransNum{ get; set; }
+        public string MFTransNum { get; set; }
 
-        public string MFCallTag{ get; set; }
+        public string MFCallTag { get; set; }
 
-        public string MFPickupNum{ get; set; }
+        public string MFPickupNum { get; set; }
 
-        public decimal MFDiscFreight{ get; set; }
+        public decimal MFDiscFreight { get; set; }
 
-        public string MFTemplate{ get; set; }
+        public string MFTemplate { get; set; }
 
-        public bool MFUse3B{ get; set; }
+        public bool MFUse3B { get; set; }
 
-        public string MF3BAccount{ get; set; }
+        public string MF3BAccount { get; set; }
 
-        public decimal MFDimWeight{ get; set; }
+        public decimal MFDimWeight { get; set; }
 
-        public string MFZone{ get; set; }
+        public string MFZone { get; set; }
 
-        public decimal MFFreightAmt{ get; set; }
+        public decimal MFFreightAmt { get; set; }
 
-        public decimal MFOtherAmt{ get; set; }
+        public decimal MFOtherAmt { get; set; }
 
-        public bool MFOversized{ get; set; }
+        public bool MFOversized { get; set; }
 
-        public bool ServSatDelivery{ get; set; }
+        public bool ServSatDelivery { get; set; }
 
-        public bool ServSatPickup{ get; set; }
+        public bool ServSatPickup { get; set; }
 
-        public bool ServSignature{ get; set; }
+        public bool ServSignature { get; set; }
 
-        public bool ServAlert{ get; set; }
+        public bool ServAlert { get; set; }
 
-        public bool ServPOD{ get; set; }
+        public bool ServPOD { get; set; }
 
-        public bool ServAOD{ get; set; }
+        public bool ServAOD { get; set; }
 
-        public bool ServHomeDel{ get; set; }
+        public bool ServHomeDel { get; set; }
 
-        public string DeliveryType{ get; set; }
+        public string DeliveryType { get; set; }
 
-        public System.Nullable<System.DateTime> ServDeliveryDate{ get; set; }
+        public System.Nullable<System.DateTime> ServDeliveryDate { get; set; }
 
-        public string ServPhone{ get; set; }
+        public string ServPhone { get; set; }
 
-        public string ServInstruct{ get; set; }
+        public string ServInstruct { get; set; }
 
-        public bool ServRelease{ get; set; }
+        public bool ServRelease { get; set; }
 
-        public string ServAuthNum{ get; set; }
+        public string ServAuthNum { get; set; }
 
-        public string ServRef1{ get; set; }
+        public string ServRef1 { get; set; }
 
-        public string ServRef2{ get; set; }
+        public string ServRef2 { get; set; }
 
-        public string ServRef3{ get; set; }
+        public string ServRef3 { get; set; }
 
-        public string ServRef4{ get; set; }
+        public string ServRef4 { get; set; }
 
-        public string ServRef5{ get; set; }
+        public string ServRef5 { get; set; }
 
-        public int BOLNum{ get; set; }
+        public int BOLNum { get; set; }
 
-        public int BOLLine{ get; set; }
+        public int BOLLine { get; set; }
 
-        public bool CommercialInvoice{ get; set; }
+        public bool CommercialInvoice { get; set; }
 
-        public bool ShipExprtDeclartn{ get; set; }
+        public bool ShipExprtDeclartn { get; set; }
 
-        public bool CertOfOrigin{ get; set; }
+        public bool CertOfOrigin { get; set; }
 
-        public bool LetterOfInstr{ get; set; }
+        public bool LetterOfInstr { get; set; }
 
-        public bool HazardousShipment{ get; set; }
+        public bool HazardousShipment { get; set; }
 
-        public bool IntrntlShip{ get; set; }
+        public bool IntrntlShip { get; set; }
 
-        public string PayFlag{ get; set; }
+        public string PayFlag { get; set; }
 
-        public string PayAccount{ get; set; }
+        public string PayAccount { get; set; }
 
-        public string PayBTAddress1{ get; set; }
+        public string PayBTAddress1 { get; set; }
 
-        public string PayBTAddress2{ get; set; }
+        public string PayBTAddress2 { get; set; }
 
-        public string PayBTCity{ get; set; }
+        public string PayBTCity { get; set; }
 
-        public string PayBTState{ get; set; }
+        public string PayBTState { get; set; }
 
-        public string PayBTZip{ get; set; }
+        public string PayBTZip { get; set; }
 
-        public string PayBTCountry{ get; set; }
+        public string PayBTCountry { get; set; }
 
-        public string FFAddress1{ get; set; }
+        public string FFAddress1 { get; set; }
 
-        public string FFAddress2{ get; set; }
+        public string FFAddress2 { get; set; }
 
-        public string FFCity{ get; set; }
+        public string FFCity { get; set; }
 
-        public string FFState{ get; set; }
+        public string FFState { get; set; }
 
-        public string FFZip{ get; set; }
+        public string FFZip { get; set; }
 
-        public string FFCountry{ get; set; }
+        public string FFCountry { get; set; }
 
-        public string FFContact{ get; set; }
+        public string FFContact { get; set; }
 
-        public string FFCompName{ get; set; }
+        public string FFCompName { get; set; }
 
-        public string FFPhoneNum{ get; set; }
+        public string FFPhoneNum { get; set; }
 
-        public string ChangedBy{ get; set; }
+        public string ChangedBy { get; set; }
 
-        public System.Nullable<System.DateTime> ChangeDate{ get; set; }
+        public System.Nullable<System.DateTime> ChangeDate { get; set; }
 
-        public int ChangeTime{ get; set; }
+        public int ChangeTime { get; set; }
 
-        public string FFID{ get; set; }
+        public string FFID { get; set; }
 
-        public bool IndividualPackIDs{ get; set; }
+        public bool IndividualPackIDs { get; set; }
 
-        public string FFAddress3{ get; set; }
+        public string FFAddress3 { get; set; }
 
-        public int DeliveryConf{ get; set; }
+        public int DeliveryConf { get; set; }
 
-        public bool AddlHdlgFlag{ get; set; }
+        public bool AddlHdlgFlag { get; set; }
 
-        public bool NonStdPkg{ get; set; }
+        public bool NonStdPkg { get; set; }
 
-        public int FFCountryNum{ get; set; }
+        public int FFCountryNum { get; set; }
 
-        public string PayBTAddress3{ get; set; }
+        public string PayBTAddress3 { get; set; }
 
-        public int PayBTCountryNum{ get; set; }
+        public int PayBTCountryNum { get; set; }
 
-        public string PayBTPhone{ get; set; }
+        public string PayBTPhone { get; set; }
 
-        public string WayBillNbr{ get; set; }
+        public string WayBillNbr { get; set; }
 
-        public string FreightedShipViaCode{ get; set; }
+        public string FreightedShipViaCode { get; set; }
 
-        public bool UPSQuantumView{ get; set; }
+        public bool UPSQuantumView { get; set; }
 
-        public string UPSQVShipFromName{ get; set; }
+        public string UPSQVShipFromName { get; set; }
 
-        public string UPSQVMemo{ get; set; }
+        public string UPSQVMemo { get; set; }
 
-        public decimal PkgLength{ get; set; }
+        public decimal PkgLength { get; set; }
 
-        public decimal PkgWidth{ get; set; }
+        public decimal PkgWidth { get; set; }
 
-        public decimal PkgHeight{ get; set; }
+        public decimal PkgHeight { get; set; }
 
-        public bool EDIReady{ get; set; }
+        public bool EDIReady { get; set; }
 
-        public bool PhantomPack{ get; set; }
+        public bool PhantomPack { get; set; }
 
-        public int ReplicatedFrom{ get; set; }
+        public int ReplicatedFrom { get; set; }
 
-        public string ReplicatedStat{ get; set; }
+        public string ReplicatedStat { get; set; }
 
-        public string PkgSizeUOM{ get; set; }
+        public string PkgSizeUOM { get; set; }
 
-        public string WeightUOM{ get; set; }
+        public string WeightUOM { get; set; }
 
-        public bool UseOTS{ get; set; }
+        public bool UseOTS { get; set; }
 
-        public string TranDocTypeID{ get; set; }
+        public string TranDocTypeID { get; set; }
 
-        public bool DocumentPrinted{ get; set; }
+        public bool DocumentPrinted { get; set; }
 
-        public int OTSOrderNum{ get; set; }
+        public int OTSOrderNum { get; set; }
 
-        public bool TaxCalculated{ get; set; }
+        public bool TaxCalculated { get; set; }
 
-        public System.Nullable<System.DateTime> TaxCalcDate{ get; set; }
+        public System.Nullable<System.DateTime> TaxCalcDate { get; set; }
 
-        public string CurrencyCode{ get; set; }
+        public string CurrencyCode { get; set; }
 
-        public decimal Rounding{ get; set; }
+        public decimal Rounding { get; set; }
 
-        public decimal Rpt1Rounding{ get; set; }
+        public decimal Rpt1Rounding { get; set; }
 
-        public decimal Rpt2Rounding{ get; set; }
+        public decimal Rpt2Rounding { get; set; }
 
-        public decimal Rpt3Rounding{ get; set; }
+        public decimal Rpt3Rounding { get; set; }
 
-        public decimal DocRounding{ get; set; }
+        public decimal DocRounding { get; set; }
 
-        public decimal Rpt1TotalTax{ get; set; }
+        public decimal Rpt1TotalTax { get; set; }
 
-        public decimal Rpt2TotalTax{ get; set; }
+        public decimal Rpt2TotalTax { get; set; }
 
-        public decimal Rpt3TotalTax{ get; set; }
+        public decimal Rpt3TotalTax { get; set; }
 
-        public decimal OrderAmt{ get; set; }
+        public decimal OrderAmt { get; set; }
 
-        public decimal DocOrderAmt{ get; set; }
+        public decimal DocOrderAmt { get; set; }
 
-        public decimal Rpt1OrderAmt{ get; set; }
+        public decimal Rpt1OrderAmt { get; set; }
 
-        public decimal Rpt2OrderAmt{ get; set; }
+        public decimal Rpt2OrderAmt { get; set; }
 
-        public decimal Rpt3OrderAmt{ get; set; }
+        public decimal Rpt3OrderAmt { get; set; }
 
-        public string TaxRegionCode{ get; set; }
+        public string TaxRegionCode { get; set; }
 
-        public decimal TotalWHTax{ get; set; }
+        public decimal TotalWHTax { get; set; }
 
-        public decimal DocTotalWHTax{ get; set; }
+        public decimal DocTotalWHTax { get; set; }
 
-        public decimal Rpt1TotalWHTax{ get; set; }
+        public decimal Rpt1TotalWHTax { get; set; }
 
-        public decimal Rpt2TotalWHTax{ get; set; }
+        public decimal Rpt2TotalWHTax { get; set; }
 
-        public decimal Rpt3TotalWHTax{ get; set; }
+        public decimal Rpt3TotalWHTax { get; set; }
 
-        public decimal TotalSATax{ get; set; }
+        public decimal TotalSATax { get; set; }
 
-        public decimal DocTotalSATax{ get; set; }
+        public decimal DocTotalSATax { get; set; }
 
-        public decimal Rpt1TotalSATax{ get; set; }
+        public decimal Rpt1TotalSATax { get; set; }
 
-        public decimal Rpt2TotalSATax{ get; set; }
+        public decimal Rpt2TotalSATax { get; set; }
 
-        public decimal Rpt3TotalSATax{ get; set; }
+        public decimal Rpt3TotalSATax { get; set; }
 
-        public decimal TotalTax{ get; set; }
+        public decimal TotalTax { get; set; }
 
-        public decimal DocTotalTax{ get; set; }
+        public decimal DocTotalTax { get; set; }
 
-        public decimal TotalDiscount{ get; set; }
+        public decimal TotalDiscount { get; set; }
 
-        public decimal Rpt1TotalDiscount{ get; set; }
+        public decimal Rpt1TotalDiscount { get; set; }
 
-        public decimal Rpt2TotalDiscount{ get; set; }
+        public decimal Rpt2TotalDiscount { get; set; }
 
-        public decimal Rpt3TotalDiscount{ get; set; }
+        public decimal Rpt3TotalDiscount { get; set; }
 
-        public decimal DocTotalDiscount{ get; set; }
+        public decimal DocTotalDiscount { get; set; }
 
-        public int ShipToCustNum{ get; set; }
+        public int ShipToCustNum { get; set; }
 
-        public string DeviceUOM{ get; set; }
+        public string DeviceUOM { get; set; }
 
-        public string ManifestSizeUOM{ get; set; }
+        public string ManifestSizeUOM { get; set; }
 
-        public string ManifestWtUOM{ get; set; }
+        public string ManifestWtUOM { get; set; }
 
-        public decimal ManifestWeight{ get; set; }
+        public decimal ManifestWeight { get; set; }
 
-        public decimal ManifestLength{ get; set; }
+        public decimal ManifestLength { get; set; }
 
-        public decimal ManifestWidth{ get; set; }
+        public decimal ManifestWidth { get; set; }
 
-        public decimal ManifestHeight{ get; set; }
+        public decimal ManifestHeight { get; set; }
 
-        public string RateGrpCode{ get; set; }
+        public string RateGrpCode { get; set; }
 
-        public bool InPrice{ get; set; }
+        public bool InPrice { get; set; }
 
-        public bool PBHoldNoInv{ get; set; }
+        public bool PBHoldNoInv { get; set; }
 
-        public int Obs10PkgNum{ get; set; }
+        public int Obs10PkgNum { get; set; }
 
-        public decimal ReconcileQty{ get; set; }
+        public decimal ReconcileQty { get; set; }
 
-        public string ScheduleNumber{ get; set; }
+        public string ScheduleNumber { get; set; }
 
-        public int CounterASN{ get; set; }
+        public int CounterASN { get; set; }
 
-        public string OurBank{ get; set; }
+        public string OurBank { get; set; }
 
-        public bool ERSOrder{ get; set; }
+        public bool ERSOrder { get; set; }
 
-        public bool AutoPrintReady{ get; set; }
+        public bool AutoPrintReady { get; set; }
 
-        public bool ShipOvers{ get; set; }
+        public bool ShipOvers { get; set; }
 
-        public bool WIPackSlipCreated{ get; set; }
+        public bool WIPackSlipCreated { get; set; }
 
-        public System.Data.Linq.Binary SysRevID{ get; set; }
+        public System.Data.Linq.Binary SysRevID { get; set; }
 
-        public System.Guid SysRowID{ get; set; }
+        public System.Guid SysRowID { get; set; }
 
-        public string AGAuthorizationCode{ get; set; }
+        public string AGAuthorizationCode { get; set; }
 
-        public System.Nullable<System.DateTime> AGAuthorizationDate{ get; set; }
+        public System.Nullable<System.DateTime> AGAuthorizationDate { get; set; }
 
-        public string AGCarrierCUIT{ get; set; }
+        public string AGCarrierCUIT { get; set; }
 
-        public bool AGCOTMark{ get; set; }
+        public bool AGCOTMark { get; set; }
 
-        public string AGDocumentLetter{ get; set; }
+        public string AGDocumentLetter { get; set; }
 
-        public string AGInvoicingPoint{ get; set; }
+        public string AGInvoicingPoint { get; set; }
 
-        public string AGLegalNumber{ get; set; }
+        public string AGLegalNumber { get; set; }
 
-        public string AGPrintingControlType{ get; set; }
+        public string AGPrintingControlType { get; set; }
 
-        public string AGTrackLicense{ get; set; }
+        public string AGTrackLicense { get; set; }
 
-        public string DispatchReason{ get; set; }
+        public string DispatchReason { get; set; }
 
-        public string AGShippingWay{ get; set; }
+        public string AGShippingWay { get; set; }
 
-        public string OurSupplierCode{ get; set; }
+        public string OurSupplierCode { get; set; }
 
-        public System.Nullable<System.DateTime> ASNPrintedDate{ get; set; }
+        public System.Nullable<System.DateTime> ASNPrintedDate { get; set; }
 
 
     }
-    public class ShipToModel 
+    public class ShipToModel
     {
-        public string Company{ get; set; }
+        public string Company { get; set; }
 
-        public int CustNum{ get; set; }
+        public int CustNum { get; set; }
 
-        public string ShipToNum{ get; set; }
+        public string ShipToNum { get; set; }
 
-        public string Name{ get; set; }
+        public string Name { get; set; }
 
-        public string Address1{ get; set; }
+        public string Address1 { get; set; }
 
-        public string Address2{ get; set; }
+        public string Address2 { get; set; }
 
-        public string Address3{ get; set; }
+        public string Address3 { get; set; }
 
-        public string City{ get; set; }
+        public string City { get; set; }
 
-        public string State{ get; set; }
+        public string State { get; set; }
 
-        public string ZIP{ get; set; }
+        public string ZIP { get; set; }
 
-        public string Country{ get; set; }
+        public string Country { get; set; }
 
-        public string ResaleID{ get; set; }
+        public string ResaleID { get; set; }
 
-        public string SalesRepCode{ get; set; }
+        public string SalesRepCode { get; set; }
 
-        public string TerritoryID{ get; set; }
+        public string TerritoryID { get; set; }
 
-        public string ShipViaCode{ get; set; }
+        public string ShipViaCode { get; set; }
 
-        public int PrimSCon{ get; set; }
+        public int PrimSCon { get; set; }
 
-        public string FaxNum{ get; set; }
+        public string FaxNum { get; set; }
 
-        public string PhoneNum{ get; set; }
+        public string PhoneNum { get; set; }
 
-        public string TaxExempt{ get; set; }
+        public string TaxExempt { get; set; }
 
-        public string EDIShipNum{ get; set; }
+        public string EDIShipNum { get; set; }
 
-        public int CountryNum{ get; set; }
+        public int CountryNum { get; set; }
 
-        public string LangNameID{ get; set; }
+        public string LangNameID { get; set; }
 
-        public string BorderCrossing{ get; set; }
+        public string BorderCrossing { get; set; }
 
-        public string FormatStr{ get; set; }
+        public string FormatStr { get; set; }
 
-        public string TaxRegionCode{ get; set; }
+        public string TaxRegionCode { get; set; }
 
-        public string EMailAddress{ get; set; }
+        public string EMailAddress { get; set; }
 
-        public string TerritorySelect{ get; set; }
+        public string TerritorySelect { get; set; }
 
-        public string PendingTerritoryID{ get; set; }
+        public string PendingTerritoryID { get; set; }
 
-        public bool CreatedByEDI{ get; set; }
+        public bool CreatedByEDI { get; set; }
 
-        public string ExternalID{ get; set; }
+        public string ExternalID { get; set; }
 
-        public string TaxAuthorityCode{ get; set; }
+        public string TaxAuthorityCode { get; set; }
 
-        public bool GlobalLock{ get; set; }
+        public bool GlobalLock { get; set; }
 
-        public string EDICode{ get; set; }
+        public string EDICode { get; set; }
 
-        public int DemandDeliveryDays{ get; set; }
+        public int DemandDeliveryDays { get; set; }
 
-        public string DemandDateType{ get; set; }
+        public string DemandDateType { get; set; }
 
-        public int DemandAddLeadTime{ get; set; }
+        public int DemandAddLeadTime { get; set; }
 
-        public string DemandAddAction{ get; set; }
+        public string DemandAddAction { get; set; }
 
-        public int DemandChangeLeadTime{ get; set; }
+        public int DemandChangeLeadTime { get; set; }
 
-        public string DemandChangeAction{ get; set; }
+        public string DemandChangeAction { get; set; }
 
-        public int DemandCancelLeadTime{ get; set; }
+        public int DemandCancelLeadTime { get; set; }
 
-        public string DemandCancelAction{ get; set; }
+        public string DemandCancelAction { get; set; }
 
-        public int DemandNewLineLeadTime{ get; set; }
+        public int DemandNewLineLeadTime { get; set; }
 
-        public string DemandNewLineAction{ get; set; }
+        public string DemandNewLineAction { get; set; }
 
-        public int DemandQtyChangeLeadTime{ get; set; }
+        public int DemandQtyChangeLeadTime { get; set; }
 
-        public string DemandQtyChangeAction{ get; set; }
+        public string DemandQtyChangeAction { get; set; }
 
-        public int DemandChangeDateLeadTime{ get; set; }
+        public int DemandChangeDateLeadTime { get; set; }
 
-        public string DemandChangeDateAction{ get; set; }
+        public string DemandChangeDateAction { get; set; }
 
-        public string TradingPartnerName{ get; set; }
+        public string TradingPartnerName { get; set; }
 
-        public bool ResDelivery{ get; set; }
+        public bool ResDelivery { get; set; }
 
-        public bool SatDelivery{ get; set; }
+        public bool SatDelivery { get; set; }
 
-        public bool SatPickup{ get; set; }
+        public bool SatPickup { get; set; }
 
-        public bool Hazmat{ get; set; }
+        public bool Hazmat { get; set; }
 
-        public bool DocOnly{ get; set; }
+        public bool DocOnly { get; set; }
 
-        public string RefNotes{ get; set; }
+        public string RefNotes { get; set; }
 
-        public bool ApplyChrg{ get; set; }
+        public bool ApplyChrg { get; set; }
 
-        public decimal ChrgAmount{ get; set; }
+        public decimal ChrgAmount { get; set; }
 
-        public bool COD{ get; set; }
+        public bool COD { get; set; }
 
-        public bool CODFreight{ get; set; }
+        public bool CODFreight { get; set; }
 
-        public bool CODCheck{ get; set; }
+        public bool CODCheck { get; set; }
 
-        public decimal CODAmount{ get; set; }
+        public decimal CODAmount { get; set; }
 
-        public string GroundType{ get; set; }
+        public string GroundType { get; set; }
 
-        public bool NotifyFlag{ get; set; }
+        public bool NotifyFlag { get; set; }
 
-        public string NotifyEMail{ get; set; }
+        public string NotifyEMail { get; set; }
 
-        public bool DeclaredIns{ get; set; }
+        public bool DeclaredIns { get; set; }
 
-        public decimal DeclaredAmt{ get; set; }
+        public decimal DeclaredAmt { get; set; }
 
-        public int PeriodicityCode{ get; set; }
+        public int PeriodicityCode { get; set; }
 
-        public bool ServSignature{ get; set; }
+        public bool ServSignature { get; set; }
 
-        public bool ServAlert{ get; set; }
+        public bool ServAlert { get; set; }
 
-        public bool ServHomeDel{ get; set; }
+        public bool ServHomeDel { get; set; }
 
-        public string DeliveryType{ get; set; }
+        public string DeliveryType { get; set; }
 
-        public System.Nullable<System.DateTime> ServDeliveryDate{ get; set; }
+        public System.Nullable<System.DateTime> ServDeliveryDate { get; set; }
 
-        public string ServPhone{ get; set; }
+        public string ServPhone { get; set; }
 
-        public string ServInstruct{ get; set; }
+        public string ServInstruct { get; set; }
 
-        public bool ServRelease{ get; set; }
+        public bool ServRelease { get; set; }
 
-        public string ServAuthNum{ get; set; }
+        public string ServAuthNum { get; set; }
 
-        public string ServRef1{ get; set; }
+        public string ServRef1 { get; set; }
 
-        public bool CommercialInvoice{ get; set; }
+        public bool CommercialInvoice { get; set; }
 
-        public string ServRef2{ get; set; }
+        public string ServRef2 { get; set; }
 
-        public bool ShipExprtDeclartn{ get; set; }
+        public bool ShipExprtDeclartn { get; set; }
 
-        public string ServRef3{ get; set; }
+        public string ServRef3 { get; set; }
 
-        public bool CertOfOrigin{ get; set; }
+        public bool CertOfOrigin { get; set; }
 
-        public string ServRef4{ get; set; }
+        public string ServRef4 { get; set; }
 
-        public bool LetterOfInstr{ get; set; }
+        public bool LetterOfInstr { get; set; }
 
-        public string ServRef5{ get; set; }
+        public string ServRef5 { get; set; }
 
-        public bool HazardousShipment{ get; set; }
+        public bool HazardousShipment { get; set; }
 
-        public bool OverrideCarrier{ get; set; }
+        public bool OverrideCarrier { get; set; }
 
-        public bool IntrntlShip{ get; set; }
+        public bool IntrntlShip { get; set; }
 
-        public bool OverrideService{ get; set; }
+        public bool OverrideService { get; set; }
 
-        public bool DemandUseCustomerValues{ get; set; }
+        public bool DemandUseCustomerValues { get; set; }
 
-        public string TaxRegReason{ get; set; }
+        public string TaxRegReason { get; set; }
 
-        public int EarlyBuffer{ get; set; }
+        public int EarlyBuffer { get; set; }
 
-        public string OrgRegCode{ get; set; }
+        public string OrgRegCode { get; set; }
 
-        public int LateBuffer{ get; set; }
+        public int LateBuffer { get; set; }
 
-        public bool DemandUnitPriceDiff{ get; set; }
+        public bool DemandUnitPriceDiff { get; set; }
 
-        public string DemandUnitPriceDiffAction{ get; set; }
+        public string DemandUnitPriceDiffAction { get; set; }
 
-        public bool ExcFromVal{ get; set; }
+        public bool ExcFromVal { get; set; }
 
-        public bool AddressVal{ get; set; }
+        public bool AddressVal { get; set; }
 
-        public bool DemandCheckForPart{ get; set; }
+        public bool DemandCheckForPart { get; set; }
 
-        public string DemandCheckForPartAction{ get; set; }
+        public string DemandCheckForPartAction { get; set; }
 
-        public string FFID{ get; set; }
+        public string FFID { get; set; }
 
-        public string FFAddress1{ get; set; }
+        public string FFAddress1 { get; set; }
 
-        public string FFAddress2{ get; set; }
+        public string FFAddress2 { get; set; }
 
-        public string FFCity{ get; set; }
+        public string FFCity { get; set; }
 
-        public string FFState{ get; set; }
+        public string FFState { get; set; }
 
-        public string FFZip{ get; set; }
+        public string FFZip { get; set; }
 
-        public string FFCountry{ get; set; }
+        public string FFCountry { get; set; }
 
-        public string FFContact{ get; set; }
+        public string FFContact { get; set; }
 
-        public string FFCompName{ get; set; }
+        public string FFCompName { get; set; }
 
-        public string FFPhoneNum{ get; set; }
+        public string FFPhoneNum { get; set; }
 
-        public string ChangedBy{ get; set; }
+        public string ChangedBy { get; set; }
 
-        public System.Nullable<System.DateTime> ChangeDate{ get; set; }
+        public System.Nullable<System.DateTime> ChangeDate { get; set; }
 
-        public int ChangeTime{ get; set; }
+        public int ChangeTime { get; set; }
 
-        public bool IndividualPackIDs{ get; set; }
+        public bool IndividualPackIDs { get; set; }
 
-        public int FFCountryNum{ get; set; }
+        public int FFCountryNum { get; set; }
 
-        public bool NonStdPkg{ get; set; }
+        public bool NonStdPkg { get; set; }
 
-        public int DeliveryConf{ get; set; }
+        public int DeliveryConf { get; set; }
 
-        public bool AddlHdlgFlag{ get; set; }
+        public bool AddlHdlgFlag { get; set; }
 
-        public bool UPSQuantumView{ get; set; }
+        public bool UPSQuantumView { get; set; }
 
-        public string UPSQVShipFromName{ get; set; }
+        public string UPSQVShipFromName { get; set; }
 
-        public string UPSQVMemo{ get; set; }
+        public string UPSQVMemo { get; set; }
 
-        public string FFAddress3{ get; set; }
+        public string FFAddress3 { get; set; }
 
-        public bool ETCAddrChg{ get; set; }
+        public bool ETCAddrChg { get; set; }
 
-        public bool IsAlternate{ get; set; }
+        public bool IsAlternate { get; set; }
 
-        public int MasterCustNum{ get; set; }
+        public int MasterCustNum { get; set; }
 
-        public string MasterShipToNum{ get; set; }
+        public string MasterShipToNum { get; set; }
 
-        public bool DemandCheckForRev{ get; set; }
+        public bool DemandCheckForRev { get; set; }
 
-        public string DemandCheckForRevAction{ get; set; }
+        public string DemandCheckForRevAction { get; set; }
 
-        public bool DemandCheckPartialShip{ get; set; }
+        public bool DemandCheckPartialShip { get; set; }
 
-        public string DemandCheckShipAction{ get; set; }
+        public string DemandCheckShipAction { get; set; }
 
-        public bool DemandCloseRejSkd{ get; set; }
+        public bool DemandCloseRejSkd { get; set; }
 
-        public string DemandPricing{ get; set; }
+        public string DemandPricing { get; set; }
 
-        public decimal PriceTolerance{ get; set; }
+        public decimal PriceTolerance { get; set; }
 
-        public bool CheckDateCapPromise{ get; set; }
+        public bool CheckDateCapPromise { get; set; }
 
-        public bool CheckConfirmCapPromise{ get; set; }
+        public bool CheckConfirmCapPromise { get; set; }
 
-        public bool CheckUpdateCapPromise{ get; set; }
+        public bool CheckUpdateCapPromise { get; set; }
 
-        public string DemandCapPromiseDate{ get; set; }
+        public string DemandCapPromiseDate { get; set; }
 
-        public string DemandCapPromiseAction{ get; set; }
+        public string DemandCapPromiseAction { get; set; }
 
-        public string DemandCapPromiseUpdate{ get; set; }
+        public string DemandCapPromiseUpdate { get; set; }
 
-        public bool OTSmartString{ get; set; }
+        public bool OTSmartString { get; set; }
 
-        public string LegalName{ get; set; }
+        public string LegalName { get; set; }
 
-        public bool DemandCheckConfig{ get; set; }
+        public bool DemandCheckConfig { get; set; }
 
-        public string DemandCheckCfgAction{ get; set; }
+        public string DemandCheckCfgAction { get; set; }
 
-        public bool WIWebShipTo{ get; set; }
+        public bool WIWebShipTo { get; set; }
 
-        public System.Data.Linq.Binary SysRevID{ get; set; }
+        public System.Data.Linq.Binary SysRevID { get; set; }
 
-        public System.Guid SysRowID{ get; set; }
+        public System.Guid SysRowID { get; set; }
 
-        public string AGApartment{ get; set; }
+        public string AGApartment { get; set; }
 
-        public string AGExtraStreetNumber{ get; set; }
+        public string AGExtraStreetNumber { get; set; }
 
-        public string AGFloor{ get; set; }
+        public string AGFloor { get; set; }
 
-        public string AGGrossIncomeTaxID{ get; set; }
+        public string AGGrossIncomeTaxID { get; set; }
 
-        public string AGLocationCode{ get; set; }
+        public string AGLocationCode { get; set; }
 
-        public string AGNeighborhood{ get; set; }
+        public string AGNeighborhood { get; set; }
 
-        public string AGProvinceCode{ get; set; }
+        public string AGProvinceCode { get; set; }
 
-        public string AGStreet{ get; set; }
+        public string AGStreet { get; set; }
 
-        public string AGStreetNumber{ get; set; }
+        public string AGStreetNumber { get; set; }
 
-        public string EntityUseCode{ get; set; }
+        public string EntityUseCode { get; set; }
 
-        public bool DemandCheckForRunOutPart{ get; set; }
+        public bool DemandCheckForRunOutPart { get; set; }
 
-        public string DemandCheckForRunOutPartAction{ get; set; }
+        public string DemandCheckForRunOutPartAction { get; set; }
 
-        public string INExciseRegNumber{ get; set; }
+        public string INExciseRegNumber { get; set; }
 
-        public string INVATNumber{ get; set; }
+        public string INVATNumber { get; set; }
 
-        public string INSTRegistration{ get; set; }
+        public string INSTRegistration { get; set; }
 
     }
 
     public class ShipHeadHDModel
     {
-        public System.Guid ForeignSysRowID{ get; set; }
+        public System.Guid ForeignSysRowID { get; set; }
 
-        public System.Data.Linq.Binary UDSysRevID{ get; set; }
+        public System.Data.Linq.Binary UDSysRevID { get; set; }
 
-        public bool ShipmentEmailSentc{ get; set; }
+        public bool ShipmentEmailSentc { get; set; }
 
     }
 }
