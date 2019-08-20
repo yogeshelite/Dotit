@@ -165,7 +165,9 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         AdminlineperHour = f.Adminlineperhour,
                         LastLogin = f.Lastlogin,
                         MaxLines = f.Maxlines,
-                        MaxWeight = f.Maxweight
+                        MaxWeight = f.Maxweight,
+                        UserHeight=f.UserHeight,
+                        WeightCapacity=f.WeightCapacity
                     }).ToList();
 
 

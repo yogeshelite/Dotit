@@ -50,7 +50,16 @@ namespace DotIt.AutoPicker.Controllers
             }
             return View();
         }
+        public IActionResult AddProfile()
+        {
 
+            var UserLogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+            if (UserLogInName == null)
+            {
+                return RedirectToAction("Default");
+            }
+            return View();
+        }
         public IActionResult Default()
         {
             return View();
@@ -124,6 +133,8 @@ namespace DotIt.AutoPicker.Controllers
                     LastLogin = warehouseemployee.Lastlogin,
                     MaxLines = warehouseemployee.Maxlines,
                     MaxWeight = warehouseemployee.Maxweight,
+                    UserHeight=warehouseemployee.UserHeight,
+                    WeightCapacity=warehouseemployee.WeightCapacity
                 };
                 return View(pickerModel);
 
@@ -194,10 +205,37 @@ namespace DotIt.AutoPicker.Controllers
                 user.Adminlineperhour = warehouseemployee.AdminlineperHour;
                 user.Lastlogin = warehouseemployee.LastLogin;
                 user.Maxlines = warehouseemployee.MaxLines;
-                user.Maxweight = warehouseemployee.MaxWeight; 
+                user.Maxweight = warehouseemployee.MaxWeight;
+                user.UserHeight = warehouseemployee.UserHeight;
+                user.WeightCapacity = warehouseemployee.WeightCapacity;
             }
             _DotitExtensionContext.SaveChanges();           
             return Json("Profile updated");
+        }
+      
+        public JsonResult AddProfileData(PickerModel warehouseemployee)
+        {
+            // var user = _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Emailaddress == warehouseemployee.EMailAddress);
+            Warehouseemployee obj = new Warehouseemployee();
+           
+            if (obj != null)
+            {
+                obj.Emailaddress = warehouseemployee.EMailAddress;
+                obj.Grouplist = "WHSE";
+                obj.Pickername = warehouseemployee.Name;
+                obj.Recordupdatedate = DateTime.Now;
+                obj.Dcduserid = warehouseemployee.Name.ToUpper();
+                obj.active = warehouseemployee.Active;
+                obj.Adminlineperhour = warehouseemployee.AdminlineperHour;
+                obj.Lastlogin = warehouseemployee.LastLogin;
+                obj.Maxlines = warehouseemployee.MaxLines;
+                obj.Maxweight = warehouseemployee.MaxWeight;
+                obj.UserHeight = warehouseemployee.UserHeight;
+                obj.WeightCapacity = warehouseemployee.WeightCapacity;
+            }
+            _DotitExtensionContext.Warehouseemployee.Add(obj);
+            _DotitExtensionContext.SaveChanges(); 
+            return Json("Profile Add");
         }
         public IActionResult DeleteProfile(string id ,bool active)
         {

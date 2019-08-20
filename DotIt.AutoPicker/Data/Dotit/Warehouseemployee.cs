@@ -19,5 +19,7 @@ namespace DotIt.AutoPicker.Data.DotIt
         public DateTime? Lastlogin { get; set; }
         public DateTime? Recorddate { get; set; }
         public DateTime? Recordupdatedate { get; set; }
+        public string UserHeight { get; set; }
+        public int? WeightCapacity { get; set; }
     }
 }

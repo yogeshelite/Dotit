@@ -22,6 +22,8 @@ namespace DotIt.AutoPicker.Models
         public bool? Active { get; set; }
         public Nullable<DateTime> LastLogin { get; set; }
         public Nullable<DateTime> RecordDate { get; set; }
+        public string UserHeight { get; set; }
+        public int? WeightCapacity { get; set; }
 
     }
 }

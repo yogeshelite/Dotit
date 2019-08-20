@@ -1427,6 +1427,12 @@ namespace DotIt.AutoPicker.Data.DotIt
                 entity.Property(e => e.Recordupdatedate)
                     .HasColumnName("RECORDUPDATEDATE")
                     .HasColumnType("datetime");
+                entity.Property(e => e.UserHeight)
+                   .HasColumnName("USERHEIGHT")
+                   .HasColumnType("varchar").HasMaxLength(10);
+                entity.Property(e => e.WeightCapacity)
+                   .HasColumnName("WEIGHTCAPACITY")
+                   .HasColumnType("int");
             });
 
             modelBuilder.Entity<Websales>(entity =>

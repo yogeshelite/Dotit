@@ -1,7 +1,10 @@
 ﻿@model DotIt.AutoPicker.Models.PickerModel
-
+@*@{
+        //Layout = null;
+    }*@
 @{
-//Layout = null;
+    ViewData["Title"] = "AddProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -15,11 +18,14 @@
     <style>
         .PickerTable {
             max-width: 75%;
-            align-content:center;
+            align-content: center;
         }
 
-        thead { text-align:center;font-size:xx-large;
+        thead {
+            text-align: center;
+            font-size: xx-large;
         }
+
         tbody th {
             text-align: right;
         }
@@ -27,7 +33,6 @@
         tbody td {
             text-align: left;
         }
-
     </style>
 </head>
 <body>
@@ -43,73 +48,73 @@
             <thead>
                 <tr>
                     <th colspan="2" align="center">Picker Information</th>
-                  
+
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th align="right">Name :</th>
                     <td>
-                        <input type="hidden" name="DcdUserID" id="DcdUserID" value="@Model.DcdUserID" />
-                        <input type="text" class="emprole" name="Name" id="NameTextBox" value="@Model.Name" />
+                       
+                        <input type="text" class="emprole" name="Name" id="NameTextBox"  />
                     </td>
                 </tr>
                 <tr>
                     <th align="right">Email :</th>
                     <td>
-                        <input type="text" name="Email" id="EmailTextBox" class="emprole" value="@Model.EMailAddress" />
+                        <input type="text" name="Email" id="EmailTextBox" class="emprole" value="" />
                     </td>
                 </tr>
 
                 <tr>
                     <th align="right">Max Lines :</th>
                     <td>
-                        <input type="number" name="TxtMaxLines" id="TxtMaxLines" class="emprole" value="@Model.MaxLines" />
+                        <input type="number" name="TxtMaxLines" id="TxtMaxLines" class="emprole" value="" />
                     </td>
                 </tr>
                 <tr>
                     <th align="right">Max Weight :</th>
                     <td>
-                        <input type="number" name="TxtMaxWeight" id="TxtMaxWeight" class="emprole" value="@Model.MaxWeight" />
+                        <input type="number" name="TxtMaxWeight" id="TxtMaxWeight" class="emprole" value="" />
                     </td>
                 </tr>
                 <tr>
                     <th align="right">Adminlineper Hour :</th>
                     <td>
-                        <input type="number" name="TxtAdminLinePerHour" id="TxtAdminLinePerHour" class="emprole" value="@Model.AdminlineperHour" />
+                        <input type="number" name="TxtAdminLinePerHour" id="TxtAdminLinePerHour" class="emprole" value="" />
                     </td>
                 </tr>
                 <tr>
                     <th align="right">User Height :</th>
                     <td>
-                        <input type="text" name="TxtUserHeight" id="TxtUserHeight" class="emprole" value="@Model.UserHeight" />
+                        <input type="text" name="TxtUserHeight" id="TxtUserHeight" class="emprole" value="" />
                     </td>
                 </tr>
                 <tr style="display:none;">
                     <th align="right">Weight Capacity :</th>
                     <td>
-                        <input type="number" name="TxtWeightCapacity" id="TxtWeightCapacity" class="emprole" value="@Model.WeightCapacity" />
+                        <input type="number" name="TxtWeightCapacity" id="TxtWeightCapacity" class="emprole" value="" />
                     </td>
                 </tr>
                 <tr>
                     <th align="right">Role :</th>
                     <td>
-                        @Model.Grouplist
+                       
                     </td>
                 </tr>
                 <tr>
                     <td> <button class="btn-info-grey" onclick="Cancel()">CANCEL</button></td>
                     <td>
-                        <button class="btn-style-grey" style="margin-left:10px" onclick="UpdateProfile()">SAVE</button>
+                        <button class="btn-style-grey" style="margin-left:10px" onclick="AddProfile()">SAVE</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-        
+
 
         <br /><br />
-       
-       
+
+
     </div>
 
     <script>
@@ -120,7 +125,7 @@
         if ('@ViewBag.EmployeeDetails.Pickdotit'== "True") {
             $("#DotItCheckbox").prop('checked', true);
         }*@
-        var UpdateProfile = function () {
+        var AddProfile = function () {
             debugger;
             var name = $("#NameTextBox").val();
             var email = $("#EmailTextBox").val();
@@ -132,11 +137,12 @@
             var LinesPerHour = $("#TxtAdminLinePerHour").val();
             var dcdUserID = $("#DcdUserID").val();
             var UserHeight = $("#TxtUserHeight").val();
-            var WeightCapacity = $("#TxtWeightCapacity").val();
+            var WeightCapacity = '';// $("#TxtWeightCapacity").val();
             //var Id =model.Empid;
             var Id = "";
-            $.ajax('../../Admin/SaveProfile',
+            $.ajax('../../Admin/AddProfileData',
                 {
+                   
                     data: {
                         Empid:Id,
                         Name: name,
@@ -153,13 +159,17 @@
                     },
                     success: function (result) {
                         console.log(result);
-                        if (result == "Profile updated") {
-                            alert("Profile updated");
+                        if (result == "Profile Add") {
+                            alert("Profile Add");
                             window.location.href = "/Admin/Home";
                         }
+                    }, error: function (errorMsg)
+                    {
+                        console.log(errorMsg);
                     }
                 })
         }
     </script>
 </body>
 </html>
+
