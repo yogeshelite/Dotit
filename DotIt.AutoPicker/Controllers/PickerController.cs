@@ -376,15 +376,15 @@ namespace DotIt.AutoPicker.Controllers
             {
 
 
-                //model = _pickerRepository.GetDotItOrder().FirstOrDefault(f => f.OrderNum == ordernum);
-                //    //DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+                model = _pickerRepository.GetDotItOrder().FirstOrDefault(f => f.OrderNum == ordernum);
+                //DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
 
-                //if (model != null)
-                //{
-                //    model.OrderPickStatus = Status.Hold.ToString();
-                //    model.ReasionPickFail = string.Format(" Part# {0} in bin location {1} has been quarentine,'" + Orderlist.PartNum + "','" + Orderlist.BinNum + "'");
-                //    DotitExtensionContext.SaveChanges();
-                //}
+                if (model != null)
+                {
+                    model.OrderPickStatus = Status.Hold.ToString();
+                    model.ReasionPickFail = string.Format(" Part# {0} in bin location {1} has been quarentine,'" + Orderlist.PartNum + "','" + Orderlist.BinNum + "'");
+                    DotitExtensionContext.SaveChanges();
+                }
 
             }
             #endregion
