@@ -1433,6 +1433,9 @@ namespace DotIt.AutoPicker.Data.DotIt
                 entity.Property(e => e.WeightCapacity)
                    .HasColumnName("WEIGHTCAPACITY")
                    .HasColumnType("int");
+                entity.Property(e => e.PickForCompany)
+                  .HasColumnName("PICKFORCOMPANY");
+                  //.HasColumnType("varchar").HasMaxLength(100);
             });
 
             modelBuilder.Entity<Websales>(entity =>

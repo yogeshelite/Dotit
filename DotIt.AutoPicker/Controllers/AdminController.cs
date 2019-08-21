@@ -17,6 +17,7 @@ using DotIt.AutoPicker.Data;
 using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Persistance.Repository;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace DotIt.AutoPicker.Controllers
 {
@@ -68,6 +69,7 @@ namespace DotIt.AutoPicker.Controllers
 
         public JsonResult Login(string UserName)
         {
+            var ReturnResponse = "";
             using (_apiResponse = new ApiResponse())
             {
                 //ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
@@ -76,7 +78,7 @@ namespace DotIt.AutoPicker.Controllers
 
 
                 var user = _pickerRepository.GetPickers(docuserid: UserName).FirstOrDefault();
-                    //JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
+                //JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
 
 
                 if (user != null)
@@ -85,14 +87,28 @@ namespace DotIt.AutoPicker.Controllers
                     if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString(), UserGroup.WHSELEAD.ToString() }.Contains(f)).Count() > 0)
                     {
                         HttpContext.Session.Set(Constant.UserCookie.ToString(), user);
-                       // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
-                        return Json(user.Grouplist);
+                        ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
+                        if (!ObjResponse.success)
+                        {
+                            ReturnResponse = "{\"Response\":\"User Not Exist In Epicore \"}";
+                        }
+                        else
+                        {
+                            
+                            ReturnResponse = ObjResponse.Response;
+                            // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
+                        }
+                        // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
+                        
                     }
 
-                    return Json("Not a picker user");
+                    //return Json("Not a picker user");
+                }
+                else {
+                    ReturnResponse = "{\"Response\":\"User Not Exist \"}";
                 }
 
-                return Json(new { success = true, action = "User not exist" });
+                return Json(ReturnResponse);
             }
         }
 
@@ -104,6 +120,7 @@ namespace DotIt.AutoPicker.Controllers
             {
                 //ViewBag.LogInName = UserLogInName.DcdUserID;
                 ViewBag.Pickers = GetPickers(dcduserid: UserLogInName.DcdUserID);
+                GetEpicoreOrder();
                 return View();
             }
             else
@@ -120,6 +137,12 @@ namespace DotIt.AutoPicker.Controllers
 
             if (warehouseemployee != null)
             {
+                string[] PickComp = new string[2];
+                if (!string.IsNullOrWhiteSpace(warehouseemployee.PickForCompany))
+                {
+                    PickComp = warehouseemployee.PickForCompany.Split(',');
+                }
+                
                 PickerModel pickerModel = new PickerModel()
                 {
                     EMailAddress = warehouseemployee.Emailaddress,
@@ -134,8 +157,31 @@ namespace DotIt.AutoPicker.Controllers
                     MaxLines = warehouseemployee.Maxlines,
                     MaxWeight = warehouseemployee.Maxweight,
                     UserHeight=warehouseemployee.UserHeight,
-                    WeightCapacity=warehouseemployee.WeightCapacity
+                    WeightCapacity=warehouseemployee.WeightCapacity,
+                   
                 };
+                if (PickComp[0] == "NCCO")
+                    pickerModel.Ncco = true;
+                else
+                    pickerModel.Ncco = false;
+                if (PickComp[0] == "DIRF")
+                    pickerModel.Dirf = true;
+                else
+                    pickerModel.Dirf = true;
+
+                if (PickComp[1] == "NCCO")
+                    pickerModel.Ncco = true;
+                else
+                    pickerModel.Ncco = false;
+                if (PickComp[1] == "DIRF")
+                    pickerModel.Dirf = true;
+                else
+                    pickerModel.Dirf = false;
+                if (PickComp[0] == "NCCO" && PickComp[1] == "DIRF")
+                {
+                    pickerModel.Dirf = true;
+                    pickerModel.Ncco = true;
+                }
                 return View(pickerModel);
 
             }
@@ -208,6 +254,7 @@ namespace DotIt.AutoPicker.Controllers
                 user.Maxweight = warehouseemployee.MaxWeight;
                 user.UserHeight = warehouseemployee.UserHeight;
                 user.WeightCapacity = warehouseemployee.WeightCapacity;
+                user.PickForCompany = warehouseemployee.PickForCompany;
             }
             _DotitExtensionContext.SaveChanges();           
             return Json("Profile updated");
@@ -232,6 +279,7 @@ namespace DotIt.AutoPicker.Controllers
                 obj.Maxweight = warehouseemployee.MaxWeight;
                 obj.UserHeight = warehouseemployee.UserHeight;
                 obj.WeightCapacity = warehouseemployee.WeightCapacity;
+                //obj.PickForCompany = warehouseemployee.PickForCompany;
             }
             _DotitExtensionContext.Warehouseemployee.Add(obj);
             _DotitExtensionContext.SaveChanges(); 
@@ -281,5 +329,24 @@ namespace DotIt.AutoPicker.Controllers
             return View("Index");
         }
 
+        public JsonResult GetEpicoreOrder()
+        {
+            string ReturnResponse = "";
+            using (_apiResponse = new ApiResponse())
+            {
+                ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrderList, "GET");
+                if (!ObjResponse.success)
+                {
+                    ReturnResponse = "{\"Response\":\"No Sale Order Found \"}";
+                }
+                else
+                {
+
+                    ReturnResponse = ObjResponse.Response;
+                    // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
+                }
+                return Json(Response);
+            }
+        }
     }
 }

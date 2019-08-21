@@ -98,6 +98,15 @@
                     </td>
                 </tr>
                 <tr>
+                    <th align="right">Pick For Company :</th>
+                    <td>
+                       <input type="checkbox" id="ChkPickForCompanyNcco" name="ChkPickForCompanyNcco" value="NCCO" checked="@Model.Ncco" ><label>NCCO</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" id="ChkPickForCompanyDIRF" name="ChkPickForCompanyDIRF" value="DIRF"  checked="@Model.Dirf"><label>DIRF</label>
+                    </td>
+                </tr>
+                <tr>
                     <td> <button class="btn-info-grey" onclick="Cancel()">CANCEL</button></td>
                     <td>
                         <button class="btn-style-grey" style="margin-left:10px" onclick="UpdateProfile()">SAVE</button>
@@ -133,6 +142,20 @@
             var dcdUserID = $("#DcdUserID").val();
             var UserHeight = $("#TxtUserHeight").val();
             var WeightCapacity = $("#TxtWeightCapacity").val();
+            var pickforcompany = "";
+            var dirf = "";
+            if ($('#ChkPickForCompanyNcco').is(":checked")) {
+                pickforcompany+="NCCO"+","
+            }
+            else if ($('#ChkPickForCompanyNcco').is(":not(:checked)")) {
+                pickforcompany = '';
+            }
+            if ($('#ChkPickForCompanyDIRF').is(":checked")) {
+                pickforcompany += "DIRF"
+            }
+            else if ($('#ChkPickForCompanyDIRF').is(":not(:checked)")) {
+               
+            }
             //var Id =model.Empid;
             var Id = "";
             $.ajax('../../Admin/SaveProfile',
@@ -149,7 +172,8 @@
                         AdminlineperHour: LinesPerHour,
                         DcdUserID: dcdUserID,
                         UserHeight: UserHeight,
-                        WeightCapacity: maxWeight
+                        WeightCapacity: maxWeight,
+                        PickForCompany: pickforcompany
                     },
                     success: function (result) {
                         console.log(result);

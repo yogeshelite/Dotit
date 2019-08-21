@@ -21,5 +21,6 @@ namespace DotIt.AutoPicker.Data.DotIt
         public DateTime? Recordupdatedate { get; set; }
         public string UserHeight { get; set; }
         public int? WeightCapacity { get; set; }
+        public string PickForCompany { get; set; }
     }
 }

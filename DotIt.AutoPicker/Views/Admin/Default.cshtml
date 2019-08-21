@@ -14,27 +14,27 @@
     <div class="limiter">
         <div class="container" style="width:30%">
             <div class="wrap-login100">
-                
-                    <h1>Welcome</h1>
-                
-                
-                    <div class="form-group">
-                        <label for="UserName">UserName:</label>
-                        <input class="form-control" id="Username" name="UserName" type="text" />
-                        <span id="spanforusername"></span>
-                    </div>
-                    @*<div class="form-group">
+
+                <h1>Welcome</h1>
+
+
+                <div class="form-group">
+                    <label for="UserName">UserName:</label>
+                    <input class="form-control" id="Username" name="UserName" type="text" />
+                    <span id="spanforusername"></span>
+                </div>
+                @*<div class="form-group">
                         <label for="Password">Password:</label>
                         <input type="password" id="Password" name="Password" class="form-control" />
                         <span id="spanforpassword"></span>
                     </div>*@
+                <div>
                     <div>
-                        <div>
-                            <div><span class="text-danger"></span></div>
-                            <button type="button" onclick="Login()" class="btn btn-default btn-block">Login</button>
-                        </div>
+                        <div><span class="text-danger" id="spnLoginError"></span></div>
+                        <button type="button" onclick="Login()" class="btn btn-default btn-block">Login</button>
                     </div>
-                
+                </div>
+
             </div>
         </div>
     </div>
@@ -43,18 +43,60 @@
 </html>
 <script>
     var Login = function () {
+        $('#spnLoginError').html("");
         var username = $("#Username").val();
-        console.log(username);
+        //console.log(username);
         //var password = $("#Password").val();
         $.ajax('../../Admin/Login', {
             type: 'POST',
             data: {
                 UserName: username
-               // Password: password
+                // Password: password
             },
             success: function (result) {
-                debugger;
-               // var data = JSON.parse(result);
+                var jsonResponse = JSON.parse(result);
+                console.log(jsonResponse);
+                if (jsonResponse.Response) {
+                    $('#spnLoginError').html(jsonResponse.Response);
+                    return;
+                }
+                console.log('jsonResponse.UserDisabled=' + jsonResponse.UserDisabled);
+                if (jsonResponse.UserDisabled == false) {
+                    var selectedRight = [];
+                    var RoleArray = [];
+                    RoleArray = jsonResponse.GroupList.split('~');
+                    for (var i = 0; i < RoleArray.length; i++) {
+                        switch (RoleArray[i]) {
+                            case "WHSE":
+                                selectedRight.push("WHSE");
+                                break;
+                            case "WHSEMGR":
+                                selectedRight.push("WHSEMGR");
+                                break;
+                        }
+
+                    }
+                    console.log(RoleArray);
+
+                    if (selectedRight.length == 2) {
+                        window.location.href = '../../Admin/Home/';
+                    }
+                    for (var j = 0; j < selectedRight.length; j++) {
+                        switch (selectedRight[j]) {
+                            case "WHSE":
+                                window.location.href = '../../Picker/Index/';
+                                break;
+                            case "WHSEMGR":
+                                window.location.href = '../../Admin/Home/';
+                                break;
+                        }
+                    }
+                }
+                else {
+                   
+                    $('#spnLoginError').html("User Disabled in Epicore");
+                }
+                // var data = JSON.parse(result);
 
 
                 //if (result == 'username wrong') {
@@ -63,10 +105,14 @@
                 //if (result == 'password wrong') {
                 //    $("#spanforpassword").text('Invalid Password');
                 //}
-                if (result.toString().indexOf("WHSEMGR") > 0) { window.location.href = '../../Admin/Home/'; }
-                else if (result.toString().indexOf("WHSE") > 0) { window.location.href = '../../Picker/Index/'; }
-                else { alert(result); return; }
-               
+
+
+                //if (result.toString().indexOf("WHSEMGR") > 0)
+                //{ window.location.href = '../../Admin/Home/'; }
+                //else if (result.toString().indexOf("WHSE") > 0)
+                //{ window.location.href = '../../Picker/Index/'; }
+                //else { alert(result); return; }
+
             }
         })
     }
