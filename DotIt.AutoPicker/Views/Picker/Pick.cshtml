@@ -119,18 +119,19 @@
                                 <td></td>
                                 <td><img src="@OrderLines.ImageContent " alt="resume" class="icon-spc"></td>
                                 <td>
-                                    <button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</button>
+                                    @*accordion*@
+                                    <button class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</button>
                                     @*<button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum">Pick</button>*@
-                                    <div class="panel">
-                                        <p>
-                                            <a onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine')">Quarentine</a>
-                                            <a onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish')">Replenish</a>
-                                            <a onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Inventory Control')">Inventory Control</a>
+                                    @*<div class="panel">
+                                        <p>*@
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine')">Quarentine</a>
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish')">Replenish</a>
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Inventory Control')">Inventory Control</a>
                                             @*<a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Quarentine</a>
-                                                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
-                                                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>*@
-                                        </p>
-                                    </div>
+                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
+                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>*@
+                                        @*</p>
+                                    </div>*@
                                 </td>
                             </tr>
                         }

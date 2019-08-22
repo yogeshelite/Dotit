@@ -120,7 +120,7 @@ namespace DotIt.AutoPicker.Controllers
             {
                 //ViewBag.LogInName = UserLogInName.DcdUserID;
                 ViewBag.Pickers = GetPickers(dcduserid: UserLogInName.DcdUserID);
-                GetEpicoreOrder();
+                //GetEpicoreOrder();
                 return View();
             }
             else

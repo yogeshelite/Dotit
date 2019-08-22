@@ -899,18 +899,16 @@ namespace DotIt.AutoPicker.Data.DotIt
 
                 entity.ToTable("PICKERORDER");
 
-                entity.Property(e => e.Ordernum).HasColumnName("ORDERNUM");
+                entity.Property(e => e.Ordernum).HasColumnName("ORDERNUM").HasColumnType("int");
 
                 entity.Property(e => e.Company)
-                    .HasColumnName("COMPANY")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
+                    .HasColumnName("COMPANY").HasColumnType("varchar")
+                    .HasMaxLength(8);
 
                 entity.Property(e => e.Dcduserid)
                     .IsRequired()
-                    .HasColumnName("DCDUSERID")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasColumnName("DCDUSERID").HasColumnType("varchar")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Orderdate)
                     .HasColumnName("ORDERDATE")
@@ -918,15 +916,13 @@ namespace DotIt.AutoPicker.Data.DotIt
 
                 entity.Property(e => e.Pickstatus)
                     .IsRequired()
-                    .HasColumnName("PICKSTATUS")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasColumnName("PICKSTATUS").HasColumnType("varchar")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.ReasionPickFail)
                     .IsRequired()   
-                    .HasColumnName("REASIONPICKFAIL")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasColumnName("REASIONPICKFAIL").HasColumnType("varchar")
+                    .HasMaxLength(50);
                 
 
                 entity.Property(e => e.Recorddate)
@@ -942,9 +938,9 @@ namespace DotIt.AutoPicker.Data.DotIt
                    .HasColumnType("datetime");
                 
 
-                entity.Property(e => e.Totalitems).HasColumnName("TOTALITEMS");
+                entity.Property(e => e.Totalitems).HasColumnName("TOTALITEMS").HasColumnType("int");
 
-                entity.Property(e => e.Weight).HasColumnName("WEIGHT");
+                entity.Property(e => e.Weight).HasColumnName("WEIGHT").HasColumnType("float");
             });
 
             modelBuilder.Entity<Pickorderdetail>(entity =>

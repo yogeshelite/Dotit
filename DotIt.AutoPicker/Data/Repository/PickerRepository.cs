@@ -21,6 +21,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
         List<PickerModel> GetPickers(string company = null, string docuserid = null);
 
         List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null);
+       void DotitOrderPickerUpdate(int ordernum, string orderstatus);
     }
 
     public class PickerRepository : IPickerRepository
@@ -100,6 +101,49 @@ namespace DotIt.AutoPicker.Persistance.Repository
         }
 
 
+
+
+        public void DotitOrderPickerUpdate(int ordernum,string orderstatus)
+        {
+            try
+            {
+                //DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
+                // var orders = GetOrderHead();
+
+                // if (orders == null) DLog.Log("No Order found in Epicor assign to picker user");
+                OrderHeadModel model = null;
+                using (_dotitExtDataContext = new DotitExtensionContext())
+                {
+                    //var dotitOrder = _dotitExtDataContext.Pickerorder.ToList();
+                    //List<Pickerorder> pickerOrder = orders.Where(f => !dotitOrder.Any(o => o.Company.Equals(f.Company) & o.Ordernum.Equals(f.OrderNum))).Select(f => new Pickerorder()
+                    //{
+                    //    Ordernum = f.OrderNum,
+                    //    Company = f.Company,
+                    //    Orderdate = f.OrderDateTime,
+                    //    Totalitems = f.TotalLines,
+                    //    Weight = f.Weight,
+                    //    Recorddate = DateTime.Now,
+                    //    Pickstatus = string.IsNullOrEmpty(f.PickerUserId) ? PickerOrderStatus.AssignPending.ToString() : PickerOrderStatus.Assigned.ToString(),
+                    //    Dcduserid = f.PickerUserId
+
+                    //}).ToList();
+                    model = GetDotItOrder().FirstOrDefault(x => x.OrderNum == ordernum);
+                        //_dotitExtDataContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
+                    if (model != null)
+                    {
+                        //model.Pickstatus = orderstatus;
+                        //_dotitExtDataContext.SaveChanges();
+                    }
+
+                   
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // DLog.Log("Error in saving Order: " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
+            }
+        }
         public void SaveEpicorOrders(List<OrderHeadModel> orders)
         {
             try
@@ -195,22 +239,24 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
                 using (_dotitExtDataContext = new DotitExtensionContext())
                 {
+                    var data = _dotitExtDataContext.Pickerorder.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid));
 
 
-                    result = _dotitExtDataContext.Pickerorder.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid)).Select(f => new OrderHeadModel()
-                    {
-                        OrderNum = f.Ordernum,
-                        Company = f.Company,
-                        OrderDateTime = f.Orderdate,
-                        TotalLines = f.Totalitems.Value,
-                        Weight = f.Weight.Value,
-                        PickerUserId = f.Dcduserid,
-                        OrderPickStatus = f.Pickstatus,
-                        RequestDate = f.Recorddate.Value,
-                        PickDate = f.PickDate.Value
+
+                    //result = _dotitExtDataContext.Pickerorder.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid)).Select(f => new OrderHeadModel()
+                    //{
+                    //    OrderNum = f.Ordernum,
+                    //    Company = f.Company,
+                    //    OrderDateTime = f.Orderdate,
+                    //    TotalLines = f.Totalitems.Value,
+                    //    Weight = f.Weight.Value,
+                    //    PickerUserId = f.Dcduserid,
+                    //    OrderPickStatus = f.Pickstatus,
+                    //    RequestDate = f.Recorddate.Value,
+                    //    PickDate = f.PickDate.Value
 
 
-                    }).ToList();
+                    //}).ToList();
 
 
                  

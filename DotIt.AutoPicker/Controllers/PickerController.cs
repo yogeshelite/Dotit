@@ -249,7 +249,8 @@ namespace DotIt.AutoPicker.Controllers
             try
             {
                 SaleOrderList = _pickerRepository.GetDotItOrder();
-                if (SaleOrderList == null || SaleOrderList.Count() == 0) GetEpicorOrders();
+                if (SaleOrderList == null || SaleOrderList.Count() == 0)
+                    GetEpicorOrders();
                 // JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
                 foreach (var _Order in SaleOrderList)
                 {
@@ -392,13 +393,16 @@ namespace DotIt.AutoPicker.Controllers
             if (status == Status.Replenish.ToString())
             {
 
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Picked.ToString());
                 //hare we sent the email to stave for Replenish
-                model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
-                if (model != null)
-                {
-                    model.Pickstatus = Status.Picked.ToString();
-                    DotitExtensionContext.SaveChanges();
-                }
+                // var pickOrder = DotitExtensionContext.Pickerorder.FirstOrDefault();
+
+                //    model = DotitExtensionContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
+                //if (model != null)
+                //{
+                //    model.Pickstatus = Status.Picked.ToString();
+                //    DotitExtensionContext.SaveChanges();
+                //}
 
             }
             if (status == Status.InventoryControl.ToString())
