@@ -18,6 +18,7 @@ using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Persistance.Repository;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
+using DotIt.AutoPicker.Service;
 
 namespace DotIt.AutoPicker.Controllers
 {
@@ -28,7 +29,7 @@ namespace DotIt.AutoPicker.Controllers
 
         private readonly DotitExtensionContext _DotitExtensionContext;
         private readonly IPickerRepository _pickerRepository;
-        private StackTrace _stackTrace ;
+        private StackTrace _stackTrace;
 
         public static bool allowaccess = false;
         ApiResponse _apiResponse;
@@ -94,17 +95,18 @@ namespace DotIt.AutoPicker.Controllers
                         }
                         else
                         {
-                            
+
                             ReturnResponse = ObjResponse.Response;
                             // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
                         }
                         // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
-                        
+
                     }
 
                     //return Json("Not a picker user");
                 }
-                else {
+                else
+                {
                     ReturnResponse = "{\"Response\":\"User Not Exist \"}";
                 }
 
@@ -142,7 +144,7 @@ namespace DotIt.AutoPicker.Controllers
                 {
                     PickComp = warehouseemployee.PickForCompany.Split(',');
                 }
-                
+
                 PickerModel pickerModel = new PickerModel()
                 {
                     EMailAddress = warehouseemployee.Emailaddress,
@@ -156,9 +158,9 @@ namespace DotIt.AutoPicker.Controllers
                     LastLogin = warehouseemployee.Lastlogin,
                     MaxLines = warehouseemployee.Maxlines,
                     MaxWeight = warehouseemployee.Maxweight,
-                    UserHeight=warehouseemployee.UserHeight,
-                    WeightCapacity=warehouseemployee.WeightCapacity,
-                   
+                    UserHeight = warehouseemployee.UserHeight,
+                    WeightCapacity = warehouseemployee.WeightCapacity,
+
                 };
                 if (PickComp[0] == "NCCO")
                     pickerModel.Ncco = true;
@@ -202,7 +204,7 @@ namespace DotIt.AutoPicker.Controllers
                 var result2 = _DotitExtensionContext.Warehouseemployee.ToList();
 
                 // (string.IsNullOrEmpty(company) | f.Company.Equals(company))
-                result2 = result2.Where(f => (string.IsNullOrEmpty(dcduserid) | ! f.Dcduserid.Equals(dcduserid))).ToList();
+                result2 = result2.Where(f => (string.IsNullOrEmpty(dcduserid) | !f.Dcduserid.Equals(dcduserid))).ToList();
                 if (result2 == null)
                 { return result; }
 
@@ -239,14 +241,14 @@ namespace DotIt.AutoPicker.Controllers
 
         public JsonResult SaveProfile(PickerModel warehouseemployee)
         {
-           var user= _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Dcduserid == warehouseemployee.DcdUserID);
+            var user = _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Dcduserid == warehouseemployee.DcdUserID);
             if (user != null)
             {
                 user.Emailaddress = warehouseemployee.EMailAddress;
-               // user.Grouplist = warehouseemployee.Grouplist.Replace(",", "~");
+                // user.Grouplist = warehouseemployee.Grouplist.Replace(",", "~");
                 user.Pickername = warehouseemployee.Name;
-                user.Recordupdatedate =DateTime.Now;
-                user.Dcduserid = warehouseemployee.DcdUserID;              
+                user.Recordupdatedate = DateTime.Now;
+                user.Dcduserid = warehouseemployee.DcdUserID;
                 user.active = warehouseemployee.Active;
                 user.Adminlineperhour = warehouseemployee.AdminlineperHour;
                 user.Lastlogin = warehouseemployee.LastLogin;
@@ -256,15 +258,15 @@ namespace DotIt.AutoPicker.Controllers
                 user.WeightCapacity = warehouseemployee.WeightCapacity;
                 user.PickForCompany = warehouseemployee.PickForCompany;
             }
-            _DotitExtensionContext.SaveChanges();           
+            _DotitExtensionContext.SaveChanges();
             return Json("Profile updated");
         }
-      
+
         public JsonResult AddProfileData(PickerModel warehouseemployee)
         {
             // var user = _DotitExtensionContext.Warehouseemployee.FirstOrDefault(x => x.Emailaddress == warehouseemployee.EMailAddress);
             Warehouseemployee obj = new Warehouseemployee();
-           
+
             if (obj != null)
             {
                 obj.Emailaddress = warehouseemployee.EMailAddress;
@@ -282,10 +284,10 @@ namespace DotIt.AutoPicker.Controllers
                 //obj.PickForCompany = warehouseemployee.PickForCompany;
             }
             _DotitExtensionContext.Warehouseemployee.Add(obj);
-            _DotitExtensionContext.SaveChanges(); 
+            _DotitExtensionContext.SaveChanges();
             return Json("Profile Add");
         }
-        public IActionResult DeleteProfile(string id ,bool active)
+        public IActionResult DeleteProfile(string id, bool active)
         {
             string DcdUserID = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id));
 
@@ -297,8 +299,8 @@ namespace DotIt.AutoPicker.Controllers
                     Active = active
                 };
 
-                    //user.Active = warehouseemployee.Active;
-                
+                //user.Active = warehouseemployee.Active;
+
             }
             _DotitExtensionContext.SaveChanges();
             return View("Home");
@@ -331,22 +333,57 @@ namespace DotIt.AutoPicker.Controllers
 
         public JsonResult GetEpicoreOrder()
         {
-            string ReturnResponse = "";
-            using (_apiResponse = new ApiResponse())
-            {
-                ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrderList, "GET");
-                if (!ObjResponse.success)
-                {
-                    ReturnResponse = "{\"Response\":\"No Sale Order Found \"}";
-                }
-                else
-                {
+            OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext);
+          List<PartsModel> list = obj.GetParts();
+            /* string ReturnResponse = "";
 
-                    ReturnResponse = ObjResponse.Response;
-                    // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
-                }
-                return Json(Response);
-            }
+
+             using (_apiResponse = new ApiResponse())
+             {
+                 try
+                 {
+                     // var data = JsonConvert.DeserializeObject<string[]>(Orders);
+                     ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrderList, "GET");
+                     if (ObjResponse.success == true)
+                     {
+                         var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
+                         if (OrderDetails.ContainsKey("value"))
+                         {
+                             if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
+                             {
+                                 List<OrderHeadModel> _result = JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderDetails["value"].ToString());
+                                 if (_result != null)
+                                 {
+
+
+                                     _result = _result.ToList();
+
+                                     List<OrderHeadModel> resultOrderList = _result.Where(x=>x.OpenOrder == true && x.TotalWgt_c > 0 )
+                                                                     .GroupBy(l => l.OrderNum)
+                                                                     .Select(cl => new OrderHeadModel
+                                                                     {
+                                                                         OrderNum = cl.First().OrderNum,
+                                                                         RequestDate = cl.First().RequestDate,
+                                                                         TotalWgt_c = cl.Sum(c => c.TotalWgt_c),
+                                                                     }).ToList();
+                                 }
+                             }
+                         }
+                     }
+                     else
+                     {
+                         RedirectToAction("Error", "Home");
+                     }
+                 }
+                 catch (Exception ex)
+                 {
+                     var message = ex.Message.ToString();
+                 }
+             }
+             */
+            return null;
+
+    
         }
     }
 }

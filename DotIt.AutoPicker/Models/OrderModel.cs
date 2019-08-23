@@ -7,6 +7,7 @@ namespace DotIt.AutoPicker.Models
     public class OrderHeadModel
     {
         //OrderNum(int, optional),
+        public bool OpenOrder { get; set; }
         public int OrderNum { get; set; }
         public string OrderComment { get; set; }
 
@@ -36,6 +37,7 @@ namespace DotIt.AutoPicker.Models
 
       
         public Double Weight { get; set; }
+        public Double? TotalWgt_c { get; set; }
 
    
 

@@ -358,7 +358,7 @@ namespace DotIt.AutoPicker.Controllers
             var Order = SaleOrderList.Where(o => o.OrderNum == ordernum).Single();
             var Orderlist = LineItemList.Where(o => o.OrderNum == ordernum).FirstOrDefault();
             Pickerorder  model = null;
-            var list = _pickerRepository.GetDotItOrder(); //DotitExtensionContext.Pickerorder.ToList();
+           // var list = _pickerRepository.GetDotItOrder(); //DotitExtensionContext.Pickerorder.ToList();
             Order.TotalLines = orderline;
             Order.PickDate = DateTime.Now;
 
@@ -376,7 +376,7 @@ namespace DotIt.AutoPicker.Controllers
             if (status == Status.Quarentine.ToString())
             {
 
-
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Quarentine.ToString(),"NO");
                 //model = _pickerRepository.GetDotItOrder().FirstOrDefault(f => f.OrderNum == ordernum);
                 ////DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
 
@@ -393,7 +393,7 @@ namespace DotIt.AutoPicker.Controllers
             if (status == Status.Replenish.ToString())
             {
 
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Picked.ToString());
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Replenish.ToString(),"NO");
                 //hare we sent the email to stave for Replenish
                 // var pickOrder = DotitExtensionContext.Pickerorder.FirstOrDefault();
 
@@ -407,15 +407,17 @@ namespace DotIt.AutoPicker.Controllers
             }
             if (status == Status.InventoryControl.ToString())
             {
+                String ResionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + Orderlist.PartNum + "','" + Orderlist.BinNum + "'");
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.InventoryControl.ToString(), ResionPickFail);
                 //hare we sent the email to stave for InventoryControl
-                model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+                //model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
 
-                if (model != null)
-                {
-                    model.Pickstatus = Status.Hold.ToString();
-                    model.ReasionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + Orderlist.PartNum + "','" + Orderlist.BinNum + "'");
-                    DotitExtensionContext.SaveChanges();
-                }
+                //if (model != null)
+                //{
+                //    model.Pickstatus = Status.Hold.ToString();
+                //    model.ReasionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + Orderlist.PartNum + "','" + Orderlist.BinNum + "'");
+                //    DotitExtensionContext.SaveChanges();
+                //}
 
             }
             new DotitOrderCsv(_hostingEnvironment).WriteToFile(Order, "pick");

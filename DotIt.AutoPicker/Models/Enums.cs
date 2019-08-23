@@ -8,5 +8,6 @@ namespace DotIt.AutoPicker.Models
     public class Enums
     {
         public enum Status { Picked, UnPicked, Quarentine, Replenish, InventoryControl ,Hold};
+        public enum OrderStatus {Hold,Complete};
     }
 }

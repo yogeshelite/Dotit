@@ -15,7 +15,9 @@ namespace DotIt.AutoPicker.Models
         public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter=Company eq '{0}' and OrderNum eq {1}";
         //public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter='{0}'and{1}";
         public const string EpicorApi_PartBin = "/Erp.BO.PartBinSearchSvc";
-        public const string EpicorApi_ShipDetail = "/Erp.BO.ShipDtlSearchSvc/List";
+        public const string EpicorApi_Parts = "/Erp.BO.PartSvc/Parts";
+        public const string EpicorApi_PartBinSearch = "/Erp.BO.PartBinSearchSvc/GetPartBinSearch";//Method Post{"PageSize": 0,"AbsolutePage": 0,"whereClause": "PartNum='DSY290'"}
+    public const string EpicorApi_ShipDetail = "/Erp.BO.ShipDtlSearchSvc/List";
         public const string EpicorApi_ShipTos = "/Erp.BO.ShipToSvc/List";
         public const string EpicorApi_ShipHead = "/Erp.BO.CustShipSvc/List";
         public const string EpicorApi_GetCustomers = "/Erp.BO.CustomerSvcGET/Customers";
