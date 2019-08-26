@@ -10,6 +10,7 @@ namespace DotIt.AutoPicker.Models
         public const string EpicorApi_PatchSalesOrderByOrdernum = "Erp.BO.SalesOrderSvc/SalesOrders({0},{1},{2})";
         //public const string EpicorApi_PatchSalesOrderByOrdernum = "Erp.BO.SalesOrderSvc/SalesOrders({0},{1})";
         public const string EpicorApi_SalesOrderList = "/Erp.BO.SalesOrderSvc/List";
+        public const string EpicorApi_SalesOrderFilter = "/Erp.BO.SalesOrderSvc/SalesOrders?$filter=OpenOrder%20eq%20true%20or%20OrderNum%20eq%201011&$top=5";
         public const string EpicorApi_VendBankSearchList = "/Erp.BO.VendBankSearchSvc/List";
         public const string EpicorApi_OrderLineItems = "rp.BO.OrderDtlSearchSvc/OrderDtlSearches?$filter=Company eq '{0}' and OrderNum eq {1}";
         public const string EpicorApi_ReleaseOrders = "/Erp.BO.OrderRelSearchSvc/List?$filter=Company eq '{0}' and OrderNum eq {1}";
@@ -29,6 +30,7 @@ namespace DotIt.AutoPicker.Models
             return Convert.ToBase64String((System.Text.Encoding.UTF8.GetBytes(id)));
         }
         public const string EpicorApi_OrderDetails = "/Erp.BO.SalesOrderSvc/OrderDtls";
+        public const string EpicorApi_OrderDetailsFilter = "/Erp.BO.SalesOrderSvc/OrderDtls?$filter=OrderNum%20eq%201011";
         public const string EpicorApi_OrderLine = "/Erp.BO.SalesOrderSvc/OrderDtls({0},{1},{2})"; // 0:Company;1:OrderNum;2:Linenum 
         public const string LogFilePath = @"\log.csv";
         public const string OrderInProcessing = @"\OrderInProcessing.csv";

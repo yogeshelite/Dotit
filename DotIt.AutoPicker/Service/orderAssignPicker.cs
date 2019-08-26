@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace DotIt.AutoPicker.Service
@@ -42,7 +43,7 @@ namespace DotIt.AutoPicker.Service
                 try
                 {
                     // var data = JsonConvert.DeserializeObject<string[]>(Orders);
-                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrderList, "GET");
+                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrderFilter, "GET");
                     if (ObjResponse.success == true)
                     {
                         var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
@@ -57,7 +58,7 @@ namespace DotIt.AutoPicker.Service
 
                                     _result = _result.ToList();
 
-                                     resultOrderList = _result.Where(x => x.OpenOrder == true && x.TotalWgt_c > 0)
+                                     resultOrderList = _result.Where(x => x.OpenOrder == true && Convert.ToDateTime(string.Format("{0:MM/dd/yyyy}", x.OrderDate)) <DateTime.Now)
                                                                     .ToList();
                                 }
                             }
@@ -87,7 +88,7 @@ namespace DotIt.AutoPicker.Service
                 try
                 {
                     // var data = JsonConvert.DeserializeObject<string[]>(Orders);
-                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
+                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetailsFilter, "GET");
                     if (ObjResponse.success == true)
                     {
                         var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
@@ -218,7 +219,7 @@ namespace DotIt.AutoPicker.Service
 
 
         }
-        public  void OrdersReadyToPick(Int32 maxLines = 50, Decimal maxWeight = 150.0m, Boolean dotit = true, Boolean ncco = false)
+        public List<OrderHeadModel> OrdersReadyToPick(Int32 maxLines = 50, Decimal maxWeight = 150.0m, Boolean dotit = true, Boolean ncco = false)
         {
            // DLog.StartModule();
 
@@ -289,7 +290,7 @@ namespace DotIt.AutoPicker.Service
             }
 
             String svn = "wait";
-
+            return listLines;
         }
 
 
@@ -364,6 +365,76 @@ namespace DotIt.AutoPicker.Service
 
             return weight;
         }
+        public void assignOrder() {
 
+            //  List<OrderHeadModel> OrderList = OrdersReadyToPick();
+            //List Of OrderHead
+            List<OrderHeadModel> OrderList = new List<OrderHeadModel>();
+            OrderHeadModel objClsHM = new OrderHeadModel();
+            objClsHM.Company = "DIRF";
+            objClsHM.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss")); 
+            objClsHM.OrderDate ="2019-08-26";
+            objClsHM.TotalLines =6;
+            objClsHM.Weight = 10;
+            objClsHM.TotalWgt_c = 10;
+            objClsHM.PickDate = DateTime.Now;
+            //objClsHM.Pickstatus = "Pending";
+            objClsHM.RequestDate = DateTime.Now;
+            OrderList.Add(objClsHM);
+            // List Of OrderDetails
+            //List<Pickorderdetail> ListOrderDetail = new List<Pickorderdetail>();
+            //Pickorderdetail objOrderDetail = new Pickorderdetail();
+            //objOrderDetail.Orderno = 0;
+            //objOrderDetail.Company = "DIRF";
+            //objOrderDetail.Partnum = "";
+            //objOrderDetail.Binnum = "";
+            //objOrderDetail.Damageqty = 0;
+            //objOrderDetail.Pickstatus = 1;
+            //ListOrderDetail.Add(objOrderDetail);
+
+
+            foreach (OrderHeadModel itemhm in OrderList)
+            {
+                List<PickerModel> ListEmp = _pickerRepository.GetPickers().Where(x=>Convert.ToDouble(x.MaxWeight) >=itemhm.TotalWgt_c).ToList();
+                foreach (PickerModel itempm in ListEmp)
+                {
+                    Pickerorder objPicker = new Pickerorder();
+                    int orderno= Convert.ToInt32(Get8Digits());
+                    objPicker.Company = itemhm.Company;
+                    objPicker.Ordernum = orderno;
+                    //objPicker.Ordernum = itemhm.OrderNum;
+                    objPicker.Orderdate = Convert.ToDateTime(itemhm.OrderDate);
+                    objPicker.Totalitems = itemhm.TotalLines;
+                    objPicker.Weight = itemhm.TotalWgt_c;
+                    objPicker.Dcduserid = itempm.DcdUserID;
+                    objPicker.PickDate = DateTime.Now;
+                    objPicker.Pickstatus = "Pending";
+                    objPicker.Recorddate = DateTime.Now;
+                    objPicker.Recordupdatedon = DateTime.Now;
+                    objPicker.ReasionPickFail = "NO";
+                    _DotitExtensionContext.Pickerorder.Add(objPicker);
+                    _DotitExtensionContext.SaveChanges();
+
+                    Pickorderdetail objOrderDetail = new Pickorderdetail();
+                    objOrderDetail.Orderno = orderno;
+                    objOrderDetail.Company = "DIRF";
+                    objOrderDetail.Partnum = "Partnum"+ orderno;
+                    objOrderDetail.Binnum = "Bin"+ orderno;
+                    objOrderDetail.Damageqty = 0;
+                    objOrderDetail.Pickstatus = 1;
+                    _DotitExtensionContext.Pickorderdetail.Add(objOrderDetail);
+                    _DotitExtensionContext.SaveChanges();
+                }
+            }
+
+        }
+        public string Get8Digits()
+        {
+            var bytes = new byte[4];
+            var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(bytes);
+            uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
+            return String.Format("{0:D8}", random);
+        }
     }
 }

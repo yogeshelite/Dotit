@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using DotIt.AutoPicker.Models;
-///using DotIt.AutoPicker.Data;
+//using DotIt.AutoPicker.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DotIt.AutoPicker.Services;
 using DotIt.AutoPicker.Data.Epicor;
-using DotIt.AutoPicker.Data;
+//using DotIt.AutoPicker.Data;
 using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Persistance.Repository;
 using System.Diagnostics;
@@ -60,6 +60,27 @@ namespace DotIt.AutoPicker.Controllers
             {
                 return RedirectToAction("Default");
             }
+            return View();
+        }
+        public IActionResult GetItemWithBinLocation()
+        {
+            List<Warehouseemployee> Listpicker = _DotitExtensionContext.Warehouseemployee.ToList();
+            List<Pickerorder> pickedOrders = _DotitExtensionContext.Pickerorder.ToList();
+            List<Pickorderdetail> pickedOrderDetail = _DotitExtensionContext.Pickorderdetail.ToList();
+            var result = from o in pickedOrders
+                         join od in pickedOrderDetail on o.Ordernum equals od.Orderno
+                         join p in Listpicker on o.Dcduserid equals p.Dcduserid
+                         select new ItemAssignDetailModel
+                         {
+                             DcdUserID = p.Dcduserid,
+                             PickerName = p.Pickername,
+                             OrderNo = od.Orderno,
+                             BinLocation = od.Binnum,
+                             PartNum = od.Partnum
+                             // other assignments
+                         };
+
+            ViewBag.PickersItemBinLoc = result.ToList();
             return View();
         }
         public IActionResult Default()
@@ -331,10 +352,11 @@ namespace DotIt.AutoPicker.Controllers
             return View("Index");
         }
 
-        public JsonResult GetEpicoreOrder()
+        public void GetEpicoreOrder()
         {
             OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext);
-          List<PartsModel> list = obj.GetParts();
+            // List<OrderHeadModel> list = obj.OrdersReadyToPick();
+            obj.assignOrder();
             /* string ReturnResponse = "";
 
 
@@ -381,9 +403,10 @@ namespace DotIt.AutoPicker.Controllers
                  }
              }
              */
-            return null;
+            //  return null;
 
-    
+
         }
+
     }
 }

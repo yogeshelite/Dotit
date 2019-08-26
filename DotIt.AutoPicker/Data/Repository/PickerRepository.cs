@@ -22,6 +22,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
         List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null);
        void DotitOrderPickerUpdate(int ordernum, string orderstatus,string resionPickFail);
+        List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null);
     }
 
     public class PickerRepository : IPickerRepository
@@ -250,7 +251,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickerorder.Select(f => new OrderHeadModel()
+                    result = _dotitExtDataContext.Pickerorder.Where(x=>x.Dcduserid==docuserid).Select(f => new OrderHeadModel()
                     {
                         OrderNum = f.Ordernum,
                         Company = f.Company,
@@ -278,7 +279,45 @@ namespace DotIt.AutoPicker.Persistance.Repository
             }
             return result;
         }
+         public List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null)
+        {
+            List<OrderDetailModel> result = null;
+            try
+            {
+               // DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
+                //  var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
 
+                using (_dotitExtDataContext = new DotitExtensionContext())
+                {
+                    // var data = _dotitExtDataContext.Pickerorder.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid));
+                    //var data = _dotitExtDataContext.Pickerorder.ToList();//.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid));
+
+
+
+                    result = _dotitExtDataContext.Pickorderdetail.Where(x=> orderno.Contains(x.Orderno)).Select(f => new OrderDetailModel()
+                    {
+                        OrderNum = f.Orderno,
+                        Company = f.Company,
+                        PartNum = f.Partnum,
+                        BinNum = f.Binnum,
+                        OrderLineStatusCode = f.Pickstatus.ToString()
+
+
+                    }).ToList();
+
+
+                  
+
+                    //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //DLog.Log("Error in Fetching Dotit Order : " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
+            }
+            return result;
+        }
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 

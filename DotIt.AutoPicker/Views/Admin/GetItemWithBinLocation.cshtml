@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "GetItemWithBinLocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Empid)
+                </th>*@
+            <th>
+                Pickers
+            </th>
+            <th>
+                UserId
+            </th>
+            <th>
+                Order No
+            </th>
+            <th>
+                bin Loc
+            </th>
+
+            <th>
+                part No
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var item in ViewBag.Pickers as List<DotIt.AutoPicker.Models.PickerModel>)*@
+        @foreach (var item in ViewBag.PickersItemBinLoc as List<DotIt.AutoPicker.Models.ItemAssignDetailModel> )
+        {
+            <tr>
+                <td>
+
+                    @item.PickerName
+                </td>
+                <td>
+                    @item.DcdUserID
+                </td>
+                
+                <td>
+                    @item.OrderNo
+                </td>
+
+                <td>
+                    @item.BinLocation
+                </td>
+                <td>
+                    @item.PartNum
+                </td>
+              
+            </tr>
+        }
+    </tbody>
+</table>
