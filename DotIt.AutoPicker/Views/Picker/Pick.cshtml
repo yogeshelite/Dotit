@@ -89,7 +89,8 @@
 
     <!-- Row -->
     <div class="container">
-        <div>
+        <div class="row">
+            
             <div class="tbl-scroll">
                 <p>@ViewBag.OrderLineItems.Count</p>
                 <table class="table table-borderless spc-mrg-tp-20 ">
@@ -118,20 +119,14 @@
                                 <td>@OrderLines.OrderNum</td>
                                 <td></td>
                                 <td><img src="@OrderLines.ImageContent " alt="resume" class="icon-spc"></td>
-                                <td>
+                                <td style="width:auto;">
                                     @*accordion*@
-                                    <button class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</button>
-                                    @*<button class="accordion" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum">Pick</button>*@
-                                    @*<div class="panel">
-                                        <p>*@
-                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine')">Quarentine</a>
-                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish')">Replenish</a>
-                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Inventory Control')">Inventory Control</a>
-                                            @*<a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Quarentine</a>
-                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Replenish</a>
-                <a asp-area="" asp-controller="AdminBackEnd" asp-action="Dashboard">Inventory Control</a>*@
-                                        @*</p>
-                                    </div>*@
+                                    @*<a class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</a>*@
+                                    <a class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum"  onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Picked','@OrderLines.PartNum','@OrderLines.BinNum')">Pick</a>
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine','@OrderLines.PartNum','@OrderLines.BinNum')">Quarentine</a>
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish','@OrderLines.PartNum','@OrderLines.BinNum')">Replenish</a>
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Inventory Control','@OrderLines.PartNum','@OrderLines.BinNum')">Inventory Control</a>
+                                   
                                 </td>
                             </tr>
                         }
@@ -145,14 +140,18 @@
     <!-- Bootstrap core JavaScript -->
     <script src="~/jquery.min.js"></script>
     <script>
-        var UpdateStatus = function (ordernum, orderline, status) {
+        var UpdateStatus = function (ordernum, orderline, status, partno, binno) {
+          
+
             $.ajax({
                 type: "POST",
                 url: "../../Picker/PickLineItems",
                 data: {
                     ordernum: ordernum,
                     orderline: orderline,
-                    status:status
+                    status: status,
+                    partno: partno,
+                    binno, binno
                 },
                 success: function (response) {
                    // alert(response);
@@ -169,7 +168,7 @@
         var TotalLines = 0;
         var PickLineItem = function (ordernum, orderline) {           
             var orderlinebutton = document.getElementById('PickButton+' + orderline + ordernum);           
-            debugger;
+           // debugger;
             if (orderlinebutton.innerText == "Picked") {              
                 orderlinebutton.innerText = "Pick";
                 orderlinebutton.style.backgroundColor = "#87CEEB";

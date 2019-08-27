@@ -20,8 +20,8 @@ namespace DotIt.AutoPicker.Persistance.Repository
         void SaveEpicorOrders(List<OrderHeadModel> orders);
         List<PickerModel> GetPickers(string company = null, string docuserid = null);
 
-        List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null);
-       void DotitOrderPickerUpdate(int ordernum, string orderstatus,string resionPickFail);
+        List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null, string NotEqualOrderStatus = null);
+        void DotitOrderPickerUpdate(int ordernum, string orderstatus, string resionPickFail, string partno, int itemstatus);
         List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null);
     }
 
@@ -44,7 +44,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
         {
             try
             {
-              //  DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
+                //  DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
                 //  var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
 
                 // var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
@@ -68,10 +68,10 @@ namespace DotIt.AutoPicker.Persistance.Repository
                             Password = "pik" + Guid.NewGuid().ToString().Substring(0, 8),
                             active = true
                         };
-                        _dotitExtDataContext.Warehouseemployee .Add(picker);
+                        _dotitExtDataContext.Warehouseemployee.Add(picker);
 
                     }
-                   // _dotitExtDataContext.SaveChanges();
+                    // _dotitExtDataContext.SaveChanges();
 
                     foreach (var list in existingpickerlist)
                     {
@@ -88,7 +88,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                     _dotitExtDataContext.SaveChanges();
                 }
 
-               // DLog.Log("Epicor Picker user sync successfully");
+                // DLog.Log("Epicor Picker user sync successfully");
                 return true;
                 //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
 
@@ -96,7 +96,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
             catch (Exception ex)
             {
 
-               // DLog.Log("Error in saving Picker: " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
+                // DLog.Log("Error in saving Picker: " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
                 return false;
             }
         }
@@ -104,11 +104,11 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-        public void DotitOrderPickerUpdate(int ordernum,string orderstatus,string resionPickFail)
+        public void DotitOrderPickerUpdate(int ordernum, string orderstatus, string resionPickFail ,string partno,int itemstatus)
         {
             try
             {
-               
+
                 using (_dotitExtDataContext = new DotitExtensionContext())
                 {
                     //var dotitOrder = _dotitExtDataContext.Pickerorder.ToList();
@@ -125,24 +125,29 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
                     //}).ToList();
                     //List <OrderHeadModel> ordersList = GetDotItOrder(null,null).Where(x => x.OrderNum == ordernum).ToList();
-                    
-                        //
+
+                    //
                     //if (ordersList != null)
                     //{
-                        Pickerorder objPickerOrder =_dotitExtDataContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
-                        if (objPickerOrder != null)
-                        {
-                      
-                            objPickerOrder.Pickstatus = orderstatus;
-                        objPickerOrder.Recordupdatedon = DateTime.Now;
-                        objPickerOrder.ReasionPickFail = "NO";
-                      //  }
-                         _dotitExtDataContext.SaveChanges();
-                        //model.Pickstatus = orderstatus;
-                        //_dotitExtDataContext.SaveChanges();
-                    }
+                    
+                    
+                    //Pickerorder objPickerOrder = _dotitExtDataContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
+                    //if (objPickerOrder != null)
+                    //{
+                    //    objPickerOrder.Pickstatus = orderstatus;
+                    //    objPickerOrder.Recordupdatedon = DateTime.Now;
+                    //    objPickerOrder.ReasionPickFail = "NO";
+                    //    _dotitExtDataContext.SaveChanges();
 
-                   
+                    //}
+
+                    Pickorderdetail objPickerOrderDetail = _dotitExtDataContext.Pickorderdetail.FirstOrDefault(x => x.Orderno == ordernum && x.Partnum == partno);
+                    if (objPickerOrderDetail != null)
+                    {
+                        objPickerOrderDetail.Pickstatus = itemstatus;
+                        _dotitExtDataContext.SaveChanges();
+
+                    }
                 }
 
             }
@@ -158,7 +163,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                 //DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
                 // var orders = GetOrderHead();
 
-               // if (orders == null) DLog.Log("No Order found in Epicor assign to picker user");
+                // if (orders == null) DLog.Log("No Order found in Epicor assign to picker user");
                 using (_dotitExtDataContext = new DotitExtensionContext())
                 {
                     var dotitOrder = _dotitExtDataContext.Pickerorder.ToList();
@@ -183,7 +188,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
             }
             catch (Exception ex)
             {
-               // DLog.Log("Error in saving Order: " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
+                // DLog.Log("Error in saving Order: " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
             }
         }
 
@@ -217,12 +222,12 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         LastLogin = f.Lastlogin,
                         MaxLines = f.Maxlines,
                         MaxWeight = f.Maxweight,
-                        UserHeight=f.UserHeight,
-                        WeightCapacity=f.WeightCapacity
+                        UserHeight = f.UserHeight,
+                        WeightCapacity = f.WeightCapacity
                     }).ToList();
 
 
-     
+
 
                     //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
 
@@ -236,12 +241,12 @@ namespace DotIt.AutoPicker.Persistance.Repository
         }
         // OrderHeadModel to  Pickerorder  Puneet Change 20190821 
 
-        public List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null)
+        public List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null, string NotEqualOrderStatus = null)
         {
             List<OrderHeadModel> result = null;
             try
             {
-               // DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
+                // DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
                 //  var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
 
                 using (_dotitExtDataContext = new DotitExtensionContext())
@@ -251,7 +256,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickerorder.Where(x=>x.Dcduserid==docuserid).Select(f => new OrderHeadModel()
+                    result = _dotitExtDataContext.Pickerorder.Where(x => x.Dcduserid == docuserid && x.Pickstatus != NotEqualOrderStatus).Select(f => new OrderHeadModel()
                     {
                         OrderNum = f.Ordernum,
                         Company = f.Company,
@@ -267,7 +272,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                     }).ToList();
 
 
-                   
+
 
                     //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
 
@@ -279,12 +284,12 @@ namespace DotIt.AutoPicker.Persistance.Repository
             }
             return result;
         }
-         public List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null)
+        public List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null)
         {
             List<OrderDetailModel> result = null;
             try
             {
-               // DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
+                // DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
                 //  var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
 
                 using (_dotitExtDataContext = new DotitExtensionContext())
@@ -294,21 +299,21 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickorderdetail.Where(x=> orderno.Contains(x.Orderno)).Select(f => new OrderDetailModel()
+                    result = _dotitExtDataContext.Pickorderdetail.Where(x => orderno.Contains(x.Orderno) && x.Pickstatus==6).Select(f => new OrderDetailModel()
                     {
                         OrderNum = f.Orderno,
                         Company = f.Company,
                         PartNum = f.Partnum,
                         BinNum = f.Binnum,
                         OrderLineStatusCode = f.Pickstatus.ToString(),
-                        LineDesc=f.LineDesc,
-                        OrderQty=(float)f.OrderQty
+                        LineDesc = f.LineDesc,
+                        OrderQty = (float)f.OrderQty
 
 
                     }).ToList();
 
 
-                  
+
 
                     //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
 

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using static DotIt.AutoPicker.Models.Enums;
 
 namespace DotIt.AutoPicker.Service
 {
@@ -374,13 +375,25 @@ namespace DotIt.AutoPicker.Service
             objClsHM.Company = "DIRF";
             objClsHM.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss")); 
             objClsHM.OrderDate ="2019-08-26";
-            objClsHM.TotalLines =6;
-            objClsHM.Weight = 10;
-            objClsHM.TotalWgt_c = 10;
+            objClsHM.TotalLines =1;
+            objClsHM.Weight = 20;
+            objClsHM.TotalWgt_c = 20;
             objClsHM.PickDate = DateTime.Now;
             //objClsHM.Pickstatus = "Pending";
             objClsHM.RequestDate = DateTime.Now;
             OrderList.Add(objClsHM);
+
+            OrderHeadModel objClsHM1 = new OrderHeadModel();
+            objClsHM1.Company = "DIRF";
+            objClsHM1.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss"));
+            objClsHM1.OrderDate = "2019-08-26";
+            objClsHM1.TotalLines = 1;
+            objClsHM1.Weight = 10;
+            objClsHM1.TotalWgt_c = 10;
+            objClsHM1.PickDate = DateTime.Now;
+            //objClsHM.Pickstatus = "Pending";
+            objClsHM1.RequestDate = DateTime.Now;
+            OrderList.Add(objClsHM1);
             // List Of OrderDetails
             //List<Pickorderdetail> ListOrderDetail = new List<Pickorderdetail>();
             //Pickorderdetail objOrderDetail = new Pickorderdetail();
@@ -396,41 +409,52 @@ namespace DotIt.AutoPicker.Service
             foreach (OrderHeadModel itemhm in OrderList)
             {
                 List<PickerModel> ListEmp = _pickerRepository.GetPickers().Where(x=>Convert.ToDouble(x.MaxWeight) >=itemhm.TotalWgt_c ).ToList();
+               
                 foreach (PickerModel itempm in ListEmp)
                 {
-                    Pickerorder objPicker = new Pickerorder();
-                    int orderno= Convert.ToInt32(Get8Digits());
-                    objPicker.Company = itemhm.Company;
-                    objPicker.Ordernum = orderno;
-                    //objPicker.Ordernum = itemhm.OrderNum;
-                    objPicker.Orderdate = Convert.ToDateTime(itemhm.OrderDate);
-                    objPicker.Totalitems = itemhm.TotalLines;
-                    objPicker.Weight = itemhm.TotalWgt_c;
-                    objPicker.Dcduserid = itempm.DcdUserID;
-                    objPicker.PickDate = DateTime.Now;
-                    objPicker.Pickstatus = "Pending";
-                    objPicker.Recorddate = DateTime.Now;
-                    objPicker.Recordupdatedon = DateTime.Now;
-                    objPicker.ReasionPickFail = "NO";
-                    _DotitExtensionContext.Pickerorder.Add(objPicker);
-                    _DotitExtensionContext.SaveChanges();
+                    List<OrderHeadModel> LisEmpOrder = _pickerRepository.GetDotItOrder(null, itempm.DcdUserID, OrderStatus.Complete.ToString()).ToList();
+                    int EmpOrderCount = LisEmpOrder.Count();
+                    if (EmpOrderCount < 8)
+                    {
+                        Pickerorder objPicker = new Pickerorder();
+                        int orderno = Convert.ToInt32(Get8Digits());
+                        objPicker.Company = itemhm.Company;
+                        objPicker.Ordernum = orderno;
+                        //objPicker.Ordernum = itemhm.OrderNum;
+                        objPicker.Orderdate = Convert.ToDateTime(itemhm.OrderDate);
+                        objPicker.Totalitems = itemhm.TotalLines;
+                        objPicker.Weight = itemhm.TotalWgt_c;
+                        objPicker.Dcduserid = itempm.DcdUserID;
+                        objPicker.PickDate = DateTime.Now;
+                        objPicker.Pickstatus = "Pending";
+                        objPicker.Recorddate = DateTime.Now;
+                        objPicker.Recordupdatedon = DateTime.Now;
+                        objPicker.ReasionPickFail = "NO";
+                        _DotitExtensionContext.Pickerorder.Add(objPicker);
+                        _DotitExtensionContext.SaveChanges();
 
-                    Pickorderdetail objOrderDetail = new Pickorderdetail();
-                    objOrderDetail.Orderno = orderno;
-                    objOrderDetail.Company = "DIRF";
-                    objOrderDetail.Partnum = "Partnum"+ orderno;
-                    objOrderDetail.Binnum = "Bin"+ orderno;
-                    objOrderDetail.Damageqty = 0;
-                    objOrderDetail.Pickstatus = 1;
-                    objOrderDetail.OrderLine = 1;
-                    objOrderDetail.OrderQty = 1;
-                    objOrderDetail.IUM = "PK";
-                    objOrderDetail.LineDesc ="Item 1";
-                    objOrderDetail.UnitPrice = 6;
-                    objOrderDetail.TotalPrice = 6;
+                        Pickorderdetail objOrderDetail = new Pickorderdetail();
+                        objOrderDetail.Orderno = orderno;
+                        objOrderDetail.Company = "DIRF";
+                        objOrderDetail.Partnum = "Partnum" + orderno;
+                        objOrderDetail.Binnum = "Bin" + orderno;
+                        objOrderDetail.Damageqty = 0;
+                        objOrderDetail.Pickstatus = 6;
+                        objOrderDetail.OrderLine = 1;
+                        objOrderDetail.OrderQty = 1;
+                        objOrderDetail.IUM = "PK";
+                        objOrderDetail.LineDesc = "Item 1";
+                        objOrderDetail.UnitPrice = 6;
+                        objOrderDetail.TotalPrice = 6;
 
-                    _DotitExtensionContext.Pickorderdetail.Add(objOrderDetail);
-                    _DotitExtensionContext.SaveChanges();
+                        _DotitExtensionContext.Pickorderdetail.Add(objOrderDetail);
+                        _DotitExtensionContext.SaveChanges();
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
             }
 
