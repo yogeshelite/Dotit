@@ -300,7 +300,9 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         Company = f.Company,
                         PartNum = f.Partnum,
                         BinNum = f.Binnum,
-                        OrderLineStatusCode = f.Pickstatus.ToString()
+                        OrderLineStatusCode = f.Pickstatus.ToString(),
+                        LineDesc=f.LineDesc,
+                        OrderQty=(float)f.OrderQty
 
 
                     }).ToList();
