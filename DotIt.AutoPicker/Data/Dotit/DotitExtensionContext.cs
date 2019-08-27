@@ -967,6 +967,12 @@ namespace DotIt.AutoPicker.Data.DotIt
                 entity.Property(e => e.Damageqty).HasColumnName("DAMAGEQTY");
 
                 entity.Property(e => e.Pickstatus).HasColumnName("PICKSTATUS");
+                entity.Property(e => e.OrderLine).HasColumnName("ORDERLINE");
+                entity.Property(e => e.OrderQty).HasColumnName("ORDERQTY");
+                entity.Property(e => e.IUM).HasColumnName("IUM");
+                entity.Property(e => e.LineDesc).HasColumnName("LINEDESC");
+                entity.Property(e => e.UnitPrice).HasColumnName("UNITPRICE");
+                entity.Property(e => e.TotalPrice).HasColumnName("TOTALPRICE");
             });
 
             modelBuilder.Entity<Price>(entity =>

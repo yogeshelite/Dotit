@@ -395,7 +395,7 @@ namespace DotIt.AutoPicker.Service
 
             foreach (OrderHeadModel itemhm in OrderList)
             {
-                List<PickerModel> ListEmp = _pickerRepository.GetPickers().Where(x=>Convert.ToDouble(x.MaxWeight) >=itemhm.TotalWgt_c).ToList();
+                List<PickerModel> ListEmp = _pickerRepository.GetPickers().Where(x=>Convert.ToDouble(x.MaxWeight) >=itemhm.TotalWgt_c ).ToList();
                 foreach (PickerModel itempm in ListEmp)
                 {
                     Pickerorder objPicker = new Pickerorder();
@@ -422,6 +422,13 @@ namespace DotIt.AutoPicker.Service
                     objOrderDetail.Binnum = "Bin"+ orderno;
                     objOrderDetail.Damageqty = 0;
                     objOrderDetail.Pickstatus = 1;
+                    objOrderDetail.OrderLine = 1;
+                    objOrderDetail.OrderQty = 1;
+                    objOrderDetail.IUM = "PK";
+                    objOrderDetail.LineDesc ="Item 1";
+                    objOrderDetail.UnitPrice = 6;
+                    objOrderDetail.TotalPrice = 6;
+
                     _DotitExtensionContext.Pickorderdetail.Add(objOrderDetail);
                     _DotitExtensionContext.SaveChanges();
                 }

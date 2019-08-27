@@ -12,6 +12,14 @@ namespace DotIt.AutoPicker.Models
         public int OrderNo { get; set; }
         public string BinLocation { get; set; }
         public string PartNum { get; set; }
-        
+        public int? Damageqty { get; set; }
+        public int? Pickstatus { get; set; }
+        public int? OrderLine { get; set; }
+        public decimal? OrderQty { get; set; }
+        public string IUM { get; set; }
+        public string LineDesc { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public decimal TotalPrice { get; set; }
+
     }
 }

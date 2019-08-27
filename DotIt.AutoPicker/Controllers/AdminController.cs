@@ -76,7 +76,14 @@ namespace DotIt.AutoPicker.Controllers
                              PickerName = p.Pickername,
                              OrderNo = od.Orderno,
                              BinLocation = od.Binnum,
-                             PartNum = od.Partnum
+                             PartNum = od.Partnum,
+                             OrderLine = od.OrderLine,
+                             OrderQty = od.OrderQty,
+                             IUM = od.IUM,
+                             LineDesc = od.LineDesc,
+                             UnitPrice = od.UnitPrice,
+                             TotalPrice = od.TotalPrice
+
                              // other assignments
                          };
 
@@ -349,7 +356,7 @@ namespace DotIt.AutoPicker.Controllers
         public IActionResult LogOut(string id)
         {
             HttpContext.Session.Remove(Constant.UserCookie.ToString());
-            return View("Index");
+            return RedirectToAction("Default");
         }
 
         public void GetEpicoreOrder()

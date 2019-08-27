@@ -8,8 +8,8 @@
     <thead>
         <tr>
             @*<th>
-                    @Html.DisplayNameFor(model => model.Empid)
-                </th>*@
+            @Html.DisplayNameFor(model => model.Empid)
+        </th>*@
             <th>
                 Pickers
             </th>
@@ -26,34 +26,47 @@
             <th>
                 part No
             </th>
-            
+            <th>
+                Order line
+            </th>
+            <th>
+                Order qty
+            </th>
+
+
         </tr>
     </thead>
     <tbody>
         @*@foreach (var item in ViewBag.Pickers as List<DotIt.AutoPicker.Models.PickerModel>)*@
         @foreach (var item in ViewBag.PickersItemBinLoc as List<DotIt.AutoPicker.Models.ItemAssignDetailModel> )
         {
-            <tr>
-                <td>
+        <tr>
+            <td>
 
-                    @item.PickerName
-                </td>
-                <td>
-                    @item.DcdUserID
-                </td>
-                
-                <td>
-                    @item.OrderNo
-                </td>
+                @item.PickerName
+            </td>
+            <td>
+                @item.DcdUserID
+            </td>
 
-                <td>
-                    @item.BinLocation
-                </td>
-                <td>
-                    @item.PartNum
-                </td>
-              
-            </tr>
+            <td>
+                @item.OrderNo
+            </td>
+
+            <td>
+                @item.BinLocation
+            </td>
+            <td>
+                @item.PartNum
+            </td>
+            <td>
+                @item.OrderLine
+            </td>
+            <td>
+                @item.OrderQty
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>

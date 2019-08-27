@@ -11,5 +11,11 @@ namespace DotIt.AutoPicker.Data.DotIt
         public string Binnum { get; set; }
         public int? Damageqty { get; set; }
         public int? Pickstatus { get; set; }
+        public int? OrderLine { get; set; }
+        public decimal? OrderQty { get; set; }
+        public string IUM { get; set; }
+        public string LineDesc { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }
