@@ -41,7 +41,8 @@
                 <li><a class="active" href="~/Picker/Index">Home</a></li>
                 <li><a href="~/Picker/Orders">Orders</a></li>
                 <li><a onclick="PickerPick()" href="javascript:void(0);">Pick</a></li>
-                <li><a onclick="SelectedProfile();"  href="javascript:void(0);">Profile</a></li>
+                <li><a onclick="SelectedProfile();" href="javascript:void(0);">Profile</a></li>
+                <li><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="LogOut">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -60,7 +61,8 @@
         <div class="row">
             <div class="col-lg-6">
                 @*<a href="#" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Go</a>*@
-                <a href="~/Picker/Orders?PickerId" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Go</a>
+                @*<a href="~/Picker/Orders?PickerId" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Go</a>*@
+                <a class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true" asp-area="" asp-controller="Picker" asp-action="assignOrderPicker">Go</a>
             </div>
             <div class="col-lg-6">
                 <a onclick="PickerOrders()" href="javascript:void(0);" class="btn btn-style-grey btn-lg btn-spc-top-40 active" role="button" aria-pressed="true">Orders</a>
@@ -96,7 +98,7 @@
         debugger;
         window.location.href = "../../Picker/Orders";
         //var data =@ViewBag.LogInName;
-        console.log(data);
+       // console.log(data);
         //window.location.href = "../../Picker/Orders?id=" +@ViewBag.LogInName;;
     }
 

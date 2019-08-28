@@ -1,7 +1,9 @@
 ﻿using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Models;
 using DotIt.AutoPicker.Persistance.Repository;
+using DotIt.AutoPicker.Services;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +16,7 @@ using static DotIt.AutoPicker.Models.Enums;
 
 namespace DotIt.AutoPicker.Service
 {
-    public class OrderAssignPicker
+    public class OrderAssignPicker:Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
@@ -394,6 +396,19 @@ namespace DotIt.AutoPicker.Service
             //objClsHM.Pickstatus = "Pending";
             objClsHM1.RequestDate = DateTime.Now;
             OrderList.Add(objClsHM1);
+
+
+            OrderHeadModel objClsHM2 = new OrderHeadModel();
+            objClsHM2.Company = "DIRF";
+            objClsHM2.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss"));
+            objClsHM2.OrderDate = "2019-08-26";
+            objClsHM2.TotalLines = 1;
+            objClsHM2.Weight = 10;
+            objClsHM2.TotalWgt_c = 10;
+            objClsHM2.PickDate = DateTime.Now;
+            //objClsHM.Pickstatus = "Pending";
+            objClsHM2.RequestDate = DateTime.Now;
+            OrderList.Add(objClsHM2);
             // List Of OrderDetails
             //List<Pickorderdetail> ListOrderDetail = new List<Pickorderdetail>();
             //Pickorderdetail objOrderDetail = new Pickorderdetail();
@@ -458,6 +473,122 @@ namespace DotIt.AutoPicker.Service
                 }
             }
 
+        }
+
+        public bool assignOrderPicker(string UserId)
+        {
+
+            //  List<OrderHeadModel> OrderList = OrdersReadyToPick();
+            //List Of OrderHead
+            List<OrderHeadModel> OrderList = new List<OrderHeadModel>();
+            OrderHeadModel objClsHM = new OrderHeadModel();
+            objClsHM.Company = "DIRF";
+            objClsHM.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss"));
+            objClsHM.OrderDate = "2019-08-26";
+            objClsHM.TotalLines = 1;
+            objClsHM.Weight = 20;
+            objClsHM.TotalWgt_c = 20;
+            objClsHM.PickDate = DateTime.Now;
+            //objClsHM.Pickstatus = "Pending";
+            objClsHM.RequestDate = DateTime.Now;
+            OrderList.Add(objClsHM);
+
+            OrderHeadModel objClsHM1 = new OrderHeadModel();
+            objClsHM1.Company = "DIRF";
+            objClsHM1.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss"));
+            objClsHM1.OrderDate = "2019-08-26";
+            objClsHM1.TotalLines = 1;
+            objClsHM1.Weight = 10;
+            objClsHM1.TotalWgt_c = 10;
+            objClsHM1.PickDate = DateTime.Now;
+            //objClsHM.Pickstatus = "Pending";
+            objClsHM1.RequestDate = DateTime.Now;
+            OrderList.Add(objClsHM1);
+
+
+            OrderHeadModel objClsHM2 = new OrderHeadModel();
+            objClsHM2.Company = "DIRF";
+            objClsHM2.OrderNum = Convert.ToInt32(DateTime.Now.ToString("MMddHHmmss"));
+            objClsHM2.OrderDate = "2019-08-26";
+            objClsHM2.TotalLines = 1;
+            objClsHM2.Weight = 10;
+            objClsHM2.TotalWgt_c = 10;
+            objClsHM2.PickDate = DateTime.Now;
+            //objClsHM.Pickstatus = "Pending";
+            objClsHM2.RequestDate = DateTime.Now;
+            OrderList.Add(objClsHM2);
+            // List Of OrderDetails
+            //List<Pickorderdetail> ListOrderDetail = new List<Pickorderdetail>();
+            //Pickorderdetail objOrderDetail = new Pickorderdetail();
+            //objOrderDetail.Orderno = 0;
+            //objOrderDetail.Company = "DIRF";
+            //objOrderDetail.Partnum = "";
+            //objOrderDetail.Binnum = "";
+            //objOrderDetail.Damageqty = 0;
+            //objOrderDetail.Pickstatus = 1;
+            //ListOrderDetail.Add(objOrderDetail);
+
+
+            foreach (OrderHeadModel itemhm in OrderList)
+            {
+                //var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
+
+                //if (UserLogInName != null)
+                //{
+                     
+                    //string UserIda= UserLogInName.DcdUserID;
+               
+                    List<PickerModel> ListEmp = _pickerRepository.GetPickers(null, UserId).Where(x => Convert.ToDouble(x.MaxWeight) >= itemhm.TotalWgt_c).ToList();
+
+                foreach (PickerModel itempm in ListEmp)
+                {
+                    List<OrderHeadModel> LisEmpOrder = _pickerRepository.GetDotItOrder(null, itempm.DcdUserID, OrderStatus.Complete.ToString()).ToList();
+                    int EmpOrderCount = LisEmpOrder.Count();
+                    if (EmpOrderCount < 8)
+                    {
+                        Pickerorder objPicker = new Pickerorder();
+                        int orderno = Convert.ToInt32(Get8Digits());
+                        objPicker.Company = itemhm.Company;
+                        objPicker.Ordernum = orderno;
+                        //objPicker.Ordernum = itemhm.OrderNum;
+                        objPicker.Orderdate = Convert.ToDateTime(itemhm.OrderDate);
+                        objPicker.Totalitems = itemhm.TotalLines;
+                        objPicker.Weight = itemhm.TotalWgt_c;
+                        objPicker.Dcduserid = itempm.DcdUserID;
+                        objPicker.PickDate = DateTime.Now;
+                        objPicker.Pickstatus = "Pending";
+                        objPicker.Recorddate = DateTime.Now;
+                        objPicker.Recordupdatedon = DateTime.Now;
+                        objPicker.ReasionPickFail = "NO";
+                        _DotitExtensionContext.Pickerorder.Add(objPicker);
+                        _DotitExtensionContext.SaveChanges();
+
+                        Pickorderdetail objOrderDetail = new Pickorderdetail();
+                        objOrderDetail.Orderno = orderno;
+                        objOrderDetail.Company = "DIRF";
+                        objOrderDetail.Partnum = "Partnum" + orderno;
+                        objOrderDetail.Binnum = "Bin" + orderno;
+                        objOrderDetail.Damageqty = 0;
+                        objOrderDetail.Pickstatus = 6;
+                        objOrderDetail.OrderLine = 1;
+                        objOrderDetail.OrderQty = 1;
+                        objOrderDetail.IUM = "PK";
+                        objOrderDetail.LineDesc = "Item 1";
+                        objOrderDetail.UnitPrice = 6;
+                        objOrderDetail.TotalPrice = 6;
+
+                        _DotitExtensionContext.Pickorderdetail.Add(objOrderDetail);
+                        _DotitExtensionContext.SaveChanges();
+                        break;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                }
+            //}
+            return true;
         }
         public string Get8Digits()
         {

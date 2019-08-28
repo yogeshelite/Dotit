@@ -21,6 +21,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
         List<PickerModel> GetPickers(string company = null, string docuserid = null);
 
         List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null, string NotEqualOrderStatus = null);
+        List<OrderHeadModel> GetDotItOrderByOrderNo(string NotEqualOrderStatus = null, int? orderno = null);
         void DotitOrderPickerUpdate(int ordernum, string orderstatus, string resionPickFail, string partno, int itemstatus);
         List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null);
     }
@@ -111,6 +112,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
                 using (_dotitExtDataContext = new DotitExtensionContext())
                 {
+                    #region commented code 
                     //var dotitOrder = _dotitExtDataContext.Pickerorder.ToList();
                     //List<Pickerorder> pickerOrder = orders.Where(f => !dotitOrder.Any(o => o.Company.Equals(f.Company) & o.Ordernum.Equals(f.OrderNum))).Select(f => new Pickerorder()
                     //{
@@ -129,8 +131,8 @@ namespace DotIt.AutoPicker.Persistance.Repository
                     //
                     //if (ordersList != null)
                     //{
-                    
-                    
+
+
                     //Pickerorder objPickerOrder = _dotitExtDataContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
                     //if (objPickerOrder != null)
                     //{
@@ -140,7 +142,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                     //    _dotitExtDataContext.SaveChanges();
 
                     //}
-
+                    #endregion
                     Pickorderdetail objPickerOrderDetail = _dotitExtDataContext.Pickorderdetail.FirstOrDefault(x => x.Orderno == ordernum && x.Partnum == partno);
                     if (objPickerOrderDetail != null)
                     {
@@ -256,7 +258,50 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickerorder.Where(x => x.Dcduserid == docuserid && x.Pickstatus != NotEqualOrderStatus).Select(f => new OrderHeadModel()
+                    result = _dotitExtDataContext.Pickerorder.Where(x => x.Dcduserid == docuserid && x.Pickstatus != NotEqualOrderStatus ).Select(f => new OrderHeadModel()
+                    {
+                        OrderNum = f.Ordernum,
+                        Company = f.Company,
+                        OrderDateTime = f.Orderdate,
+                        TotalLines = f.Totalitems.Value,
+                        Weight = f.Weight.Value,
+                        PickerUserId = f.Dcduserid,
+                        OrderPickStatus = f.Pickstatus,
+                        RequestDate = f.Recorddate.Value,
+                        PickDate = f.PickDate.Value
+
+
+                    }).ToList();
+
+
+
+
+                    //user = user.Where(f => enumlist.Any(e => f.GroupList.Split('~').Contains(e))).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //DLog.Log("Error in Fetching Dotit Order : " + ex.Message, memberName: _stackTrace.GetFrame(1).GetMethod().Name);
+            }
+            return result;
+        }
+        public List<OrderHeadModel> GetDotItOrderByOrderNo( string NotEqualOrderStatus = null, int? orderno = null)
+        {
+            List<OrderHeadModel> result = null;
+            try
+            {
+                // DLog.Log("Calling Method: " + _stackTrace.GetFrame(1).GetMethod().Name);
+                //  var enumlist = Util.EnumToList<PickerUserGroup>().Select(f => f.ToString()).ToList();
+
+                using (_dotitExtDataContext = new DotitExtensionContext())
+                {
+                    // var data = _dotitExtDataContext.Pickerorder.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid));
+                    //var data = _dotitExtDataContext.Pickerorder.ToList();//.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid));
+
+
+
+                    result = _dotitExtDataContext.Pickerorder.Where(x=> x.Pickstatus != NotEqualOrderStatus && x.Ordernum == orderno).Select(f => new OrderHeadModel()
                     {
                         OrderNum = f.Ordernum,
                         Company = f.Company,

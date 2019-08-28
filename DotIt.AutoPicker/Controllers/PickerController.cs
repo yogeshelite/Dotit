@@ -18,11 +18,11 @@ using Microsoft.AspNetCore.Http;
 using System.Text;
 using CsvFileReader;
 using static DotIt.AutoPicker.Models.Enums;
-using DotIt.AutoPicker.Data.Epicor;
 using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Persistance.Repository;
 using DotIt.AutoPicker.Service;
 using DotIt.AutoPicker.Services;
+using DotIt.AutoPicker.Data.Epicor;
 //using EpicorDaily.Model;
 
 namespace DotIt.AutoPicker.Controllers
@@ -47,10 +47,10 @@ namespace DotIt.AutoPicker.Controllers
 
         //    _dotItPickerContext = dotItPickerContext;
         //}
-        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext, Erp102TestContext epicor10Context)
+        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext)//, Erp102TestContext epicor10Context)
         {
             _hostingEnvironment = hostingEnvironment;
-            _epicor10Context = epicor10Context;
+            // _epicor10Context = epicor10Context;
             _stackTrace = new StackTrace();
             _pickerRepository = new PickerRepository(_stackTrace);
             DotitExtensionContext = dotItExtensionContext;
@@ -92,7 +92,8 @@ namespace DotIt.AutoPicker.Controllers
             //if (SaleOrderList == null || SaleOrderList.Count() == 0)
             {
                 SaleOrderList = null;
-                SaleOrderList=GetOrders();
+                SaleOrderList = GetOrders();
+                ViewBag.OrderList = SaleOrderList;
             }
             //if (id != null)
             //{
@@ -257,7 +258,7 @@ namespace DotIt.AutoPicker.Controllers
                 {
                     PickerModel objmodel = UserLogInName;
                     var UserId = objmodel.DcdUserID;
-                    orderlist = _pickerRepository.GetDotItOrder(null, UserId,OrderStatus.Complete.ToString());
+                    orderlist = _pickerRepository.GetDotItOrder(null, UserId, OrderStatus.Complete.ToString());
                     //if (SaleOrderList == null || SaleOrderList.Count() == 0)
                     //    GetEpicorOrders();
                     // JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
@@ -382,7 +383,7 @@ namespace DotIt.AutoPicker.Controllers
 
             if (status == Status.Picked.ToString())
             {
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Picked.ToString(), "NO",partno,(int)Status.Picked);
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Picked.ToString(), "NO", partno, (int)Status.Picked);
                 //var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderLine == orderline).Single().OrderPickStatus = "Processing";
                 msg = orderline + " LineItem is Picked";
             }
@@ -427,7 +428,7 @@ namespace DotIt.AutoPicker.Controllers
             }
             if (status == Status.InventoryControl.ToString())
             {
-                String ResionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + PartNum + "','" + BinNum + "'");
+                String ResionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + PartNum + "','" + BinNum + "'", PartNum, BinNum);
                 _pickerRepository.DotitOrderPickerUpdate(ordernum, OrderStatus.Hold.ToString(), ResionPickFail, partno, (int)Status.InventoryControl);
                 //hare we sent the email to stave for InventoryControl
                 //model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
@@ -451,12 +452,12 @@ namespace DotIt.AutoPicker.Controllers
             {
                 #region status order Picked
 
-                model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
-                if (model != null)
-                {
-                    model.Pickstatus = Status.Picked.ToString();
-                    DotitExtensionContext.SaveChanges();
-                }
+                //model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
+                //if (model != null)
+                //{
+                //    model.Pickstatus = Status.Picked.ToString();
+                //    DotitExtensionContext.SaveChanges();
+                //}
                 #endregion
 
                 #region
@@ -471,30 +472,51 @@ namespace DotIt.AutoPicker.Controllers
                 //#endregion
                 #endregion
 
-                var _LineItemList = LineItemList;
+                //var _LineItemList = LineItemList;
                 return Json("Completed");
             }
         }
 
         public string OrderCompleteOrNot(int ordernum)
         {
+            int[] orderArray = new int[1];
+            orderArray[0] = ordernum;
+            List<OrderHeadModel> pickedOrders = _pickerRepository.GetDotItOrderByOrderNo( OrderStatus.Complete.ToString(), ordernum).ToList();
+            List<OrderDetailModel> pickedOrdersDetail = _pickerRepository.GetDotItOrderDetails(orderArray, null).ToList();
+            
+           
             string orderstatus = string.Empty;
-            var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderPickStatus != "Processing".ToString()).ToList();
-
-            if (updatelist.Count > 0)
+            if (pickedOrdersDetail.Count() == 0)
             {
-                orderstatus = "Not Completed";
-
+                Pickerorder objPickerOrderUpdate = DotitExtensionContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
+                if (objPickerOrderUpdate != null)
+                {
+                    objPickerOrderUpdate.Pickstatus = OrderStatus.Complete.ToString();
+                    DotitExtensionContext.SaveChanges();
+                    orderstatus = "Completed";
+                }
+                else
+                {
+                    orderstatus = "Not Completed";
+                }
             }
-            else
-            {
-                new DotitOrderCsv(_hostingEnvironment).WriteToFileOrderStatus(ordernum, "Completed");
-                //var completeorder = LineItemList.Find(o => o.OrderNum == ordernum);
-                //LineItemList.Remove(completeorder);
 
-                orderstatus = "Completed";
+            //var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderPickStatus != "Processing".ToString()).ToList();
 
-            }
+            //if (updatelist.Count > 0)
+            //{
+            //    orderstatus = "Not Completed";
+
+            //}
+            //else
+            //{
+            //    new DotitOrderCsv(_hostingEnvironment).WriteToFileOrderStatus(ordernum, "Completed");
+            //    //var completeorder = LineItemList.Find(o => o.OrderNum == ordernum);
+            //    //LineItemList.Remove(completeorder);
+
+            //    orderstatus = "Completed";
+
+            //}
             return orderstatus;
         }
 
@@ -524,6 +546,31 @@ namespace DotIt.AutoPicker.Controllers
             //var model = AllPickers.FirstOrDefault(x => x.Empid == id);
             //return View(model);
             return View();
+        }
+        public IActionResult assignOrderPicker()
+        {
+            OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, DotitExtensionContext);
+            //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
+            var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
+
+            if (UserLogInName != null)
+            {
+                PickerModel objpicker = UserLogInName;
+                bool response = obj.assignOrderPicker(objpicker.DcdUserID);
+            if (response == true)
+            {
+                return RedirectToAction("Orders");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
         }
         //[HttpPost]
         //public ActionResult ProfileChanges(Warehouseemployee model)

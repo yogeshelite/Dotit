@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DotIt.AutoPicker.Services;
-using DotIt.AutoPicker.Data.Epicor;
 //using DotIt.AutoPicker.Data;
 using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Persistance.Repository;
@@ -45,7 +44,7 @@ namespace DotIt.AutoPicker.Controllers
         public IActionResult Index()
         {
 
-            var UserLogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+            var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
             if (UserLogInName != null)
             {
                 return RedirectToAction("Home");
@@ -55,7 +54,7 @@ namespace DotIt.AutoPicker.Controllers
         public IActionResult AddProfile()
         {
 
-            var UserLogInName = HttpContext.Session.Get<UserFile>(Constant.UserCookie.ToString());
+            var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
             if (UserLogInName == null)
             {
                 return RedirectToAction("Default");
@@ -359,11 +358,12 @@ namespace DotIt.AutoPicker.Controllers
             return RedirectToAction("Default");
         }
 
-        public void GetEpicoreOrder()
+        public IActionResult GetEpicoreOrder()
         {
             OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext);
-            // List<OrderHeadModel> list = obj.OrdersReadyToPick();
+          //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
             obj.assignOrder();
+            return RedirectToAction("Home");
             /* string ReturnResponse = "";
 
 

@@ -83,6 +83,7 @@
                 <li><a href="~/Picker/Orders">Orders</a></li>
                 @*<li><a class="active" href="~/Picker/Pick">Pick</a></li>*@
                 <li><a href="#">Profile</a></li>
+                <li><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="LogOut">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -125,7 +126,7 @@
                                     <a class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum"  onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Picked','@OrderLines.PartNum','@OrderLines.BinNum')">Pick</a>
                                             <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine','@OrderLines.PartNum','@OrderLines.BinNum')">Quarentine</a>
                                             <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish','@OrderLines.PartNum','@OrderLines.BinNum')">Replenish</a>
-                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Inventory Control','@OrderLines.PartNum','@OrderLines.BinNum')">Inventory Control</a>
+                                            <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'InventoryControl','@OrderLines.PartNum','@OrderLines.BinNum')">Inventory Control</a>
                                    
                                 </td>
                             </tr>
@@ -154,8 +155,12 @@
                     binno, binno
                 },
                 success: function (response) {
-                   // alert(response);
-
+                    console.log(response);
+                    if (response == 'Completed')
+                    {
+                        location.reload();
+                    }
+                    location.reload();
                 },
                 failure: function (response) {
                     alert(response);
