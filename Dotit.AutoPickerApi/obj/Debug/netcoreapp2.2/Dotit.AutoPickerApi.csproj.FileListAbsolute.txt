@@ -1,0 +1,14 @@
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\bin\Debug\netcoreapp2.2\Dotit.AutoPickerApi.deps.json
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\bin\Debug\netcoreapp2.2\Dotit.AutoPickerApi.runtimeconfig.json
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\bin\Debug\netcoreapp2.2\Dotit.AutoPickerApi.runtimeconfig.dev.json
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\bin\Debug\netcoreapp2.2\Dotit.AutoPickerApi.dll
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.csproj.CoreCompileInputs.cache
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.RazorAssemblyInfo.cache
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.RazorAssemblyInfo.cs
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.AssemblyInfoInputs.cache
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.AssemblyInfo.cs
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.RazorTargetAssemblyInfo.cache
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\bin\Debug\netcoreapp2.2\Dotit.AutoPickerApi.pdb
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.dll
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.pdb
+F:\Yogesh\Project\Autopicker\new\Dotit.AutoPickerApi\obj\Debug\netcoreapp2.2\Dotit.AutoPickerApi.csprojAssemblyReference.cache
