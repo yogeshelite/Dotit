@@ -50,6 +50,7 @@
             <ul>
                 <li><a href="~/Picker/Index">Home</a></li>
                 <li><a class="active" href="~/Picker/Orders">Orders</a></li>
+                <li><a href="~/Picker/AssignedOrderList">Assigned Orders</a></li>
                 @*<li><a onclick="PickerPick()" href="javascript:void(0);">Pick</a></li>*@
                 <li><a href="#">Profile</a></li>
                 <li><a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="LogOut">Logout</a></li>
@@ -60,7 +61,7 @@
 
     <!-- Row -->
     <div class="container scroll_ex3 pull-left table">
-
+        <input type="text" id="TxtListCount" value="@ViewBag.OrderList.Count" style="display:none;" />
         <table class="scroll_ex3">
             <thead>
                 <tr>
@@ -77,6 +78,7 @@
 
                 </tr>
             </thead>
+            
             @foreach (var Orders in ViewBag.OrderList as IEnumerable<DotIt.AutoPicker.Models.OrderHeadModel>)
             {
 
@@ -106,7 +108,7 @@
             }
         </table>
     </div>
-
+    
     <h3 id="NextButton"><a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Continue</a> </h3>
     @*<div id="OrderSummary1">
 
@@ -195,10 +197,19 @@
      //  if (TotalCount > 0) {
 
             //window.location.href = "../../Picker/Pick";
-            var data = arrMyPickingItems;
+       // var data = arrMyPickingItems;
+        var OrderListCount = $('#TxtListCount').val();
+        if (Number(OrderListCount) > 0) {
+            window.location.href = "../../Picker/Pick";
+        }
+        else {
+            window.location.href = "../../Picker/index";
+
+        }
+        
             //alert(JSON.stringify({ "Data": JSON.stringify(data) }));
            // window.location.href = "../../Picker/Pick?Orders=" + JSON.stringify({ "Data": JSON.stringify(data) });
-            window.location.href = "../../Picker/Pick";
+        
           
       //  }
       //  else { alert("Plz Select Orders"); }
