@@ -186,7 +186,7 @@ namespace DotIt.AutoPicker.Controllers
             //int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
             var User = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
             // int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
-            int[] Ordernum = _pickerRepository.GetDotItOrder(null, User.DcdUserID).Select(x => x.OrderNum).ToArray();
+            int[] Ordernum = _pickerRepository.GetDotItOrder(null, User.DcdUserID).Where(f=>!f.OrderPickStatus.Equals(OrderStatus.Complete)).Select(x => x.OrderNum).ToArray();
 
 
             #region do shorting in saleorderlist for Priority wise but we don't have order status
@@ -302,18 +302,11 @@ namespace DotIt.AutoPicker.Controllers
                             {
                                 var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
                                 if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
-
-                                ResponseModel _PObjResponse = null;
-                                Dictionary<string, object> Objbinnum = null;
-                                Dictionary<string, object> retobj = null;
-
-                                string empty = string.Empty;
-
-                                foreach (var _Order in _result)
-                                {
-                                    GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
+                                //foreach (var _Order in _result)
+                                //{
+                                   // _Order.BinNum= GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
                                     //_Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
-                                }
+                               // }
                                 LineItemList = _result;
                                 return _result;
                             }
@@ -333,37 +326,11 @@ namespace DotIt.AutoPicker.Controllers
         }
         public List<OrderDetailModel> GetDotItOrderDetails(int[] Orders)
         {
-            List<OrderDetailModel> lstOrderDetail = _pickerRepository.GetDotItOrderDetails(Orders, null);
-            LineItemList = lstOrderDetail;
+            List<OrderDetailModel> lstOrderDetail = _pickerRepository.GetDotItOrderDetails(Orders, null).OrderBy(f=>f.BinNum).ToList();
+          //  LineItemList = lstOrderDetail;
             return lstOrderDetail;
         }
-        private void GetPartBinLocation(ResponseModel _PObjResponse, Dictionary<string, object> Objbinnum, Dictionary<string, object> retobj, OrderDetailModel _Order)
-        {
-            _PObjResponse = _apiResponse.GetApiResponse(Constant.PartBinSearchSvc, "POST", "{\"partNum\":'" + _Order.PartNum + "',\"whseCode\":''}");
-            if (_PObjResponse.success)
-            {
-                Objbinnum = JsonConvert.DeserializeObject<Dictionary<string, object>>(_PObjResponse.Response);
-
-                //var _resultbinnum1 = JsonConvert.DeserializeObject<List<OrderDetModel>>(_PObjResponse.Response);
-                if (Objbinnum.ContainsKey("returnObj"))
-                {
-                    if (!String.IsNullOrEmpty(Objbinnum["returnObj"].ToString()))
-                    {
-                        retobj = JsonConvert.DeserializeObject<Dictionary<string, object>>(Objbinnum["returnObj"].ToString());
-                        if (retobj.ContainsKey("PartBinSearch"))
-                        {
-                            var partBinList = JsonConvert.DeserializeObject<List<OrderDetailModel>>(retobj["PartBinSearch"].ToString()).Select(f => new { BinNum = f.BinNum, BinDesc = f.BinDesc, BinType = f.BinType }).FirstOrDefault();
-                            if (partBinList != null)
-                            {
-                                _Order.BinNum = partBinList.BinNum;
-                                _Order.BinDesc = partBinList.BinDesc;
-                                _Order.BinType = partBinList.BinType;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        
 
         public JsonResult PickLineItems(int ordernum, int orderline, string status, string partno, string binno)
         {
@@ -437,7 +404,7 @@ namespace DotIt.AutoPicker.Controllers
                 //}
 
             }
-            new DotitOrderCsv(_hostingEnvironment).WriteToFile(Order, "pick");
+            //new DotitOrderCsv(_hostingEnvironment).WriteToFile(Order, "pick");
             var orderstatus = OrderCompleteOrNot(ordernum);
 
             if (orderstatus != "Completed")

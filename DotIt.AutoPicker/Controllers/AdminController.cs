@@ -67,21 +67,21 @@ namespace DotIt.AutoPicker.Controllers
             List<Pickerorder> pickedOrders = _DotitExtensionContext.Pickerorder.ToList();
             List<Pickorderdetail> pickedOrderDetail = _DotitExtensionContext.Pickorderdetail.ToList();
             var result = from o in pickedOrders
-                         join od in pickedOrderDetail on o.Ordernum equals od.Orderno
+                         join od in pickedOrderDetail on o.Ordernum equals od.Ordernum
                          join p in Listpicker on o.Dcduserid equals p.Dcduserid
                          select new ItemAssignDetailModel
                          {
                              DcdUserID = p.Dcduserid,
                              PickerName = p.Pickername,
-                             OrderNo = od.Orderno,
+                             OrderNo = od.Ordernum,
                              BinLocation = od.Binnum,
                              PartNum = od.Partnum,
-                             OrderLine = od.OrderLine,
-                             OrderQty = od.OrderQty,
-                             IUM =      od.IUM,
-                             LineDesc = od.LineDesc,
-                             UnitPrice = od.UnitPrice,
-                             TotalPrice = od.TotalPrice 
+                             OrderLine = od.Orderline,
+                             OrderQty = od.Orderqty,
+                             IUM =      od.Ium,
+                             LineDesc = od.Linedesc,
+                             UnitPrice = od.Unitprice,
+                             TotalPrice = od.Totalprice.Value 
 
                              // other assignments
                          };
@@ -167,9 +167,9 @@ namespace DotIt.AutoPicker.Controllers
             if (warehouseemployee != null)
             {
                 string[] PickComp = new string[2];
-                if (!string.IsNullOrWhiteSpace(warehouseemployee.PickForCompany))
+                if (!string.IsNullOrWhiteSpace(warehouseemployee.Pickforcompany))
                 {
-                    PickComp = warehouseemployee.PickForCompany.Split(',');
+                    PickComp = warehouseemployee.Pickforcompany.Split(',');
                 }
 
                 PickerModel pickerModel = new PickerModel()
@@ -180,13 +180,13 @@ namespace DotIt.AutoPicker.Controllers
                     RecordDate = warehouseemployee.Recorddate,
                     DcdUserID = warehouseemployee.Dcduserid,
                     // EmpID = pickerModel.Empid;
-                    Active = warehouseemployee.active,
+                    Active = warehouseemployee.Active,
                     AdminlineperHour = warehouseemployee.Adminlineperhour,
                     LastLogin = warehouseemployee.Lastlogin,
                     MaxLines = warehouseemployee.Maxlines,
                     MaxWeight = warehouseemployee.Maxweight,
-                    UserHeight = warehouseemployee.UserHeight,
-                    WeightCapacity = warehouseemployee.WeightCapacity,
+                    UserHeight = warehouseemployee.Userheight,
+                    WeightCapacity = warehouseemployee.Weightcapacity,
                     //MaxOrder=warehouseemployee.MaxOrder
                 };
                 if (PickComp[0] == "NCCO")
@@ -244,7 +244,7 @@ namespace DotIt.AutoPicker.Controllers
                     RecordDate = f.Recorddate,
                     DcdUserID = f.Dcduserid,
                     // EmpID = f.Empid,
-                    Active = f.active,
+                    Active = f.Active,
                     AdminlineperHour = f.Adminlineperhour,
                     LastLogin = f.Lastlogin,
                     MaxLines = f.Maxlines,
@@ -276,14 +276,14 @@ namespace DotIt.AutoPicker.Controllers
                 user.Pickername = warehouseemployee.Name;
                 user.Recordupdatedate = DateTime.Now;
                 user.Dcduserid = warehouseemployee.DcdUserID;
-                user.active = warehouseemployee.Active;
+                user.Active = warehouseemployee.Active;
                 user.Adminlineperhour = warehouseemployee.AdminlineperHour;
                 user.Lastlogin = warehouseemployee.LastLogin;
                 user.Maxlines = warehouseemployee.MaxLines;
                 user.Maxweight = warehouseemployee.MaxWeight;
-                user.UserHeight = warehouseemployee.UserHeight;
-                user.WeightCapacity = warehouseemployee.WeightCapacity;
-                user.PickForCompany = warehouseemployee.PickForCompany;
+                user.Userheight = warehouseemployee.UserHeight;
+                user.Weightcapacity = warehouseemployee.WeightCapacity;
+                user.Pickforcompany = warehouseemployee.PickForCompany;
                 //user.MaxOrder = warehouseemployee.MaxOrder;
             }
             _DotitExtensionContext.SaveChanges();
@@ -302,13 +302,13 @@ namespace DotIt.AutoPicker.Controllers
                 obj.Pickername = warehouseemployee.Name;
                 obj.Recordupdatedate = DateTime.Now;
                 obj.Dcduserid = warehouseemployee.Name.ToUpper();
-                obj.active = warehouseemployee.Active;
+                obj.Active = warehouseemployee.Active;
                 obj.Adminlineperhour = warehouseemployee.AdminlineperHour;
                 obj.Lastlogin = warehouseemployee.LastLogin;
                 obj.Maxlines = warehouseemployee.MaxLines;
                 obj.Maxweight = warehouseemployee.MaxWeight;
-                obj.UserHeight = warehouseemployee.UserHeight;
-                obj.WeightCapacity = warehouseemployee.WeightCapacity;
+                obj.Userheight = warehouseemployee.UserHeight;
+                obj.Weightcapacity = warehouseemployee.WeightCapacity;
                 //obj.PickForCompany = warehouseemployee.PickForCompany;
             }
             _DotitExtensionContext.Warehouseemployee.Add(obj);

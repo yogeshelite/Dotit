@@ -7,6 +7,7 @@ namespace DotIt.AutoPicker.Models
 
     public class OrderHeadModel
     {
+      
         //OrderNum(int, optional),
         public bool OpenOrder { get; set; }
         public int OrderNum { get; set; }
@@ -61,6 +62,8 @@ namespace DotIt.AutoPicker.Models
     }
     public class OrderDetailModel
     {
+        public Guid OrderDetailID { get; set; }
+
         public string OrderPickStatus { get; set; }
         public string PlantName { get; set; }
         public string WhseCodeDesc { get; set; }
