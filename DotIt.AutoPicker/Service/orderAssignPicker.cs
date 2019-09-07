@@ -56,10 +56,7 @@ namespace DotIt.AutoPicker.Service
                                 List<OrderHeadModel> _result = JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderDetails["value"].ToString());
                                 if (_result != null)
                                 {
-
-
                                     _result = _result.ToList();
-
                                     resultOrderList = _result.Where(x => x.OrderDtls.Count() > 0).OrderByDescending(f => f.RequestDate).ToList();
                                 }
                             }
@@ -295,7 +292,7 @@ namespace DotIt.AutoPicker.Service
         }
 
 
-        private Boolean IsOrderComplete( List<OrderDetailModel> lines)
+        private Boolean IsOrderComplete(List<OrderDetailModel> lines)
         {
             //DLog.StartModule();
 
@@ -305,13 +302,13 @@ namespace DotIt.AutoPicker.Service
             {
                 return true;
                 List<PartBinModel> PartBins;
-                 Boolean isComplete = true;
+                Boolean isComplete = true;
 
                 foreach (OrderDetailModel line in lines)
                 {
-                  PartBins = GetPartBin(line.PartNum);
+                    PartBins = GetPartBin(line.PartNum);
                     var bins = from pb in PartBins where pb.PartNum == line.PartNum && pb.WhseCode == "Main" select pb;
-                    Decimal qtyOnHand = 0.0m;
+                    double qtyOnHand = 0.0;
 
                     foreach (PartBinModel pb in bins)
                     {
@@ -354,7 +351,7 @@ namespace DotIt.AutoPicker.Service
 
                 foreach (OrderDetailModel line in order.OrderDtls)
                 {
-                    Decimal itemWeight = parts.FirstOrDefault(p => p.PartNum == line.PartNum)!=null? parts.FirstOrDefault(p => p.PartNum == line.PartNum).GrossWeight:0;
+                    Decimal itemWeight = parts.FirstOrDefault(p => p.PartNum == line.PartNum) != null ? parts.FirstOrDefault(p => p.PartNum == line.PartNum).GrossWeight : 0;
                     weight += itemWeight * (decimal)line.OrderQty;
                 }
             }
@@ -368,52 +365,46 @@ namespace DotIt.AutoPicker.Service
         }
         public void AssignOrdersToPickers()
         {
-
+            Pickerorder objPicker;
             List<OrderHeadModel> OrderList = OrdersReadyToPick();
             List<OrderHeadModel> LisEmpOrder;
-            List<PickerModel> ListEmp;
-            foreach (OrderHeadModel itemhm in OrderList)
+            List<PickerModel> ListEmp= _pickerRepository.GetPickers();
+            List<Pickorderdetail> pickorderdetail = null;
+            int PickerTotalLineItems = 0;// dotItPickOrderList.Sum(f => f.TotalLines);
+            int pickerAssinedOrders = 0;// pickerAssinedOrders = dotItPickOrderList.Count();
+            foreach (OrderHeadModel order in OrderList)
             {
-                ListEmp = _pickerRepository.GetPickers().Where(x => Convert.ToDouble(x.MaxWeight) >= itemhm.TotalWgt_c).ToList();
+                ListEmp = ListEmp.Where(x => Convert.ToDouble(x.MaxWeight) >= order.TotalWgt_c).ToList();
 
-                foreach (PickerModel itempm in ListEmp)
+                foreach (PickerModel pickerModel in ListEmp)
                 {
-                    LisEmpOrder = _pickerRepository.GetDotItOrder(null, itempm.DcdUserID).Where(f=>!f.OrderPickStatus.Equals(OrderStatus.Complete.ToString())).ToList();
+                    LisEmpOrder = _pickerRepository.GetDotItOrder(null, pickerModel.DcdUserID).Where(f => !f.OrderPickStatus.Equals(OrderStatus.Complete.ToString())).ToList();
                     int EmpOrderCount = LisEmpOrder.Count();
                     if (EmpOrderCount < 8)
                     {
-                        Pickerorder objPicker = new Pickerorder();
-                        int orderno = Convert.ToInt32(Get8Digits());
-                        objPicker.Company = itemhm.Company;
-                        objPicker.Ordernum = orderno;
+                        objPicker = new Pickerorder();
+                        objPicker.Company = order.Company;
+                        objPicker.Ordernum = order.OrderNum;
                         //objPicker.Ordernum = itemhm.OrderNum;
-                        objPicker.Orderdate = Convert.ToDateTime(itemhm.OrderDate);
-                        objPicker.Totalitems = itemhm.TotalLines;
-                        objPicker.Weight = itemhm.TotalWgt_c;
-                        objPicker.Dcduserid = itempm.DcdUserID;
-                        objPicker.PickDate = DateTime.Now;
+                        objPicker.Orderdate = Convert.ToDateTime(order.OrderDate);
+                        objPicker.Totalitems = order.TotalLines;
+                        objPicker.Weight = order.TotalWgt_c;
+                        objPicker.Dcduserid = pickerModel.DcdUserID;
+                        objPicker.Pickdate = DateTime.Now;
                         objPicker.Pickstatus = "Pending";
                         objPicker.Recorddate = DateTime.Now;
                         objPicker.Recordupdatedon = DateTime.Now;
-                        objPicker.ReasionPickFail = "NO";
+                        objPicker.Reasionpickfail = "NO";
+
+                        // Order  Save
                         _DotitExtensionContext.Pickerorder.Add(objPicker);
-                        _DotitExtensionContext.SaveChanges();
 
-                        Pickorderdetail objOrderDetail = new Pickorderdetail();
-                        objOrderDetail.Orderno = orderno;
-                        objOrderDetail.Company = "DIRF";
-                        objOrderDetail.Partnum = "Partnum" + orderno;
-                        objOrderDetail.Binnum = "Bin" + orderno;
-                        objOrderDetail.Damageqty = 0;
-                        objOrderDetail.Pickstatus = 6;
-                        objOrderDetail.OrderLine = 1;
-                        objOrderDetail.OrderQty = 1;
-                        objOrderDetail.IUM = "PK";
-                        objOrderDetail.LineDesc = "Item 1";
-                        objOrderDetail.UnitPrice = 6;
-                        objOrderDetail.TotalPrice = 6;
-
-                        _DotitExtensionContext.Pickorderdetail.Add(objOrderDetail);
+                        pickorderdetail = new List<Pickorderdetail>();
+                        // Order Detail Save
+                        MapEpicorLines(order.OrderDtls, pickorderdetail);
+                        _DotitExtensionContext.Pickorderdetail.AddRange(pickorderdetail);
+                        PickerTotalLineItems += order.OrderDtls.Count();
+                        pickerAssinedOrders += 1;
                         _DotitExtensionContext.SaveChanges();
                         break;
                     }
@@ -432,8 +423,8 @@ namespace DotIt.AutoPicker.Service
             try
             {
                 List<OrderHeadModel> dotItOrderList;
-               Pickerorder objPicker;
-             
+                Pickerorder objPicker;
+
                 List<Pickorderdetail> pickorderdetail = null;
                 dotItOrderList = _pickerRepository.GetDotItOrder().ToList();
                 var epicorOrder = OrdersReadyToPick();
@@ -442,10 +433,10 @@ namespace DotIt.AutoPicker.Service
                 List<OrderHeadModel> dirfOrderList = epicorOrder.Where(f => !f.CustNum.Equals("NCCO")).ToList();
 
 
-                var dotItPickOrderList = dotItOrderList.Where(f => f.PickerUserId.Equals(pickerModel.DcdUserID) & !f.OrderPickStatus.Equals(OrderStatus.Complete.ToString()));                
-                    int PickerTotalLineItems = dotItPickOrderList.Sum(f => f.TotalLines);
+                var dotItPickOrderList = dotItOrderList.Where(f => f.PickerUserId.Equals(pickerModel.DcdUserID) & !f.OrderPickStatus.Equals(OrderStatus.Complete.ToString()));
+                int PickerTotalLineItems = dotItPickOrderList.Sum(f => f.TotalLines);
                 int pickerAssinedOrders = pickerAssinedOrders = dotItPickOrderList.Count();
-
+               
                 foreach (OrderHeadModel order in dirfOrderList)
                 {
                     if (pickerAssinedOrders + 1 > pickerModel.MaxOrder) return false;
@@ -460,11 +451,11 @@ namespace DotIt.AutoPicker.Service
                     objPicker.Totalitems = order.TotalLines;
                     objPicker.Weight = order.TotalWgt_c;
                     objPicker.Dcduserid = pickerModel.DcdUserID;
-                    objPicker.PickDate = DateTime.Now;
+                    objPicker.Pickdate = DateTime.Now;
                     objPicker.Pickstatus = "Pending";
                     objPicker.Recorddate = DateTime.Now;
                     objPicker.Recordupdatedon = DateTime.Now;
-                    objPicker.ReasionPickFail = "NO";
+                    objPicker.Reasionpickfail = "NO";
 
                     // Order  Save
                     _DotitExtensionContext.Pickerorder.Add(objPicker);
@@ -476,13 +467,15 @@ namespace DotIt.AutoPicker.Service
                     PickerTotalLineItems += order.OrderDtls.Count();
                     pickerAssinedOrders += 1;
                     _DotitExtensionContext.SaveChanges();
+                    
                     pickorderdetail = null;
                 }
             }
-            catch (Exception ex) {
-                
+            catch (Exception ex)
+            {
+               // return false;
             }
-       
+
             return true;
         }
         private void MapEpicorLines(List<OrderDetailModel> orderDtls, List<Pickorderdetail> pickorderdetail)
@@ -491,23 +484,52 @@ namespace DotIt.AutoPicker.Service
             orderDtls.ForEach(f =>
            pickorderdetail.Add(new Pickorderdetail()
            {
-               Binnum = f.BinNum,
+               Binnum =GetPartBinLocation( f),
                Company = f.Company,
-               Orderno = f.OrderNum,
+               Ordernum = f.OrderNum,
                Partnum = f.PartNum,
                Damageqty = 0,
                Pickstatus = 6,
-               OrderLine = f.OrderLine,
-               OrderQty = (decimal)f.OrderQty,
-               IUM = f.IUM,
-               LineDesc = f.LineDesc,
-               UnitPrice = (decimal)f.UnitPrice,
-               TotalPrice = (decimal)f.TotalPrice
+               Orderline = f.OrderLine,
+               Orderqty = (decimal)f.OrderQty,
+               Ium = f.IUM,
+               Linedesc = f.LineDesc,
+               Unitprice = (decimal)f.UnitPrice,
+               Totalprice = (decimal)f.TotalPrice
            }));
 
 
         }
+        public string GetPartBinLocation(OrderDetailModel _Order)
+        {
+            ResponseModel _Response;
+            Dictionary<string, object> _Result;
+            Dictionary<string, object> retobj;
+            _Response = _apiResponse.GetApiResponse(Constant.PartBinSearchSvc, "POST", "{\"partNum\":'" + _Order.PartNum + "',\"whseCode\":''}");
+            if (_Response.success)
+            {
+                _Result = JsonConvert.DeserializeObject<Dictionary<string, object>>(_Response.Response);
 
+                //var _resultbinnum1 = JsonConvert.DeserializeObject<List<OrderDetModel>>(_PObjResponse.Response);
+                if (_Result.ContainsKey("returnObj"))
+                {
+                    if (!String.IsNullOrEmpty(_Result["returnObj"].ToString()))
+                    {
+                        retobj = JsonConvert.DeserializeObject<Dictionary<string, object>>(_Result["returnObj"].ToString());
+                        if (retobj.ContainsKey("PartBinSearch"))
+                        {
+                            var partBinList = JsonConvert.DeserializeObject<List<PartBinModel>>(retobj["PartBinSearch"].ToString()).FirstOrDefault();
+                            if (partBinList != null)
+                            {
+                                return  partBinList.BinNum;
+                             
+                            }
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
         public string Get8Digits()
         {
             var bytes = new byte[4];

@@ -67,7 +67,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                             Recorddate = DateTime.Now,
                             Dcduserid = list.DcdUserID,
                             Password = "pik" + Guid.NewGuid().ToString().Substring(0, 8),
-                            active = true
+                            Active = true
                         };
                         _dotitExtDataContext.Warehouseemployee.Add(picker);
 
@@ -143,7 +143,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
                     //}
                     #endregion
-                    Pickorderdetail objPickerOrderDetail = _dotitExtDataContext.Pickorderdetail.FirstOrDefault(x => x.Orderno == ordernum && x.Partnum == partno);
+                    Pickorderdetail objPickerOrderDetail = _dotitExtDataContext.Pickorderdetail.FirstOrDefault(x => x.Ordernum == ordernum && x.Partnum == partno);
                     if (objPickerOrderDetail != null)
                     {
                         objPickerOrderDetail.Pickstatus = itemstatus;
@@ -219,13 +219,13 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         RecordDate = f.Recorddate,
                         DcdUserID = f.Dcduserid,
                         //EmpID = f.EMPID,
-                        Active = f.active,
+                        Active = f.Active,
                         AdminlineperHour = f.Adminlineperhour,
                         LastLogin = f.Lastlogin,
                         MaxLines = f.Maxlines,
                         MaxWeight = f.Maxweight,
-                        UserHeight = f.UserHeight,
-                        WeightCapacity = f.WeightCapacity
+                        UserHeight = f.Userheight,
+                        WeightCapacity = f.Weightcapacity
                     }).ToList();
 
 
@@ -269,7 +269,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         PickerUserId = f.Dcduserid,
                         OrderPickStatus = f.Pickstatus,
                         RequestDate = f.Recorddate.Value,
-                        PickDate = f.PickDate.Value
+                        PickDate = f.Pickdate.Value
                         
 
                     }).ToList();
@@ -312,7 +312,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         PickerUserId = f.Dcduserid,
                         OrderPickStatus = f.Pickstatus,
                         RequestDate = f.Recorddate.Value,
-                        PickDate = f.PickDate.Value
+                        PickDate = f.Pickdate.Value
 
 
                     }).ToList();
@@ -345,15 +345,17 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickorderdetail.Where(x => orderno.Contains(x.Orderno) && x.Pickstatus==6).Select(f => new OrderDetailModel()
+                    result = _dotitExtDataContext.Pickorderdetail.Where(x => orderno.Contains(x.Ordernum) && x.Pickstatus==6).Select(f => new OrderDetailModel()
                     {
-                        OrderNum = f.Orderno,
+                        OrderDetailID=f.Id,
+                        OrderNum = f.Ordernum,
                         Company = f.Company,
                         PartNum = f.Partnum,
                         BinNum = f.Binnum,
                         OrderLineStatusCode = f.Pickstatus.ToString(),
-                        LineDesc = f.LineDesc,
-                        OrderQty = (float)f.OrderQty
+                        LineDesc = f.Linedesc,
+                        OrderQty = (float)f.Orderqty,
+                        
 
 
                     }).ToList();

@@ -31,6 +31,8 @@ namespace DotIt.AutoPicker.Data.DotIt
         public virtual DbSet<Jobordline> Jobordline { get; set; }
         public virtual DbSet<Keypair> Keypair { get; set; }
         public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Mailer> Mailer { get; set; }
+        public virtual DbSet<Mailerpayment> Mailerpayment { get; set; }
         public virtual DbSet<Partner> Partner { get; set; }
         public virtual DbSet<Partxref> Partxref { get; set; }
         public virtual DbSet<Pickerorder> Pickerorder { get; set; }
@@ -58,7 +60,7 @@ namespace DotIt.AutoPicker.Data.DotIt
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<Accountuser>(entity =>
             {
@@ -846,6 +848,118 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Mailer>(entity =>
+            {
+                entity.HasKey(e => e.Storeid)
+                    .HasName("PK__MAILER__3252931BEAA2E694");
+
+                entity.ToTable("MAILER");
+
+                entity.Property(e => e.Storeid).HasColumnName("STOREID");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnName("AMOUNT")
+                    .HasColumnType("decimal(8, 2)");
+
+                entity.Property(e => e.Card)
+                    .IsRequired()
+                    .HasColumnName("CARD")
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Custid)
+                    .IsRequired()
+                    .HasColumnName("CUSTID")
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Custnum).HasColumnName("CUSTNUM");
+
+                entity.Property(e => e.Cvv)
+                    .IsRequired()
+                    .HasColumnName("CVV")
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("EMAIL")
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Expire)
+                    .IsRequired()
+                    .HasColumnName("EXPIRE")
+                    .HasMaxLength(40)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Isoptedin).HasColumnName("ISOPTEDIN");
+
+                entity.Property(e => e.Namecard)
+                    .IsRequired()
+                    .HasColumnName("NAMECARD")
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Storename)
+                    .IsRequired()
+                    .HasColumnName("STORENAME")
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Whenoptedin)
+                    .HasColumnName("WHENOPTEDIN")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Zip)
+                    .IsRequired()
+                    .HasColumnName("ZIP")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Mailerpayment>(entity =>
+            {
+                entity.HasKey(e => e.Mpid)
+                    .HasName("PK__MAILERPA__6FF536D871364C4A");
+
+                entity.ToTable("MAILERPAYMENT");
+
+                entity.Property(e => e.Mpid).HasColumnName("MPID");
+
+                entity.Property(e => e.Actualcharge)
+                    .HasColumnName("ACTUALCHARGE")
+                    .HasColumnType("decimal(8, 2)");
+
+                entity.Property(e => e.Amounttocharge)
+                    .HasColumnName("AMOUNTTOCHARGE")
+                    .HasColumnType("decimal(8, 2)");
+
+                entity.Property(e => e.Basecharge)
+                    .HasColumnName("BASECHARGE")
+                    .HasColumnType("decimal(8, 2)");
+
+                entity.Property(e => e.Datecharged)
+                    .HasColumnName("DATECHARGED")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Isvalidcard).HasColumnName("ISVALIDCARD");
+
+                entity.Property(e => e.Payment).HasColumnName("PAYMENT");
+
+                entity.Property(e => e.Storeid).HasColumnName("STOREID");
+
+                entity.Property(e => e.Taxes)
+                    .HasColumnName("TAXES")
+                    .HasColumnType("decimal(8, 2)");
+
+                entity.HasOne(d => d.Store)
+                    .WithMany(p => p.Mailerpayment)
+                    .HasForeignKey(d => d.Storeid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PaymentMailer");
+            });
+
             modelBuilder.Entity<Partner>(entity =>
             {
                 entity.ToTable("PARTNER");
@@ -899,31 +1013,33 @@ namespace DotIt.AutoPicker.Data.DotIt
 
                 entity.ToTable("PICKERORDER");
 
-                entity.Property(e => e.Ordernum).HasColumnName("ORDERNUM").HasColumnType("int");
+                entity.Property(e => e.Ordernum).HasColumnName("ORDERNUM");
 
                 entity.Property(e => e.Company)
-                    .HasColumnName("COMPANY").HasColumnType("varchar")
+                    .HasColumnName("COMPANY")
                     .HasMaxLength(8);
 
                 entity.Property(e => e.Dcduserid)
-                    .IsRequired()
-                    .HasColumnName("DCDUSERID").HasColumnType("varchar")
-                    .HasMaxLength(50);
+                    .HasColumnName("DCDUSERID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Orderdate)
                     .HasColumnName("ORDERDATE")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.Pickstatus)
-                    .IsRequired()
-                    .HasColumnName("PICKSTATUS").HasColumnType("varchar")
-                    .HasMaxLength(50);
+                entity.Property(e => e.Pickdate)
+                    .HasColumnName("PICKDATE")
+                    .HasColumnType("datetime");
 
-                entity.Property(e => e.ReasionPickFail)
-                    .IsRequired()   
-                    .HasColumnName("REASIONPICKFAIL").HasColumnType("varchar")
-                    .HasMaxLength(50);
-                
+                entity.Property(e => e.Pickstatus)
+                    .HasColumnName("PICKSTATUS")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Reasionpickfail)
+                    .HasColumnName("REASIONPICKFAIL")
+                    .HasMaxLength(4000);
 
                 entity.Property(e => e.Recorddate)
                     .HasColumnName("RECORDDATE")
@@ -933,46 +1049,64 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasColumnName("RECORDUPDATEDON")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.PickDate)
-                   .HasColumnName("PICKDATE")
-                   .HasColumnType("datetime");
-                
+                entity.Property(e => e.Totalitems).HasColumnName("TOTALITEMS");
 
-                entity.Property(e => e.Totalitems).HasColumnName("TOTALITEMS").HasColumnType("int");
-
-                entity.Property(e => e.Weight).HasColumnName("WEIGHT").HasColumnType("float");
+                entity.Property(e => e.Weight).HasColumnName("WEIGHT");
             });
 
             modelBuilder.Entity<Pickorderdetail>(entity =>
             {
-                entity.HasKey(e => new { e.Orderno, e.Company, e.Partnum });
-
                 entity.ToTable("PICKORDERDETAIL");
 
-                entity.Property(e => e.Orderno).HasColumnName("ORDERNO");
-
-                entity.Property(e => e.Company)
-                    .HasColumnName("COMPANY")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Partnum)
-                    .HasColumnName("PARTNUM")
-                    .HasMaxLength(50);
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Binnum)
                     .HasColumnName("BINNUM")
-                    .HasMaxLength(10);
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Company)
+                    .IsRequired()
+                    .HasColumnName("COMPANY")
+                    .HasMaxLength(8);
 
                 entity.Property(e => e.Damageqty).HasColumnName("DAMAGEQTY");
 
+                entity.Property(e => e.Ium)
+                    .HasColumnName("IUM")
+                    .HasMaxLength(6);
+
+                entity.Property(e => e.Linedesc).HasColumnName("LINEDESC");
+
+                entity.Property(e => e.Orderline).HasColumnName("ORDERLINE");
+
+                entity.Property(e => e.Ordernum).HasColumnName("ORDERNUM");
+
+                entity.Property(e => e.Orderqty)
+                    .HasColumnName("ORDERQTY")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Partnum)
+                    .IsRequired()
+                    .HasColumnName("PARTNUM")
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.Pickstatus).HasColumnName("PICKSTATUS");
-                entity.Property(e => e.OrderLine).HasColumnName("ORDERLINE");
-                entity.Property(e => e.OrderQty).HasColumnName("ORDERQTY");
-                entity.Property(e => e.IUM).HasColumnName("IUM");
-                entity.Property(e => e.LineDesc).HasColumnName("LINEDESC");
-                entity.Property(e => e.UnitPrice).HasColumnName("UNITPRICE");
-                entity.Property(e => e.TotalPrice).HasColumnName("TOTALPRICE");
+
+                entity.Property(e => e.Totalprice)
+                    .HasColumnName("TOTALPRICE")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.Property(e => e.Unitprice)
+                    .HasColumnName("UNITPRICE")
+                    .HasColumnType("decimal(18, 0)");
+
+                entity.HasOne(d => d.Pickerorder)
+                    .WithMany(p => p.Pickorderdetail)
+                    .HasForeignKey(d => new { d.Ordernum, d.Company })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PICKORDERDETAIL_PICKERORDER");
             });
 
             modelBuilder.Entity<Price>(entity =>
@@ -1385,7 +1519,7 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .IsUnicode(false)
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.active).HasColumnName("ACTIVE");
+                entity.Property(e => e.Active).HasColumnName("ACTIVE");
 
                 entity.Property(e => e.Adminlineperhour).HasColumnName("ADMINLINEPERHOUR");
 
@@ -1397,7 +1531,7 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasColumnName("EMAILADDRESS")
                     .HasMaxLength(50);
 
-                //entity.Property(e => e.Empid).HasColumnName("EMPID");
+                entity.Property(e => e.Empid).HasColumnName("EMPID");
 
                 entity.Property(e => e.Grouplist)
                     .IsRequired()
@@ -1408,6 +1542,8 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.Maxlines).HasColumnName("MAXLINES");
+
+                entity.Property(e => e.Maxorder).HasColumnName("MAXORDER");
 
                 entity.Property(e => e.Maxweight).HasColumnName("MAXWEIGHT");
 
@@ -1422,6 +1558,11 @@ namespace DotIt.AutoPicker.Data.DotIt
                     .HasMaxLength(80)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Pickforcompany)
+                    .HasColumnName("PICKFORCOMPANY")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Recorddate)
                     .HasColumnName("RECORDDATE")
                     .HasColumnType("datetime");
@@ -1429,15 +1570,13 @@ namespace DotIt.AutoPicker.Data.DotIt
                 entity.Property(e => e.Recordupdatedate)
                     .HasColumnName("RECORDUPDATEDATE")
                     .HasColumnType("datetime");
-                entity.Property(e => e.UserHeight)
-                   .HasColumnName("USERHEIGHT")
-                   .HasColumnType("varchar").HasMaxLength(10);
-                entity.Property(e => e.WeightCapacity)
-                   .HasColumnName("WEIGHTCAPACITY")
-                   .HasColumnType("int");
-                entity.Property(e => e.PickForCompany)
-                  .HasColumnName("PICKFORCOMPANY");
-                  //.HasColumnType("varchar").HasMaxLength(100);
+
+                entity.Property(e => e.Userheight)
+                    .HasColumnName("USERHEIGHT")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Weightcapacity).HasColumnName("WEIGHTCAPACITY");
             });
 
             modelBuilder.Entity<Websales>(entity =>
