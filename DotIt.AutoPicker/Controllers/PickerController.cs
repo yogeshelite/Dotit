@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -162,7 +162,7 @@ namespace DotIt.AutoPicker.Controllers
                             {
                                 var _GetLineOfItems = GetLineOfItems.Where(x => x.OrderNum == lineitems.OrderNum);
 
-                                lineitems.TotalLines = _GetLineOfItems.Count();
+                              //  lineitems.TotalLines = _GetLineOfItems.Count();
                                 _LocalSaleOrderList.Add(lineitems);
                             }
                         }
@@ -269,7 +269,7 @@ namespace DotIt.AutoPicker.Controllers
                     }
 
 
-                    orderlist.Where(o => o.OrderDateTime < (DateTime.Now)).OrderBy(o => o.OrderDateTime).ToList();
+                    orderlist.Where(o => o.OrderDateTime < (DateTime.Now)).OrderByDescending(o => o.RequestDate).ToList();
                 }
             }
             catch
@@ -547,16 +547,19 @@ namespace DotIt.AutoPicker.Controllers
             //return View(model);
             return View();
         }
-        public IActionResult assignOrderPicker()
+        public IActionResult AssignOrderPicker()
         {
             OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, DotitExtensionContext);
             //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
+
+            //obj.GetEpicoreOrder();
+
             var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
 
             if (UserLogInName != null)
             {
                 PickerModel objpicker = UserLogInName;
-                bool response = obj.assignOrderPicker(objpicker.DcdUserID);
+                bool response = obj.AssignOrderToPicker(objpicker);
             if (response == true)
             {
                 return RedirectToAction("Orders");

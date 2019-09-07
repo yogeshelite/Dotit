@@ -24,8 +24,10 @@ namespace DotIt.AutoPicker.Models
         public Nullable<DateTime> RecordDate { get; set; }
         public string UserHeight { get; set; }
         public int? WeightCapacity { get; set; }
+       
         public string PickForCompany { get; set; }
         public bool Ncco { get; set; }
         public bool Dirf { get; set; }
+        public int? MaxOrder { get; set; }
     }
 }

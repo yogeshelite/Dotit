@@ -1,7 +1,7 @@
 ﻿@model DotIt.AutoPicker.Models.PickerModel
 
 @{
-//Layout = null;
+    //Layout = null;
 }
 
 <!DOCTYPE html>
@@ -15,11 +15,14 @@
     <style>
         .PickerTable {
             max-width: 75%;
-            align-content:center;
+            align-content: center;
         }
 
-        thead { text-align:center;font-size:xx-large;
+        thead {
+            text-align: center;
+            font-size: xx-large;
         }
+
         tbody th {
             text-align: right;
         }
@@ -27,7 +30,6 @@
         tbody td {
             text-align: left;
         }
-
     </style>
 </head>
 <body>
@@ -43,7 +45,7 @@
             <thead>
                 <tr>
                     <th colspan="2" align="center">Picker Information</th>
-                  
+
                 </tr>
             </thead>
             <tbody>
@@ -79,12 +81,12 @@
                         <input type="number" name="TxtAdminLinePerHour" id="TxtAdminLinePerHour" class="emprole" value="@Model.AdminlineperHour" />
                     </td>
                 </tr>
-                <tr>
-                    <th align="right">User Height :</th>
-                    <td>
-                        <input type="text" name="TxtUserHeight" id="TxtUserHeight" class="emprole" value="@Model.UserHeight" />
-                    </td>
-                </tr>
+                @*<tr>
+                        <th align="right">User Height :</th>
+                        <td>
+                            <input type="text" name="TxtUserHeight" id="TxtUserHeight" class="emprole" value="@Model.UserHeight" />
+                        </td>
+                    </tr>*@
                 <tr style="display:none;">
                     <th align="right">Weight Capacity :</th>
                     <td>
@@ -92,19 +94,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <th align="right">Role :</th>
+                    <th align="right">Maximum Order :</th>
                     <td>
-                        @Model.Grouplist
+                        <input type="number" name="TxtMaximumOrder" id="TxtMaximumOrder" class="emprole" value="@Model.MaxOrder" />
                     </td>
                 </tr>
+                @*<tr>
+                        <th align="right">Role :</th>
+                        <td>
+                            @Model.Grouplist
+                        </td>
+                    </tr>*@
                 <tr>
                     <th align="right">Pick For Company :</th>
                     <td>
-                       <input type="checkbox" id="ChkPickForCompanyNcco" name="ChkPickForCompanyNcco" value="NCCO" checked="@Model.Ncco" ><label>NCCO</label>
+                        <input type="checkbox" id="ChkPickForCompanyNcco" name="ChkPickForCompanyNcco" value="NCCO" checked="@Model.Ncco"><label>NCCO</label>
                     </td>
-                    <td>
-                        <input type="checkbox" id="ChkPickForCompanyDIRF" name="ChkPickForCompanyDIRF" value="DIRF"  checked="@Model.Dirf"><label>DIRF</label>
-                    </td>
+                    @*<td>
+                            <input type="checkbox" id="ChkPickForCompanyDIRF" name="ChkPickForCompanyDIRF" value="DIRF"  checked="@Model.Dirf"><label>DIRF</label>
+                        </td>*@
                 </tr>
                 <tr>
                     <td> <button class="btn-info-grey" onclick="Cancel()">CANCEL</button></td>
@@ -114,11 +122,11 @@
                 </tr>
             </tbody>
         </table>
-        
+
 
         <br /><br />
-       
-       
+
+
     </div>
 
     <script>
@@ -150,12 +158,13 @@
             else if ($('#ChkPickForCompanyNcco').is(":not(:checked)")) {
                 pickforcompany = '';
             }
-            if ($('#ChkPickForCompanyDIRF').is(":checked")) {
-                pickforcompany += "DIRF"
-            }
-            else if ($('#ChkPickForCompanyDIRF').is(":not(:checked)")) {
-               
-            }
+            var MaximumOrder = $("#TxtMaximumOrder").val();
+            //if ($('#ChkPickForCompanyDIRF').is(":checked")) {
+            //    pickforcompany += "DIRF"
+            //}
+            //else if ($('#ChkPickForCompanyDIRF').is(":not(:checked)")) {
+
+            //}
             //var Id =model.Empid;
             var Id = "";
             $.ajax('../../Admin/SaveProfile',
@@ -173,7 +182,8 @@
                         DcdUserID: dcdUserID,
                         UserHeight: UserHeight,
                         WeightCapacity: maxWeight,
-                        PickForCompany: pickforcompany
+                        PickForCompany: pickforcompany,
+                        MaxOrder: MaximumOrder
                     },
                     success: function (result) {
                         console.log(result);
@@ -184,6 +194,9 @@
                     }
                 })
         }
+        var Cancel = function () {
+            window.location.href = "/Admin/Home";
+        };
     </script>
 </body>
 </html>

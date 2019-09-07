@@ -167,21 +167,43 @@ footer.footer {
 
 /* button */
 
- .btn-style-grey{
-  color: black;
-  background-color: lightgrey;
-  border-color: lightgrey;
-  border-radius: 0px;
-  width:100%;
-  height:auto;
-  padding: 78px;
+.btn-style-dodgerblue {
+    color: white;
+    background-color: cornflowerblue;
+    border-color: dodgerblue;
+    border-radius: 0px;
+    width: 100%;
+    height: auto;
+    padding: 78px;
 }
 
-/* table */
+.btn-style-darkorange {
+    color: white;
+    background-color: darkorange;
+    border-color: darkorange;
+    border-radius: 0px;
+    width: 100%;
+    height: auto;
+    padding: 78px;
+}
+.btn-style-darkblue {
+    color: white;
+    background-color: darkblue;
+    border-color: darkorange;
+    border-radius: 0px;
+    width: 100%;
+    height: auto;
+    padding: 78px;
+}
 
+.text-grey {
+    color: lightgrey;
+ }
+
+/* table */
 table {
-  border:1px solid black;
-  padding: 2px;
+    border: 1px solid black;
+    padding: 2px;
 }
 
 

@@ -5,7 +5,22 @@
 }
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- Bootstrap core CSS -->
+    @*<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="~/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom fonts for this template -->
+    @*<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">*@
+    <link href="~/all.min.css" rel="stylesheet" />
+    @*<link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">*@
+    <link href="~/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
+    <!-- Custom styles for this template -->
+    @*<link href="css/landing-page.min.css" rel="stylesheet">*@
+    <link href="~/landing-page.min.css" rel="stylesheet" />
+    @*<link href="css/landing-page.css" rel="stylesheet">*@
+    <link href="~/landing-page.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
@@ -15,11 +30,11 @@
         <div class="container" style="width:30%">
             <div class="wrap-login100">
 
-                <h1>Welcome</h1>
+                <h1 class="text-grey">Welcome!</h1>
 
 
                 <div class="form-group">
-                    <label for="UserName">UserName:</label>
+                    <label for="UserName">User Id:</label>
                     <input class="form-control" id="Username" name="UserName" type="text" />
                     <span id="spanforusername"></span>
                 </div>
@@ -31,7 +46,7 @@
                 <div>
                     <div>
                         <div><span class="text-danger" id="spnLoginError"></span></div>
-                        <button type="button" onclick="Login()" class="btn btn-default btn-block">Login</button>
+                        <button type="button" onclick="Login()" class="btn btn-block bg-blue">Login</button>
                     </div>
                 </div>
 
@@ -54,17 +69,18 @@
                 // Password: password
             },
             success: function (result) {
-                var jsonResponse = JSON.parse(result);
-                console.log(jsonResponse);
-                if (jsonResponse.Response) {
-                    $('#spnLoginError').html(jsonResponse.Response);
+                var jsonResponse = result;//JSON.parse(result);
+               
+                if (!jsonResponse.success) {
+                    $('#spnLoginError').html(jsonResponse.response);
                     return;
                 }
-                console.log('jsonResponse.UserDisabled=' + jsonResponse.UserDisabled);
-                if (jsonResponse.UserDisabled == false) {
+                //console.log('jsonResponse.UserDisabled=' + jsonResponse.UserDisabled);
+                jsonResponse = JSON.parse(jsonResponse.response);
+                if (jsonResponse.Active == true) {
                     var selectedRight = [];
                     var RoleArray = [];
-                    RoleArray = jsonResponse.GroupList.split('~');
+                    RoleArray = jsonResponse.Grouplist.split('~');
                     for (var i = 0; i < RoleArray.length; i++) {
                         switch (RoleArray[i]) {
                             case "WHSE":
@@ -92,26 +108,7 @@
                         }
                     }
                 }
-                else {
-                   
-                    $('#spnLoginError').html("User Disabled in Epicore");
-                }
-                // var data = JSON.parse(result);
-
-
-                //if (result == 'username wrong') {
-                //    $("#spanforusername").text('Invalid Username');
-                //}
-                //if (result == 'password wrong') {
-                //    $("#spanforpassword").text('Invalid Password');
-                //}
-
-
-                //if (result.toString().indexOf("WHSEMGR") > 0)
-                //{ window.location.href = '../../Admin/Home/'; }
-                //else if (result.toString().indexOf("WHSE") > 0)
-                //{ window.location.href = '../../Picker/Index/'; }
-                //else { alert(result); return; }
+              
 
             }
         })

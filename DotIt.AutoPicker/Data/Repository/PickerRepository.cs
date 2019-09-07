@@ -1,4 +1,4 @@
-﻿//using DotCommon;
+//using DotCommon;
 using DotIt.AutoPicker.Data.DotIt;
 using DotIt.AutoPicker.Models;
 using DotIt.AutoPicker.Services;
@@ -306,7 +306,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         OrderNum = f.Ordernum,
                         Company = f.Company,
                         OrderDateTime = f.Orderdate,
-                        TotalLines = f.Totalitems.Value,
+                       // TotalLines = f.Totalitems.Value,
                         Weight = f.Weight.Value,
                         PickerUserId = f.Dcduserid,
                         OrderPickStatus = f.Pickstatus,

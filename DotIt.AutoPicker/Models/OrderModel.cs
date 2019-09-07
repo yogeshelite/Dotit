@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace DotIt.AutoPicker.Models
 {
@@ -15,10 +16,10 @@ namespace DotIt.AutoPicker.Models
         //CustNum(int, optional),
         public int CustNum { get; set; }
 
-        
+
 
         //TotalLines(int, optional),
-        public int TotalLines { get; set; }
+        public int TotalLines { get { return (OrderDtls != null) ? OrderDtls.Count : 0; } set { } }
 
         //PONum (string, optional),
         public string PONum { get; set; }
@@ -35,11 +36,11 @@ namespace DotIt.AutoPicker.Models
         //Company (string, optional),
         public string Company { get; set; }
 
-      
+
         public Double Weight { get; set; }
         public Double? TotalWgt_c { get; set; }
 
-   
+
 
         //Field for storing Status of a order
         public string OrderPickStatus { get; set; }
@@ -49,6 +50,8 @@ namespace DotIt.AutoPicker.Models
 
         //Field for storing UserId
         public string PickerUserId { get; set; }
+        public List<OrderDetailModel> OrderDtls { get; set; }
+
 
     }
     public class OrderDetailModel

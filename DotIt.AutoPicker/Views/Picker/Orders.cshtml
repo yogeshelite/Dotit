@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Landing Page - Start Bootstrap Theme</title>
+    <title>Picking Lines</title>
 
     <!-- Bootstrap core CSS -->
     @*<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">*@
@@ -65,13 +65,13 @@
             <thead>
                 <tr>
 
-                    <th>
-                        Select<br />Order no
+                    <th class="text-grey">
+                        Order Number
                     </th>
-                    <th>
+                    <th class="text-grey">
                         Items
                     </th>
-                    <th>
+                    <th class="text-grey">
                         Order Status
                     </th>
 
@@ -82,7 +82,7 @@
 
                 <tr>
                     <td>
-                        <input id="CheckBoxCount" onchange="TotalLineItems(@Orders.TotalLines,@Orders.OrderNum,this)" type="checkbox" height="150" width="150" /> @Orders.OrderNum
+                        @Orders.OrderNum
                     </td>
                     <td>
                         @Orders.TotalLines
@@ -96,7 +96,7 @@
                         }
                         else
                         {
-                            <span>General orders</span>
+                            <span>Pending</span>
 
                         }
                     </td>
@@ -106,19 +106,19 @@
             }
         </table>
     </div>
-   
-    <h3 id="NextButton"><a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Pick  Item</a> </h3>
-    <div id="OrderSummary1">
+
+    <h3 id="NextButton"><a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Continue</a> </h3>
+    @*<div id="OrderSummary1">
 
     </div>
     <table class="table mb-0">
         <thead class="bg-light">
             <tr>
-                <th scope="col" class="border-0">Order No</th>               
+                <th scope="col" class="border-0">Order No</th>
             </tr>
         </thead>
         <tbody id="OrderSummary"></tbody>
-    </table>
+    </table>*@
 
 
     <!-- Bootstrap core JavaScript -->
@@ -154,64 +154,53 @@
 
 
     function TotalLineItems(TotalOrderLine, OrderNum, ctrl) {
-        if (ctrl.checked) {
-            TotalCount = TotalCount + TotalOrderLine;
-            arrMyPickingItems.push(OrderNum);           
-        }
-        else {
-            var indexno = arrMyPickingItems.indexOf(OrderNum);           
-            delete arrMyPickingItems[indexno];  
-            TotalCount = TotalCount - TotalOrderLine;
-        }
+        //if (ctrl.checked) {
+        //    TotalCount = TotalCount + TotalOrderLine;
+        //    arrMyPickingItems.push(OrderNum);
+        //}
+        //else {
+        //    var indexno = arrMyPickingItems.indexOf(OrderNum);
+        //    delete arrMyPickingItems[indexno];
+        //    TotalCount = TotalCount - TotalOrderLine;
+        //}
 
-        if (TotalCount > 50) {
-            ctrl.checked = false;
-            arrMyPickingItems.pop(OrderNum);
-            TotalCount = TotalCount - TotalOrderLine;
-            alert("Order is Heavy (greater Then 50) ");
-        }
-        $('#NextButton').html('<a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Picked ' + TotalCount+' Item</a>');
-        
-       
-        
+        //if (TotalCount > 50) {
+        //    ctrl.checked = false;
+        //    arrMyPickingItems.pop(OrderNum);
+        //    TotalCount = TotalCount - TotalOrderLine;
+        //    alert("Order is Heavy (greater Then 50) ");
+        //  }
+        $('#NextButton').html('<a class="btn-spc-top-40 " href="javascript:void(0);" onclick="OnNextButton()">Continue</a>');
+
+
+
     }
     var BindTabelsRows = function (Data) {
-        if (Data.length > 0)
-        {
+        if (Data.length > 0) {
             //var response = Data.split(",");
             $('#OrderSummary').html("");
             var tr = "";
             var Index = 1;
             for (var i = 0; i < Data.length; i++) {
                 tr += '<tr>' +
-                    '<td>' + response[i] + '</td>' +                                 
+                    '<td>' + response[i] + '</td>' +
                     '</tr> ';
                 Index++;
             }
             $('#OrderSummary').html(tr);
         }
-       
+
     };
     function OnNextButton() {
-        if (TotalCount > 0) {
-           
+     //  if (TotalCount > 0) {
+
             //window.location.href = "../../Picker/Pick";
             var data = arrMyPickingItems;
             //alert(JSON.stringify({ "Data": JSON.stringify(data) }));
-            window.location.href = "../../Picker/Pick?Orders=" + JSON.stringify({ "Data": JSON.stringify(data)});
-            //$.ajax({
-            //    url: "../../Picker/Pick",
-            //    type: "Post",
-            //    data: {
-            //        "Ordernum": myArray
-            //    },
-            //    success: function (response) {
-            //        debugger;
-            //        alert("true");
-            //    }
-            //});
-        }
-        else { alert("Plz Select Orders"); }
+            window.location.href = "../../Picker/Pick?Orders=" + JSON.stringify({ "Data": JSON.stringify(data) });
+          
+      //  }
+      //  else { alert("Plz Select Orders"); }
 
     }
 

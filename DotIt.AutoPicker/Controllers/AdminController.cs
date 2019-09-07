@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -78,10 +78,10 @@ namespace DotIt.AutoPicker.Controllers
                              PartNum = od.Partnum,
                              OrderLine = od.OrderLine,
                              OrderQty = od.OrderQty,
-                             IUM = od.IUM,
+                             IUM =      od.IUM,
                              LineDesc = od.LineDesc,
                              UnitPrice = od.UnitPrice,
-                             TotalPrice = od.TotalPrice
+                             TotalPrice = od.TotalPrice 
 
                              // other assignments
                          };
@@ -111,33 +111,33 @@ namespace DotIt.AutoPicker.Controllers
 
                 if (user != null)
                 {
-
-                    if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString(), UserGroup.WHSELEAD.ToString() }.Contains(f)).Count() > 0)
+                    if(!user.Active.Value ) return  Json(new ResponseModel() { Response = "User disabled", success = false });
+                    if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString() }.Contains(f)).Count() ==0)
                     {
-                        HttpContext.Session.Set(Constant.UserCookie.ToString(), user);
-                        ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
-                        if (!ObjResponse.success)
-                        {
-                            ReturnResponse = "{\"Response\":\"User Not Exist In Epicore \"}";
-                        }
-                        else
-                        {
+                      
+                        // ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
+                        /// if (!ObjResponse.success)
+                        //  {
+                        //  ReturnResponse = "{\"Response\":\"User Not Exist In Epicore \"}";
+                        //  }
+                        // else
+                        // {
 
-                            ReturnResponse = ObjResponse.Response;
-                            // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
-                        }
+                        // ReturnResponse = "{\"Response\":\"Success \"}";
+                        // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
+                        // }
                         // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
-
+                        return Json(new ResponseModel() { Response = "Not a picker user" });
                     }
-
-                    //return Json("Not a picker user");
+                    HttpContext.Session.Set(Constant.UserCookie.ToString(), user);
+                    return Json(new ResponseModel() { Response = JsonConvert.SerializeObject(user) ,success=true});
                 }
                 else
                 {
-                    ReturnResponse = "{\"Response\":\"User Not Exist \"}";
+                    return  Json(new ResponseModel() { Response = "User does not exist", success = false });
                 }
 
-                return Json(ReturnResponse);
+                
             }
         }
 
@@ -187,30 +187,30 @@ namespace DotIt.AutoPicker.Controllers
                     MaxWeight = warehouseemployee.Maxweight,
                     UserHeight = warehouseemployee.UserHeight,
                     WeightCapacity = warehouseemployee.WeightCapacity,
-
+                    //MaxOrder=warehouseemployee.MaxOrder
                 };
                 if (PickComp[0] == "NCCO")
                     pickerModel.Ncco = true;
                 else
                     pickerModel.Ncco = false;
-                if (PickComp[0] == "DIRF")
-                    pickerModel.Dirf = true;
-                else
-                    pickerModel.Dirf = true;
+                //if (PickComp[0] == "DIRF")
+                //    pickerModel.Dirf = true;
+                //else
+                //    pickerModel.Dirf = true;
 
-                if (PickComp[1] == "NCCO")
-                    pickerModel.Ncco = true;
-                else
-                    pickerModel.Ncco = false;
-                if (PickComp[1] == "DIRF")
-                    pickerModel.Dirf = true;
-                else
-                    pickerModel.Dirf = false;
-                if (PickComp[0] == "NCCO" && PickComp[1] == "DIRF")
-                {
-                    pickerModel.Dirf = true;
-                    pickerModel.Ncco = true;
-                }
+                //if (PickComp[1] == "NCCO")
+                //    pickerModel.Ncco = true;
+                //else
+                //    pickerModel.Ncco = false;
+                //if (PickComp[1] == "DIRF")
+                //    pickerModel.Dirf = true;
+                //else
+                //    pickerModel.Dirf = false;
+                //if (PickComp[0] == "NCCO" && PickComp[1] == "DIRF")
+                //{
+                //    pickerModel.Dirf = true;
+                //    pickerModel.Ncco = true;
+                //}
                 return View(pickerModel);
 
             }
@@ -284,6 +284,7 @@ namespace DotIt.AutoPicker.Controllers
                 user.UserHeight = warehouseemployee.UserHeight;
                 user.WeightCapacity = warehouseemployee.WeightCapacity;
                 user.PickForCompany = warehouseemployee.PickForCompany;
+                //user.MaxOrder = warehouseemployee.MaxOrder;
             }
             _DotitExtensionContext.SaveChanges();
             return Json("Profile updated");
@@ -362,7 +363,7 @@ namespace DotIt.AutoPicker.Controllers
         {
             OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext);
           //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
-            obj.assignOrder();
+            obj.AssignOrdersToPickes();
             return RedirectToAction("Home");
             /* string ReturnResponse = "";
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,7 +22,8 @@ namespace DotIt.AutoPicker.Controllers
         {
             if (SaleOrderList == null)
             {
-                GetOrders();
+                View("Index");
+                //GetOrders();
             }
             ViewBag.OrderList = SaleOrderList.Where(o => o.TotalLines < 50).Take(Constant.NumberOfOrdersToShow);
             return View();
@@ -45,7 +46,7 @@ namespace DotIt.AutoPicker.Controllers
 
             ViewBag.OrderDetails = GetOrderDetails(OrderNum);
             OrderHeadModel ObjModel = new OrderHeadModel();
-            ObjModel.TotalLines = ViewBag.OrderDetails.Count;
+           // ObjModel.TotalLines = (int)ViewBag.OrderDetails.Count;
             ObjModel.OrderNum = OrderNum;
             return View(ObjModel);
         }
@@ -53,7 +54,7 @@ namespace DotIt.AutoPicker.Controllers
         public JsonResult PickLineItem(int id, int orderline)
         {
             var Order = SaleOrderList.Where(o => o.OrderNum == id).Single();
-            Order.TotalLines  = orderline;
+           // Order.TotalLines  = orderline;
             Order.PickDate = DateTime.Now;
             SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == id).Single())).OrderPickStatus = "Processing";
 
