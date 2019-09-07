@@ -3,7 +3,6 @@ using DotIt.AutoPicker.Models;
 using DotIt.AutoPicker.Persistance.Repository;
 using DotIt.AutoPicker.Services;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -11,8 +10,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
-using static DotIt.AutoPicker.Models.Enums;
 
 namespace DotIt.AutoPicker.Service
 {
@@ -369,7 +366,7 @@ namespace DotIt.AutoPicker.Service
 
             return weight;
         }
-        public void AssignOrdersToPickes()
+        public void AssignOrdersToPickers()
         {
 
             List<OrderHeadModel> OrderList = OrdersReadyToPick();
@@ -381,7 +378,7 @@ namespace DotIt.AutoPicker.Service
 
                 foreach (PickerModel itempm in ListEmp)
                 {
-                    LisEmpOrder = _pickerRepository.GetDotItOrder(null, itempm.DcdUserID, OrderStatus.Complete.ToString()).ToList();
+                    LisEmpOrder = _pickerRepository.GetDotItOrder(null, itempm.DcdUserID).Where(f=>!f.OrderPickStatus.Equals(OrderStatus.Complete.ToString())).ToList();
                     int EmpOrderCount = LisEmpOrder.Count();
                     if (EmpOrderCount < 8)
                     {
@@ -434,14 +431,19 @@ namespace DotIt.AutoPicker.Service
             // List<PickerModel> ListEmp = _pickerRepository.GetPickers(null, UserId).Where(x => Convert.ToDouble(x.MaxWeight) >= itemhm.TotalWgt_c).ToList();
             try
             {
-                List<OrderHeadModel> dotItPickOrderList;
+                List<OrderHeadModel> dotItOrderList;
+               Pickerorder objPicker;
+             
+                List<Pickorderdetail> pickorderdetail = null;
+                dotItOrderList = _pickerRepository.GetDotItOrder().ToList();
                 var epicorOrder = OrdersReadyToPick();
+                epicorOrder = epicorOrder.Where(f => !dotItOrderList.Select(p => p.OrderNum).Contains(f.OrderNum)).ToList();
                 List<OrderHeadModel> nccoOrderList = epicorOrder.Where(f => f.Company.Equals("NCCO")).ToList();
                 List<OrderHeadModel> dirfOrderList = epicorOrder.Where(f => !f.CustNum.Equals("NCCO")).ToList();
-                List<Pickorderdetail> pickorderdetail = null;
-                dotItPickOrderList = _pickerRepository.GetDotItOrder(null, pickerModel.DcdUserID, OrderStatus.Complete.ToString()).ToList();
-                Pickerorder objPicker;
-                int PickerTotalLineItems = dotItPickOrderList.Sum(f => f.TotalLines);
+
+
+                var dotItPickOrderList = dotItOrderList.Where(f => f.PickerUserId.Equals(pickerModel.DcdUserID) & !f.OrderPickStatus.Equals(OrderStatus.Complete.ToString()));                
+                    int PickerTotalLineItems = dotItPickOrderList.Sum(f => f.TotalLines);
                 int pickerAssinedOrders = pickerAssinedOrders = dotItPickOrderList.Count();
 
                 foreach (OrderHeadModel order in dirfOrderList)

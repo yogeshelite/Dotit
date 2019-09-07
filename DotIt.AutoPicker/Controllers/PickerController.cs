@@ -1,28 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using CsvHelper;
-using DotIt.AutoPicker.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Diagnostics;
-using DotIt.AutoPicker.Data;
-
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
 //using System.IO;
-using System.Text;
-using CsvFileReader;
-using static DotIt.AutoPicker.Models.Enums;
 using DotIt.AutoPicker.Data.DotIt;
+using DotIt.AutoPicker.Data.Epicor;
+using DotIt.AutoPicker.Models;
 using DotIt.AutoPicker.Persistance.Repository;
 using DotIt.AutoPicker.Service;
 using DotIt.AutoPicker.Services;
-using DotIt.AutoPicker.Data.Epicor;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 //using EpicorDaily.Model;
 
 namespace DotIt.AutoPicker.Controllers
@@ -258,7 +249,7 @@ namespace DotIt.AutoPicker.Controllers
                 {
                     PickerModel objmodel = UserLogInName;
                     var UserId = objmodel.DcdUserID;
-                    orderlist = _pickerRepository.GetDotItOrder(null, UserId, OrderStatus.Complete.ToString());
+                    orderlist = _pickerRepository.GetDotItOrder(null, UserId).Where(f=>!f.OrderPickStatus.Equals(OrderStatus.Complete)).ToList();
                     //if (SaleOrderList == null || SaleOrderList.Count() == 0)
                     //    GetEpicorOrders();
                     // JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
@@ -381,23 +372,23 @@ namespace DotIt.AutoPicker.Controllers
             //Order.TotalLines = orderline;
             //Order.PickDate = DateTime.Now;
 
-            if (status == Status.Picked.ToString())
+            if (status == LineItemStatus.Picked.ToString())
             {
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Picked.ToString(), "NO", partno, (int)Status.Picked);
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, LineItemStatus.Picked.ToString(), "NO", partno, (int)LineItemStatus.Picked);
                 //var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderLine == orderline).Single().OrderPickStatus = "Processing";
                 msg = orderline + " LineItem is Picked";
             }
-            if (status == Status.UnPicked.ToString())
+            if (status == LineItemStatus.UnPicked.ToString())
             {
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.UnPicked.ToString(), "NO", partno, (int)Status.UnPicked);
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, LineItemStatus.UnPicked.ToString(), "NO", partno, (int)LineItemStatus.UnPicked);
                 //var updatelist = LineItemList.Where(o => o.OrderNum == ordernum && o.OrderLine == orderline).Single().OrderPickStatus = null;
                 msg = orderline + " LineItem is UnPicked";
             }
             #region status order in Quarentine (Hold)
-            if (status == Status.Quarentine.ToString())
+            if (status == LineItemStatus.Quarentine.ToString())
             {
 
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, OrderStatus.Hold.ToString(), "NO", partno, (int)Status.Quarentine);
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, OrderStatus.Hold.ToString(), "NO", partno, (int)LineItemStatus.Quarentine);
                 //model = _pickerRepository.GetDotItOrder().FirstOrDefault(f => f.OrderNum == ordernum);
                 ////DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
 
@@ -411,10 +402,10 @@ namespace DotIt.AutoPicker.Controllers
             }
             #endregion
 
-            if (status == Status.Replenish.ToString())
+            if (status == LineItemStatus.Replenish.ToString())
             {
 
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, Status.Replenish.ToString(), "NO", partno, (int)Status.Replenish);
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, LineItemStatus.Replenish.ToString(), "NO", partno, (int)LineItemStatus.Replenish);
                 //hare we sent the email to stave for Replenish
                 // var pickOrder = DotitExtensionContext.Pickerorder.FirstOrDefault();
 
@@ -426,10 +417,10 @@ namespace DotIt.AutoPicker.Controllers
                 //}
 
             }
-            if (status == Status.InventoryControl.ToString())
+            if (status == LineItemStatus.InventoryControl.ToString())
             {
                 String ResionPickFail = string.Format(" Part# {0} in bin location {1} has been InventoryControl,'" + PartNum + "','" + BinNum + "'", PartNum, BinNum);
-                _pickerRepository.DotitOrderPickerUpdate(ordernum, OrderStatus.Hold.ToString(), ResionPickFail, partno, (int)Status.InventoryControl);
+                _pickerRepository.DotitOrderPickerUpdate(ordernum, OrderStatus.Hold.ToString(), ResionPickFail, partno, (int)LineItemStatus.InventoryControl);
                 //hare we sent the email to stave for InventoryControl
                 //model = DotitExtensionContext.Pickerorder.SingleOrDefault(x => x.Ordernum == ordernum);
 
@@ -554,11 +545,11 @@ namespace DotIt.AutoPicker.Controllers
 
             //obj.GetEpicoreOrder();
 
-            var UserLogInName = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
+            var User = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
 
-            if (UserLogInName != null)
+            if (User != null)
             {
-                PickerModel objpicker = UserLogInName;
+                PickerModel objpicker = User;
                 bool response = obj.AssignOrderToPicker(objpicker);
             if (response == true)
             {

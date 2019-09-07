@@ -20,7 +20,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
         void SaveEpicorOrders(List<OrderHeadModel> orders);
         List<PickerModel> GetPickers(string company = null, string docuserid = null);
 
-        List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null, string NotEqualOrderStatus = null);
+        List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null);
         List<OrderHeadModel> GetDotItOrderByOrderNo(string NotEqualOrderStatus = null, int? orderno = null);
         void DotitOrderPickerUpdate(int ordernum, string orderstatus, string resionPickFail, string partno, int itemstatus);
         List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null);
@@ -177,7 +177,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         Totalitems = f.TotalLines,
                         Weight = f.Weight,
                         Recorddate = DateTime.Now,
-                        Pickstatus = string.IsNullOrEmpty(f.PickerUserId) ? PickerOrderStatus.AssignPending.ToString() : PickerOrderStatus.Assigned.ToString(),
+                        Pickstatus = string.IsNullOrEmpty(f.PickerUserId) ? OrderStatus.Pending.ToString() : OrderStatus.Assigned.ToString(),
                         Dcduserid = f.PickerUserId
 
                     }).ToList();
@@ -243,7 +243,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
         }
         // OrderHeadModel to  Pickerorder  Puneet Change 20190821 
 
-        public List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null, string NotEqualOrderStatus = null)
+        public List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null)
         {
             List<OrderHeadModel> result = null;
             try
@@ -258,18 +258,18 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickerorder.Where(x => x.Dcduserid == docuserid && x.Pickstatus != NotEqualOrderStatus ).Select(f => new OrderHeadModel()
+                    result = _dotitExtDataContext.Pickerorder.Where(x =>(string.IsNullOrEmpty (docuserid) |x.Dcduserid == docuserid) ).Select(f => new OrderHeadModel()
                     {
                         OrderNum = f.Ordernum,
                         Company = f.Company,
                         OrderDateTime = f.Orderdate,
-                        TotalLines = f.Totalitems.Value,
+                        TotalLines = _dotitExtDataContext.Pickorderdetail.Where (x=>x.Orderno.Equals(f.Ordernum) & x.Company.Equals(f.Company)).Count(),
                         Weight = f.Weight.Value,
                         PickerUserId = f.Dcduserid,
                         OrderPickStatus = f.Pickstatus,
                         RequestDate = f.Recorddate.Value,
                         PickDate = f.PickDate.Value
-
+                        
 
                     }).ToList();
 

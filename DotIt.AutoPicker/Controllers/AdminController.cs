@@ -363,7 +363,7 @@ namespace DotIt.AutoPicker.Controllers
         {
             OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext);
           //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
-            obj.AssignOrdersToPickes();
+            obj.AssignOrdersToPickers();
             return RedirectToAction("Home");
             /* string ReturnResponse = "";
 

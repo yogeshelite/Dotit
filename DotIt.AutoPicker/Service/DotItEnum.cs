@@ -5,17 +5,28 @@ using System.Threading.Tasks;
 
 namespace DotIt.AutoPicker.Services
 {
+    public enum LineItemStatus
+    {
+
+        Picked = 0,
+        UnPicked = 1,
+        Quarentine = 2,
+        Replenish = 3,
+        InventoryControl = 4,
+        Hold = 5, Pending = 6
+    };
     public enum PickerUserGroup
     {
         WHSE, WHSEMGR, WHSELEAD
     }
 
-    enum PickerOrderStatus
+    enum OrderStatus
     {
-        Picked,
+    
         Hold,
+        Complete,
         Assigned,
-        AssignPending
+        Pending
     }
 
 
