@@ -225,7 +225,8 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         MaxLines = f.Maxlines,
                         MaxWeight = f.Maxweight,
                         UserHeight = f.Userheight,
-                        WeightCapacity = f.Weightcapacity
+                        WeightCapacity = f.Weightcapacity,
+                        MaxOrder= f.Maxorder
                     }).ToList();
 
 

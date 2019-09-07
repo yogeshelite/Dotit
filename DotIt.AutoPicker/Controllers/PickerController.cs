@@ -302,11 +302,11 @@ namespace DotIt.AutoPicker.Controllers
                             {
                                 var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
                                 if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
-                                //foreach (var _Order in _result)
-                                //{
-                                   // _Order.BinNum= GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
-                                    //_Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
-                               // }
+                                foreach (var _Order in _result)
+                                {
+                                   // _Order.BinNum = GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
+                                    _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
+                                }
                                 LineItemList = _result;
                                 return _result;
                             }

@@ -42,7 +42,7 @@ namespace DotIt.AutoPicker.Service
             {
                 try
                 {
-                    string dt = string.Format("{0:s}", DateTime.Now.AddDays(-30));
+                    string dt = string.Format("{0:s}", DateTime.Now.AddDays(-90));
                     // var data = JsonConvert.DeserializeObject<string[]>(Orders);
                     ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_SalesOrderFilter, "true", dt), "GET");
                     //ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrderFilter, "GET");
@@ -439,9 +439,10 @@ namespace DotIt.AutoPicker.Service
                
                 foreach (OrderHeadModel order in dirfOrderList)
                 {
-                    if (pickerAssinedOrders + 1 > pickerModel.MaxOrder) return false;
-                    if (pickerAssinedOrders + 1 <= pickerModel.MaxOrder && PickerTotalLineItems > pickerModel.MaxLines) return false;
-                    if (PickerTotalLineItems < pickerModel.MaxLines && pickerAssinedOrders + 1 >= pickerModel.MaxOrder) return false;
+             //       if (pickerAssinedOrders + 1 > pickerModel.MaxOrder) return false;
+                    if (pickerAssinedOrders + 1 < pickerModel.MaxOrder && PickerTotalLineItems > pickerModel.MaxLines) return true;
+                    if (PickerTotalLineItems < pickerModel.MaxLines && pickerAssinedOrders + 1 > pickerModel.MaxOrder) return true;
+                    if (pickerAssinedOrders + 1 > pickerModel.MaxOrder && PickerTotalLineItems > pickerModel.MaxLines) return true;
 
                     objPicker = new Pickerorder();
                     objPicker.Company = order.Company;
