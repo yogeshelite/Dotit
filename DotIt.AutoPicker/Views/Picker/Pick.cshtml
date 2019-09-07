@@ -99,13 +99,11 @@
                         <tr>
                             <th scope="col">Bin Location</th>
                             <th scope="col">Sku</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Qty</th>
+                           <th scope="col">Qty</th>
                             <th scope="col">Order</th>
                             <th scope="col">Status</th>
                             <th scope="col">Image</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                         
                         </tr>
                     </thead>
                     <tbody>
@@ -115,20 +113,17 @@
                                 <td>@OrderLines.BinNum</td>
                                 <td>@OrderLines.PartNum</td>
 
-                                <td>@OrderLines.LineDesc</td>
                                 <td>@OrderLines.OrderQty</td>
                                 <td>@OrderLines.OrderNum</td>
                                 <td></td>
                                 <td><img src="@OrderLines.ImageContent " alt="resume" class="icon-spc"></td>
-                                <td style="width:auto;">
-                                    @*accordion*@
-                                    @*<a class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum" onclick="PickLineItem(@OrderLines.OrderNum,@OrderLines.OrderLine)">Pick</a>*@
+                                @*<td style="width:auto;">
                                     <a class=" btn btn-info" id="PickButton+@OrderLines.OrderLine@OrderLines.OrderNum"  onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Picked','@OrderLines.PartNum','@OrderLines.BinNum')">Pick</a>
                                             <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Quarentine','@OrderLines.PartNum','@OrderLines.BinNum')">Quarentine</a>
                                             <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'Replenish','@OrderLines.PartNum','@OrderLines.BinNum')">Replenish</a>
                                             <a class=" btn btn-info" onclick="UpdateStatus(@OrderLines.OrderNum,@OrderLines.OrderLine,'InventoryControl','@OrderLines.PartNum','@OrderLines.BinNum')">Inventory Control</a>
                                    
-                                </td>
+                                </td>*@
                             </tr>
                         }
 

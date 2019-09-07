@@ -181,9 +181,14 @@ namespace DotIt.AutoPicker.Controllers
 
 
         }
-        public IActionResult Pick(string Orders)
+        public IActionResult Pick()
         {
-            int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
+            //int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
+            var User = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
+            // int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
+            int[] Ordernum = _pickerRepository.GetDotItOrder(null, User.DcdUserID).Select(x => x.OrderNum).ToArray();
+
+
             #region do shorting in saleorderlist for Priority wise but we don't have order status
             if (SaleOrderList != null)
             {
