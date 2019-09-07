@@ -263,7 +263,8 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         OrderNum = f.Ordernum,
                         Company = f.Company,
                         OrderDateTime = f.Orderdate,
-                        TotalLines = _dotitExtDataContext.Pickorderdetail.Where (x=>x.Orderno.Equals(f.Ordernum) & x.Company.Equals(f.Company)).Count(),
+
+                        TotalLines =f.Totalitems.Value , //_dotitExtDataContext.Pickorderdetail.Where (x=>x.Orderno.Equals(f.Ordernum) & x.Company.Equals(f.Company)).Count(),
                         Weight = f.Weight.Value,
                         PickerUserId = f.Dcduserid,
                         OrderPickStatus = f.Pickstatus,

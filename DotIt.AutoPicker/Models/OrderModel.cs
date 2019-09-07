@@ -16,11 +16,16 @@ namespace DotIt.AutoPicker.Models
         //CustNum(int, optional),
         public int CustNum { get; set; }
 
+        private int _TotalLine;
+
+        public int TotalLines
+        {
+            get { return _TotalLine; }
+            set { _TotalLine = (OrderDtls != null) ? OrderDtls.Count : value;  }
+        }
 
 
-        //TotalLines(int, optional),
-        public int TotalLines { get { return (OrderDtls != null) ? OrderDtls.Count : 0; } set { } }
-
+   
         //PONum (string, optional),
         public string PONum { get; set; }
 
