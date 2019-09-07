@@ -153,7 +153,7 @@ namespace DotIt.AutoPicker.Controllers
                             {
                                 var _GetLineOfItems = GetLineOfItems.Where(x => x.OrderNum == lineitems.OrderNum);
 
-                              //  lineitems.TotalLines = _GetLineOfItems.Count();
+                                //  lineitems.TotalLines = _GetLineOfItems.Count();
                                 _LocalSaleOrderList.Add(lineitems);
                             }
                         }
@@ -186,7 +186,37 @@ namespace DotIt.AutoPicker.Controllers
             //int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
             var User = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
             // int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
-            int[] Ordernum = _pickerRepository.GetDotItOrder(null, User.DcdUserID).Where(f=>!f.OrderPickStatus.Equals(OrderStatus.Complete)).Select(x => x.OrderNum).ToArray();
+            int[] Ordernum = _pickerRepository.GetDotItOrder(null, User.DcdUserID).Where(f => !f.OrderPickStatus.Equals(OrderStatus.Complete)).Select(x => x.OrderNum).ToArray();
+
+
+            #region do shorting in saleorderlist for Priority wise but we don't have order status
+            if (SaleOrderList != null)
+            {
+                ViewBag.OrderLineItems = GetDotItOrderDetails(Ordernum, (int)LineItemStatus.Pending);
+                if (ViewBag.OrderLineItems != null)
+                {
+                    //WriteToFileOrderProcessing(Ordernum, "Processing");
+                }
+                //Entry in log
+                return View();
+
+            }
+            else
+            {
+                //Entry in log
+                return RedirectToAction("Index", "Picker");
+            }
+
+
+
+            #endregion
+        }
+        public IActionResult AssignedOrderList()
+        {
+            //int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
+            var User = HttpContext.Session.Get<PickerModel>(Constant.UserCookie.ToString());
+            // int[] Ordernum = JsonConvert.DeserializeObject<int[]>(JsonConvert.DeserializeObject<Dictionary<string, object>>(Orders)["Data"].ToString());
+            int[] Ordernum = _pickerRepository.GetDotItOrder(null, User.DcdUserID).Where(f => !f.OrderPickStatus.Equals(OrderStatus.Complete)).Select(x => x.OrderNum).ToArray();
 
 
             #region do shorting in saleorderlist for Priority wise but we don't have order status
@@ -211,7 +241,6 @@ namespace DotIt.AutoPicker.Controllers
 
             #endregion
         }
-
         public void GetEpicorOrders()
         {
             try
@@ -254,7 +283,7 @@ namespace DotIt.AutoPicker.Controllers
                 {
                     PickerModel objmodel = UserLogInName;
                     var UserId = objmodel.DcdUserID;
-                    orderlist = _pickerRepository.GetDotItOrder(null, UserId).Where(f=>!f.OrderPickStatus.Equals(OrderStatus.Complete)).ToList();
+                    orderlist = _pickerRepository.GetDotItOrder(null, UserId).Where(f => !f.OrderPickStatus.Equals(OrderStatus.Complete)).ToList();
                     //if (SaleOrderList == null || SaleOrderList.Count() == 0)
                     //    GetEpicorOrders();
                     // JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
@@ -304,7 +333,7 @@ namespace DotIt.AutoPicker.Controllers
                                 if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
                                 foreach (var _Order in _result)
                                 {
-                                   // _Order.BinNum = GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
+                                    // _Order.BinNum = GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
                                     _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
                                 }
                                 LineItemList = _result;
@@ -324,13 +353,13 @@ namespace DotIt.AutoPicker.Controllers
             }
             return null;
         }
-        public List<OrderDetailModel> GetDotItOrderDetails(int[] Orders)
+        public List<OrderDetailModel> GetDotItOrderDetails(int[] Orders, int statuscode = 0)
         {
-            List<OrderDetailModel> lstOrderDetail = _pickerRepository.GetDotItOrderDetails(Orders, null).OrderBy(f=>f.BinNum).ToList();
-          //  LineItemList = lstOrderDetail;
+            List<OrderDetailModel> lstOrderDetail = _pickerRepository.GetDotItOrderDetails(Orders, null,statuscode).OrderBy(f => f.BinNum).ToList();
+            //  LineItemList = lstOrderDetail;
             return lstOrderDetail;
         }
-        
+
 
         public JsonResult PickLineItems(int ordernum, int orderline, string status, string partno, string binno)
         {
@@ -338,7 +367,7 @@ namespace DotIt.AutoPicker.Controllers
             string PartNum = partno;
             string BinNum = binno;
             var Order = SaleOrderList.Where(o => o.OrderNum == ordernum).Single();
-            var Orderlist = LineItemList.Where(o => o.OrderNum == ordernum).FirstOrDefault();
+            // var Orderlist = LineItemList.Where(o => o.OrderNum == ordernum).FirstOrDefault();
             Pickerorder model = null;
             // var list = _pickerRepository.GetDotItOrder(); //DotitExtensionContext.Pickerorder.ToList();
             //Order.TotalLines = orderline;
@@ -442,18 +471,16 @@ namespace DotIt.AutoPicker.Controllers
 
         public string OrderCompleteOrNot(int ordernum)
         {
-            int[] orderArray = new int[1];
-            orderArray[0] = ordernum;
-            List<OrderHeadModel> pickedOrders = _pickerRepository.GetDotItOrderByOrderNo( OrderStatus.Complete.ToString(), ordernum).ToList();
-            List<OrderDetailModel> pickedOrdersDetail = _pickerRepository.GetDotItOrderDetails(orderArray, null).ToList();
-            
-           
+
+            List<OrderHeadModel> pickedOrders = _pickerRepository.GetDotItOrderByOrderNo(OrderStatus.Complete.ToString(), ordernum).ToList();
             string orderstatus = string.Empty;
-            if (pickedOrdersDetail.Count() == 0)
+            Pickerorder objPickerOrderUpdate = DotitExtensionContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
+            if (objPickerOrderUpdate != null)
             {
-                Pickerorder objPickerOrderUpdate = DotitExtensionContext.Pickerorder.FirstOrDefault(x => x.Ordernum == ordernum);
-                if (objPickerOrderUpdate != null)
+                var pendingPicklinecount = _pickerRepository.GetDotItOrderDetails(new int[1] { ordernum }, null, (int)LineItemStatus.Pending).Count();
+                if (pendingPicklinecount == 0)
                 {
+
                     objPickerOrderUpdate.Pickstatus = OrderStatus.Complete.ToString();
                     DotitExtensionContext.SaveChanges();
                     orderstatus = "Completed";
@@ -523,14 +550,14 @@ namespace DotIt.AutoPicker.Controllers
             {
                 PickerModel objpicker = User;
                 bool response = obj.AssignOrderToPicker(objpicker);
-            if (response == true)
-            {
-                return RedirectToAction("Orders");
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+                if (response == true)
+                {
+                    return RedirectToAction("Orders");
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             else
             {

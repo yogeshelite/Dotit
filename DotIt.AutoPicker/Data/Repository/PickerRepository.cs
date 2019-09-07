@@ -23,7 +23,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
         List<OrderHeadModel> GetDotItOrder(string company = null, string docuserid = null);
         List<OrderHeadModel> GetDotItOrderByOrderNo(string NotEqualOrderStatus = null, int? orderno = null);
         void DotitOrderPickerUpdate(int ordernum, string orderstatus, string resionPickFail, string partno, int itemstatus);
-        List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null);
+        List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null,int statuscode =0);
     }
 
     public class PickerRepository : IPickerRepository
@@ -331,7 +331,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
             }
             return result;
         }
-        public List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null)
+        public List<OrderDetailModel> GetDotItOrderDetails(int[] orderno = null, string docuserid = null,int statuscode=0)
         {
             List<OrderDetailModel> result = null;
             try
@@ -346,7 +346,7 @@ namespace DotIt.AutoPicker.Persistance.Repository
 
 
 
-                    result = _dotitExtDataContext.Pickorderdetail.Where(x => orderno.Contains(x.Ordernum) && x.Pickstatus==6).Select(f => new OrderDetailModel()
+                    result = _dotitExtDataContext.Pickorderdetail.Where(x => orderno.Contains(x.Ordernum) && ((statuscode==0)|x.Pickstatus==6)).Select(f => new OrderDetailModel()
                     {
                         OrderDetailID=f.Id,
                         OrderNum = f.Ordernum,
