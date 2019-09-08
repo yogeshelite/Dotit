@@ -5,19 +5,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.IO;
 using DotIt.AutoPicker.Models;
+using System.Threading.Tasks;
 
 namespace DotIt.AutoPicker.Models
 {
     public class ApiResponse:IDisposable
     {
-//        System.Net.ServicePointManager.ServerCertificateValidationCallback =
-//    ((sender, certificate, chain, sslPolicyErrors) => true);
 
-//// trust sender
-//System.Net.ServicePointManager.ServerCertificateValidationCallback
-//                = ((sender, cert, chain, errors) => cert.Subject.Contains("YourServerName"));
-
-// validate cert by calling a function
 
 
         // callback used to validate the certificate in an SSL conversation
@@ -54,7 +48,7 @@ namespace DotIt.AutoPicker.Models
         /// <param name="method"></param>
         /// <param name="requestData"></param>
         /// <returns></returns>
-        public ResponseModel  GetApiResponse(string url, string method, string requestData="", string contentType = "application/json")
+        public async Task<ResponseModel> GetApiResponseAsync(string url, string method, string requestData="", string contentType = "application/json")
         {
             try
             {
@@ -77,7 +71,7 @@ namespace DotIt.AutoPicker.Models
 
                     }
                 }
-                var _response=((HttpWebResponse)_request.GetResponse());
+                var _response=  ((HttpWebResponse)await _request.GetResponseAsync());
 
                 if (_response == null) return new ResponseModel() { Response = string.Empty ,success =false};
                 //---------- Get Api response stream

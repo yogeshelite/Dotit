@@ -18,7 +18,7 @@ namespace DotIt.AutoPicker.Models
         public const string EpicorApi_PartBin = "/Erp.BO.PartBinSearchSvc";
         public const string EpicorApi_Parts = "/Erp.BO.PartSvc/Parts";
         public const string EpicorApi_PartBinSearch = "/Erp.BO.PartBinSearchSvc/GetPartBinSearch";//Method Post{"PageSize": 0,"AbsolutePage": 0,"whereClause": "PartNum='DSY290'"}
-    public const string EpicorApi_ShipDetail = "/Erp.BO.ShipDtlSearchSvc/List";
+        public const string EpicorApi_ShipDetail = "/Erp.BO.ShipDtlSearchSvc/List";
         public const string EpicorApi_ShipTos = "/Erp.BO.ShipToSvc/List";
         public const string EpicorApi_ShipHead = "/Erp.BO.CustShipSvc/List";
         public const string EpicorApi_GetCustomers = "/Erp.BO.CustomerSvcGET/Customers";
@@ -32,13 +32,10 @@ namespace DotIt.AutoPicker.Models
         public const string EpicorApi_OrderDetails = "/Erp.BO.SalesOrderSvc/OrderDtls";
         public const string EpicorApi_OrderDetailsFilter = "/Erp.BO.SalesOrderSvc/OrderDtls?$filter=OrderNum%20eq%201011";
         public const string EpicorApi_OrderLine = "/Erp.BO.SalesOrderSvc/OrderDtls({0},{1},{2})"; // 0:Company;1:OrderNum;2:Linenum 
+
+
         public const string LogFilePath = @"\log.csv";
-        public const string OrderInProcessing = @"\OrderInProcessing.csv";
-        public const string OrderStatus = @"\OrderStatus.csv";
-        public const string PickFilePath = @"\PickedOrders.csv";
-        public const string QuarantineFilePath = @"\Quarantine.csv";
-        public const string PickersFilePath = @"\Pickers.csv";
-        public const string AdminCredentialsPath = @"\Admin Credentials.csv";
+
         public const string LoggedInUserPath = @"\LoggedInUsers";
         public const string UserCookie = "UserCookie";
 
@@ -47,6 +44,8 @@ namespace DotIt.AutoPicker.Models
         public const string PartBinSearchSvc = "/Erp.BO.PartBinSearchSvc/GetFullBinSearch";
         public const string PartBinSearchSvc2 = "/Erp.BO.PartBinSearchSvc/GetFullBinSearch?$filter=partNum eq '{0}' and whseCode eq {1}";
         public const string PartBinSearchSvc3 = "/Erp.BO.PartBinSearchSvc/GetFullBinSearch?$input=partNum eq '{0}' and whseCode eq {1}";
-    }
+
+        public const string EpicorApi_PartImage = "";
+}
 }
 

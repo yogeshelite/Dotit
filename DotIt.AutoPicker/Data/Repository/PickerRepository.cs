@@ -345,7 +345,6 @@ namespace DotIt.AutoPicker.Persistance.Repository
                     //var data = _dotitExtDataContext.Pickerorder.ToList();//.Where(f => (string.IsNullOrEmpty(company) | f.Company.Equals(company)) & string.IsNullOrEmpty(docuserid) | f.Dcduserid.Equals(docuserid));
 
 
-
                     result = _dotitExtDataContext.Pickorderdetail.Where(x => orderno.Contains(x.Ordernum) && ((statuscode==0)|x.Pickstatus==6)).Select(f => new OrderDetailModel()
                     {
                         OrderDetailID=f.Id,
@@ -356,10 +355,8 @@ namespace DotIt.AutoPicker.Persistance.Repository
                         OrderLineStatusCode = f.Pickstatus.ToString(),
                         LineDesc = f.Linedesc,
                         OrderQty = (float)f.Orderqty,
-                        
-
-
-                    }).ToList();
+                     
+                }).ToList();
 
 
 

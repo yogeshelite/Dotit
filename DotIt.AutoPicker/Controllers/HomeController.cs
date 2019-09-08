@@ -7,6 +7,7 @@ using DotIt.AutoPicker.Models;
 
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
+using System.Threading.Tasks;
 
 namespace DotIt.AutoPicker.Controllers
 {
@@ -44,7 +45,7 @@ namespace DotIt.AutoPicker.Controllers
         {
             int OrderNum = int.Parse(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(id)));
 
-            ViewBag.OrderDetails = GetOrderDetails(OrderNum);
+            ViewBag.OrderDetails = GetOrderDetailsAsync(OrderNum);
             OrderHeadModel ObjModel = new OrderHeadModel();
            // ObjModel.TotalLines = (int)ViewBag.OrderDetails.Count;
             ObjModel.OrderNum = OrderNum;
@@ -92,10 +93,10 @@ namespace DotIt.AutoPicker.Controllers
             return View("Index");
         }
 
-        public List<OrderHeadModel> GetOrders()
+        public async Task<List<OrderHeadModel>> GetOrdersAsync()
         {
             ApiResponse apiResponse = new ApiResponse();
-            ResponseModel ObjResponse = apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrder, "GET");
+            ResponseModel ObjResponse = await apiResponse.GetApiResponseAsync(Constant.EpicorApi_SalesOrder, "GET");
             var OrderList = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
             if (OrderList.ContainsKey("value"))
             {
@@ -111,11 +112,11 @@ namespace DotIt.AutoPicker.Controllers
             }
             return null;
         }
-        public OrderHeadModel GetOrderbyordernum()
+        public async Task<OrderHeadModel> GetOrderbyordernumAsync()
         {
             string url = string.Format(Constant.EpicorApi_SalesOrderByOrdernum, "DIRF", "210847");
             ApiResponse apiResponse = new ApiResponse();
-            ResponseModel ObjResponse = apiResponse.GetApiResponse(url, "GET");
+            ResponseModel ObjResponse = await apiResponse.GetApiResponseAsync(url, "GET");
             var OrderList = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
             if (OrderList.ContainsKey("value"))
             {
@@ -128,10 +129,10 @@ namespace DotIt.AutoPicker.Controllers
             return null;
         }
 
-        public List<OrderDetailModel> GetOrderDetails(int ordernum)
+        public async Task<List<OrderDetailModel>> GetOrderDetailsAsync(int ordernum)
         {
             ApiResponse apiResponse = new ApiResponse();
-            ResponseModel ObjResponse = apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
+            ResponseModel ObjResponse = await apiResponse.GetApiResponseAsync(Constant.EpicorApi_OrderDetails, "GET");
             var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
             if (OrderDetails.ContainsKey("value"))
             {

@@ -29,14 +29,15 @@ namespace DotIt.AutoPicker.Controllers
         private readonly DotitExtensionContext _DotitExtensionContext;
         private readonly IPickerRepository _pickerRepository;
         private StackTrace _stackTrace;
-
+        private readonly EpicorServiceApi _epicorServiceApi;
         public static bool allowaccess = false;
         ApiResponse _apiResponse;
 
-        public AdminController(IHostingEnvironment hostingEnvironment, DotitExtensionContext context)
+        public AdminController(IHostingEnvironment hostingEnvironment, DotitExtensionContext context, EpicorServiceApi  epicorServiceApi)
         {
             _hostingEnvironment = hostingEnvironment;
             _DotitExtensionContext = context;
+            _epicorServiceApi = epicorServiceApi;
             _stackTrace = new StackTrace();
             _pickerRepository = new PickerRepository(_stackTrace);
         }
@@ -97,44 +98,50 @@ namespace DotIt.AutoPicker.Controllers
 
         public JsonResult Login(string UserName)
         {
-            var ReturnResponse = "";
+          
             using (_apiResponse = new ApiResponse())
             {
                 //ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
                 //if(!ObjResponse.success) return Json(ObjResponse.Response);
-
-
-
-                var user = _pickerRepository.GetPickers(docuserid: UserName).FirstOrDefault();
-                //JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
-
-
-                if (user != null)
+                try
                 {
-                    if(!user.Active.Value ) return  Json(new ResponseModel() { Response = "User disabled", success = false });
-                    if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString() }.Contains(f)).Count() ==0)
+
+
+                    var user = _pickerRepository.GetPickers(docuserid: UserName).FirstOrDefault();
+                    //JsonConvert.DeserializeObject<PickerModel>(ObjResponse.Response);
+
+
+                    if (user != null)
                     {
-                      
-                        // ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
-                        /// if (!ObjResponse.success)
-                        //  {
-                        //  ReturnResponse = "{\"Response\":\"User Not Exist In Epicore \"}";
-                        //  }
-                        // else
-                        // {
+                        if (!user.Active.Value) return Json(new ResponseModel() { Response = "User disabled", success = false });
+                        if (user.Grouplist.Split("~").Where(f => new string[] { UserGroup.WHSE.ToString(), UserGroup.WHSEMGR.ToString() }.Contains(f)).Count() == 0)
+                        {
 
-                        // ReturnResponse = "{\"Response\":\"Success \"}";
-                        // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
-                        // }
-                        // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
-                        return Json(new ResponseModel() { Response = "Not a picker user" });
+                            // ResponseModel ObjResponse = _apiResponse.GetApiResponse(string.Format(Constant.EpicorApi_AuthPicker, UserName), "GET");
+                            /// if (!ObjResponse.success)
+                            //  {
+                            //  ReturnResponse = "{\"Response\":\"User Not Exist In Epicore \"}";
+                            //  }
+                            // else
+                            // {
+
+                            // ReturnResponse = "{\"Response\":\"Success \"}";
+                            // List<Directory<string,string>>listUserData=JsonConverter.(ObjResponse.success)
+                            // }
+                            // var redirectaction = user.Grouplist.Contains(UserGroup.WHSEMGR.ToString()) ? "../../Admin/Home/" : "../../Picker/Index/";
+                            return Json(new ResponseModel() { Response = "Not a picker user" });
+                        }
+                        HttpContext.Session.Set(Constant.UserCookie.ToString(), user);
+                        return Json(new ResponseModel() { Response = JsonConvert.SerializeObject(user), success = true });
                     }
-                    HttpContext.Session.Set(Constant.UserCookie.ToString(), user);
-                    return Json(new ResponseModel() { Response = JsonConvert.SerializeObject(user) ,success=true});
+                    else
+                    {
+                        return Json(new ResponseModel() { Response = "User does not exist", success = false });
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return  Json(new ResponseModel() { Response = "User does not exist", success = false });
+                    return Json(new ResponseModel() { Response = "Authencticate failure, Cannot connect to Dotit", success = false });
                 }
 
                 
@@ -361,9 +368,9 @@ namespace DotIt.AutoPicker.Controllers
 
         public IActionResult GetEpicoreOrder()
         {
-            OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext);
+            OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, _DotitExtensionContext, _epicorServiceApi);
           //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
-            obj.AssignOrdersToPickers();
+            obj.AssignOrdersToPickersAsync();
             return RedirectToAction("Home");
             /* string ReturnResponse = "";
 

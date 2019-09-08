@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 //using EpicorDaily.Model;
 
 namespace DotIt.AutoPicker.Controllers
@@ -24,49 +25,29 @@ namespace DotIt.AutoPicker.Controllers
         public static List<OrderHeadModel> SaleOrderList;
         public static List<OrderDetailModel> LineItemList;
         public static List<PickerModel> PickersList;
-        // public static List<FileStore> FileStoreList;
-        Erp102TestContext _epicor10Context;
-        //DotItPickerContext _dotItPickerContext;
         DotitExtensionContext DotitExtensionContext;
+        EpicorServiceApi _epicorServiceApi;
         IPickerRepository _pickerRepository;
-        ApiResponse _apiResponse;
         private StackTrace _stackTrace;
-        //public PickerController(IHostingEnvironment hostingEnvironment, DotItPickerContext dotItPickerContext, Epicor10Context epicor10Context)
-        //{
-        //    _hostingEnvironment = hostingEnvironment;
-        //    _epicor10Context = epicor10Context;
-
-        //    _dotItPickerContext = dotItPickerContext;
-        //}
-        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext)//, Erp102TestContext epicor10Context)
+       
+        public PickerController(IHostingEnvironment hostingEnvironment, DotitExtensionContext dotItExtensionContext,EpicorServiceApi  epicorServiceApi)
         {
             _hostingEnvironment = hostingEnvironment;
             // _epicor10Context = epicor10Context;
             _stackTrace = new StackTrace();
             _pickerRepository = new PickerRepository(_stackTrace);
+            _epicorServiceApi = epicorServiceApi;
             DotitExtensionContext = dotItExtensionContext;
         }
         public IActionResult Index()//this is our landing view string PickerDI
         {
             try
             {
-                // dbcs = new Epicor10Context();
-                //var dbpicker = dbcs.UserFile.ToList();
-
-                #region for Picking pickers EmpId we used this query  but where is emp id
-
-                //var  user = (from uf in cs.UserFiles where uf.DcdUserID == pUserId && uf.UserDisabled == false select uf).Single();
-
-                //select eb.Company, eb.EmpID, eb.FirstName, eb.LastName,
-                //eb.name, eb.DcdUserID from erp.empbasic as eb
-                #endregion
+              
 
                 #region Picking for local db hare 
                 var Picker = DotitExtensionContext.Warehouseemployee.ToList();
                 ViewBag.Pickerddl = Picker.ToList();
-                //var picker = _dotItPickerContext.Warehouseemployee.FromSql("GetEmployees").ToList();//hare we geting all pickers in local db
-                //ViewBag.Pickerddl = picker.ToList();
-
                 #endregion
 
 
@@ -80,12 +61,11 @@ namespace DotIt.AutoPicker.Controllers
 
         public IActionResult Orders(string id)
         {
-            //if (SaleOrderList == null || SaleOrderList.Count() == 0)
-            {
+           
                 SaleOrderList = null;
-                SaleOrderList = GetOrders();
+                SaleOrderList = GetDotitPickerOrders();
                 ViewBag.OrderList = SaleOrderList;
-            }
+          
             //if (id != null)
             //{
 
@@ -132,36 +112,36 @@ namespace DotIt.AutoPicker.Controllers
 
             return View();
         }
-        public void GetTotalLineOfItems()
-        {
-            List<OrderHeadModel> _LocalSaleOrderList = new List<OrderHeadModel>();
-            if (SaleOrderList != null && SaleOrderList.Count() > 0)
-            {
+        //public void GetTotalLineOfItems()
+        //{
+        //    List<OrderHeadModel> _LocalSaleOrderList = new List<OrderHeadModel>();
+        //    if (SaleOrderList != null && SaleOrderList.Count() > 0)
+        //    {
 
-                using (_apiResponse = new ApiResponse())
-                {
-                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
-                    var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
+        //        using (_apiResponse = new ApiResponse())
+        //        {
+        //            ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
+        //            var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
 
-                    if (OrderDetails.ContainsKey("value"))
-                    {
+        //            if (OrderDetails.ContainsKey("value"))
+        //            {
 
-                        if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
-                        {
-                            var GetLineOfItems = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
-                            foreach (var lineitems in SaleOrderList.OrderBy(x => x.OrderNum))
-                            {
-                                var _GetLineOfItems = GetLineOfItems.Where(x => x.OrderNum == lineitems.OrderNum);
+        //                if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
+        //                {
+        //                    var GetLineOfItems = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
+        //                    foreach (var lineitems in SaleOrderList.OrderBy(x => x.OrderNum))
+        //                    {
+        //                        var _GetLineOfItems = GetLineOfItems.Where(x => x.OrderNum == lineitems.OrderNum);
 
-                                //  lineitems.TotalLines = _GetLineOfItems.Count();
-                                _LocalSaleOrderList.Add(lineitems);
-                            }
-                        }
-                    }
-                }
-            }
-            SaleOrderList = _LocalSaleOrderList;
-        }
+        //                        //  lineitems.TotalLines = _GetLineOfItems.Count();
+        //                        _LocalSaleOrderList.Add(lineitems);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    SaleOrderList = _LocalSaleOrderList;
+        //}
 
         [HttpPost]
         public JsonResult PickLineItem()
@@ -241,38 +221,9 @@ namespace DotIt.AutoPicker.Controllers
 
             #endregion
         }
-        public void GetEpicorOrders()
-        {
-            try
-            {
-                using (_apiResponse = new ApiResponse())
-                {
-                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_SalesOrder, "GET");
-                    var OrderList = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
-                    if (OrderList.ContainsKey("value"))
-                    {
-                        if (!String.IsNullOrEmpty(OrderList["value"].ToString()))
-                        {
-                            SaleOrderList = JsonConvert.DeserializeObject<List<OrderHeadModel>>(OrderList["value"].ToString());
-                            foreach (var _Order in SaleOrderList)
-                            {
-                                _Order.OrderDateTime = Convert.ToDateTime(_Order.OrderDate);
-
-                            }
-                            SaleOrderList = SaleOrderList.Where(o => o.OrderDateTime < (DateTime.Now)).OrderBy(o => o.OrderDateTime).ToList();
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                RedirectToAction("Error", "Home");
-            }
 
 
-        }
-
-        public List<OrderHeadModel> GetOrders()//This is a method 
+        public List<OrderHeadModel> GetDotitPickerOrders()//This is a method 
         {
             List<OrderHeadModel> orderlist = null;
             try
@@ -305,59 +256,17 @@ namespace DotIt.AutoPicker.Controllers
         }
 
 
-        public string GetItemImageByPartNumber(string PartNumber)
+        
+
+      
+        public async Task< List<OrderDetailModel>> GetDotItOrderDetails(int[] Orders, int statuscode = 0)
         {
-
-            var image = _epicor10Context.Part.Join(_epicor10Context.Image, p => new { p.Company, p.ImageId }, i => new { i.Company, i.ImageId }, (p, i) => new { p, i }).Join(_epicor10Context.FileStore, pi => new { pi.p.Company, pi.i.ImageSysRowId }, fl => new { Company = fl.Company, ImageSysRowId = fl.SysRowId }, (pi, fl) => new { PartNumber = pi.p.PartNum, Content = fl.Content }).FirstOrDefault(f => f.PartNumber == PartNumber);
-            return (image != null && image.Content.LongCount() > 0) ? string.Format("data:image/jpeg;base64,{0}", Convert.ToBase64String(image.Content)) : "img/bg-showcase-2.jpg";
-
-
-        }
-
-        public List<OrderDetailModel> GetOrderDetails(string[] Orders)
-        {
-            using (_apiResponse = new ApiResponse())
+            var _result=  _pickerRepository.GetDotItOrderDetails(Orders, null, statuscode).OrderBy(f => f.BinNum).ToList();
+            foreach (var item in _result)
             {
-                try
-                {
-                    // var data = JsonConvert.DeserializeObject<string[]>(Orders);
-                    ResponseModel ObjResponse = _apiResponse.GetApiResponse(Constant.EpicorApi_OrderDetails, "GET");
-                    if (ObjResponse.success == true)
-                    {
-                        var OrderDetails = JsonConvert.DeserializeObject<Dictionary<string, object>>(ObjResponse.Response);
-                        if (OrderDetails.ContainsKey("value"))
-                        {
-                            if (!String.IsNullOrEmpty(OrderDetails["value"].ToString()))
-                            {
-                                var _result = JsonConvert.DeserializeObject<List<OrderDetailModel>>(OrderDetails["value"].ToString());
-                                if (_result != null) _result = _result.Where(x => Orders.Contains(x.OrderNum.ToString())).ToList();
-                                foreach (var _Order in _result)
-                                {
-                                    // _Order.BinNum = GetPartBinLocation(_PObjResponse, Objbinnum, retobj, _Order);
-                                    _Order.ImageContent = GetItemImageByPartNumber(_Order.PartNum);
-                                }
-                                LineItemList = _result;
-                                return _result;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        RedirectToAction("Error", "Home");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var message = ex.Message.ToString();
-                }
+                 item.ImageContent = await _epicorServiceApi.GetItemImageByPartNumberAsync(item.PartNum);
             }
-            return null;
-        }
-        public List<OrderDetailModel> GetDotItOrderDetails(int[] Orders, int statuscode = 0)
-        {
-            List<OrderDetailModel> lstOrderDetail = _pickerRepository.GetDotItOrderDetails(Orders, null,statuscode).OrderBy(f => f.BinNum).ToList();
-            //  LineItemList = lstOrderDetail;
-            return lstOrderDetail;
+            return _result;
         }
 
 
@@ -526,7 +435,7 @@ namespace DotIt.AutoPicker.Controllers
             SaleOrderList.ElementAt(SaleOrderList.IndexOf(SaleOrderList.Where(o => o.OrderNum == OrderNumber).Single())).OrderPickStatus = "Quarantined";
             //WriteToFile(Order, "quarantine");
 
-            ViewBag.OrderLineItems = GetOrderDetails(new string[] { ordernumber }).Where(x => x.OrderNum != OrderNumber);
+            ViewBag.OrderLineItems = SaleOrderList;// GetDotItOrderDetails(Orders: new int[]{ OrderNumber }); //GetOrderDetails(new string[] { ordernumber }).Where(x => x.OrderNum != OrderNumber);
             return View("Pick");
         }
 
@@ -537,9 +446,9 @@ namespace DotIt.AutoPicker.Controllers
             //return View(model);
             return View();
         }
-        public IActionResult AssignOrderPicker()
+        public async Task<IActionResult> AssignOrderPickerAsync()
         {
-            OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, DotitExtensionContext);
+            OrderAssignPicker obj = new OrderAssignPicker(_hostingEnvironment, DotitExtensionContext, _epicorServiceApi);
             //  List<OrderHeadModel> list = obj.OrdersReadyToPick();
 
             //obj.GetEpicoreOrder();
@@ -549,7 +458,7 @@ namespace DotIt.AutoPicker.Controllers
             if (User != null)
             {
                 PickerModel objpicker = User;
-                bool response = obj.AssignOrderToPicker(objpicker);
+                bool response = await obj.AssignOrderToPickerAsync(objpicker);
                 if (response == true)
                 {
                     return RedirectToAction("Orders");
