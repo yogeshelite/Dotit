@@ -1,0 +1,14 @@
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\bin\Release\netcoreapp2.2\Dotit.AutoPickerApi.deps.json
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\bin\Release\netcoreapp2.2\Dotit.AutoPickerApi.runtimeconfig.json
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\bin\Release\netcoreapp2.2\Dotit.AutoPickerApi.runtimeconfig.dev.json
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\bin\Release\netcoreapp2.2\Dotit.AutoPickerApi.dll
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\bin\Release\netcoreapp2.2\Dotit.AutoPickerApi.pdb
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.csprojAssemblyReference.cache
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.csproj.CoreCompileInputs.cache
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.RazorAssemblyInfo.cache
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.RazorAssemblyInfo.cs
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.AssemblyInfoInputs.cache
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.AssemblyInfo.cs
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPicker.Api.RazorTargetAssemblyInfo.cache
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPickerApi.dll
+D:\Project\Steve\Elite Dotit Repo\Dotit.AutoPicker.Api\obj\Release\netcoreapp2.2\Dotit.AutoPickerApi.pdb
