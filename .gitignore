@@ -5,3 +5,5 @@
 /.vs
 /DotIt.AutoPicker/.vs/DotIt.AutoPicker/v15
 /DotIt.AutoPicker/.vs/config
+/DotIt.AutoPicker/obj/Debug/netcoreapp2.2/Razor/Views/Picker
+/DotIt.AutoPicker/.vs/DotIt.AutoPicker/DesignTimeBuild
