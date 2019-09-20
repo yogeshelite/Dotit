@@ -127,65 +127,65 @@ namespace DotIt.AutoPickerApi.Service
             List<OrderHeadModel> listLines = new List<OrderHeadModel>();
             //List<Int32> orderSelected = new List<Int32>();
 
-            var rsPotentialOrders = await _EpicorServiceApi.GetEpicoreOrderAsync();
+            var epicorOrders = await _EpicorServiceApi.GetEpicoreOrderAsync();
             var parts = await _EpicorServiceApi.GetPartsAsync();
 
             // OrderDetails = GetOrderDetails();
-            foreach (OrderHeadModel queue in rsPotentialOrders)
-            {
-                if (queue.CustNum == 1 && ncco == false)
-                {
-                    // DLog.Log("Skipping order: " + queue.OrderNum + " as picker is not assigned to NCCO orders");
-                    continue;
-                }
+            Parallel.ForEach(epicorOrders, new Action<OrderHeadModel, ParallelLoopState>(async (OrderHeadModel queue, ParallelLoopState state) =>
+         {
+             if (queue.CustNum == 1 && ncco == false)
+             {
+                 // DLog.Log("Skipping order: " + queue.OrderNum + " as picker is not assigned to NCCO orders");
+                 return;  //continue;
+             }
 
-                //if (queue.CustNum != 1 && dotit == false)
-                //{
-                //   // DLog.Log("Skipping order: " + queue.orderNum + " as picker is not assigned to non NCCO orders");
-                //    continue;
-                //}
+             //if (queue.CustNum != 1 && dotit == false)
+             //{
+             //   // DLog.Log("Skipping order: " + queue.orderNum + " as picker is not assigned to non NCCO orders");
+             //    continue;
+             //}
 
-                //  Test to see if the order can be shipped complete.
-                if (!await IsOrderCompleteAsync(queue.OrderDtls))
-                {
-                    //DLog.Log("Skipping Order: " + queue.orderNum + " due to lines not having enough inventory.");
-                    continue;
-                }
+             //  Test to see if the order can be shipped complete.
+             if (!await IsOrderCompleteAsync(queue.OrderDtls))
+             {
+                 //DLog.Log("Skipping Order: " + queue.orderNum + " due to lines not having enough inventory.");
+                 return;// continue;
+             }
 
-                //  How many lines is this order
-                //totalLines += (from od in OrderDetails where od.OrderNum == queue.OrderNum && od.OpenLine == true select od).Count();
+             //  How many lines is this order
+             //totalLines += (from od in OrderDetails where od.OrderNum == queue.OrderNum && od.OpenLine == true select od).Count();
 
-                //  If puts over max, then bail with orders
-                if (maxLines < queue.TotalLines)
-                {
-                    // DLog.Log("Cutting off line assignment due to maxLine: " + maxLines + " exceeding totalLines: " + totalLines);
-                    break;
-                }
+             //  If puts over max, then bail with orders
+             if (maxLines < queue.TotalLines)
+             {
+                 // DLog.Log("Cutting off line assignment due to maxLine: " + maxLines + " exceeding totalLines: " + totalLines);
+                 state.Stop(); //break;
+             }
 
-                Decimal orderWeight = CalculateWeightOpenLines(queue, parts);
+             Decimal orderWeight = CalculateWeightOpenLines(queue, parts);
 
-                if (orderWeight < 0)
-                {
-                    //DLog.Log("Skipping order: " + queue.orderNum + " due to not being able to calculate weight", DLog.LogLevel.Warn, true);
-                    continue;
-                }
+             if (orderWeight < 0)
+             {
+                 //DLog.Log("Skipping order: " + queue.orderNum + " due to not being able to calculate weight", DLog.LogLevel.Warn, true);
+                 return;// continue;
+             }
 
-                totalWeight += orderWeight;
+             totalWeight += orderWeight;
 
-                if (maxWeight < totalWeight)
-                {
-                    // DLog.Log("Cutting off line assignment due to maxWeight: " + maxWeight + " exceeding totalLines: " + totalWeight);
-                    break;
-                }
+             if (maxWeight < totalWeight)
+             {
+                 // DLog.Log("Cutting off line assignment due to maxWeight: " + maxWeight + " exceeding totalLines: " + totalWeight);
+                 state.Stop(); //break
+             }
 
-                OrderHeadModel q = new OrderHeadModel();
+             OrderHeadModel q = new OrderHeadModel();
 
-                q = queue;
-                //q.TotalLines = totalLines;
-                q.TotalWgt_c = (double)totalWeight;
+             q = queue;
+             //q.TotalLines = totalLines;
+             q.TotalWgt_c = (double)totalWeight;
 
-                listLines.Add(q);
-            }
+             listLines.Add(q);
+         }));
 
 
             return listLines;

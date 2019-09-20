@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace Dotit.AutoPicker.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -36,7 +36,8 @@ namespace Dotit.AutoPicker.Api.Controllers
 
        // GET: api/Order
        [HttpGet("{dcdUserId}")]
-        public async Task<ActionResult<ResponseModel>> Get(string dcdUserId)
+       
+        public async Task<ActionResult<ResponseModel>> AsignOrder(string dcdUserId)
         {
             var picker = await _DotitService.GetDotitPickersAsync(dcdUserId);
             var result = await _DotitService.AssignOrderToPickerAsync(picker.FirstOrDefault());
@@ -46,10 +47,10 @@ namespace Dotit.AutoPicker.Api.Controllers
         }
 
         // GET: api/Order
-        [HttpGet("{UserId}",Name ="Assign")]
-        public async Task<ActionResult<ResponseModel>> GetOrder(string UserId)
+        [HttpGet]
+        public async Task<ActionResult<ResponseModel>> Get(string dcdUserId)
         {
-            var result = await _DotitService.GetDotitPickerOrdersAsync(UserId);
+            var result = await _DotitService.GetDotitPickerOrdersAsync(dcdUserId);
 
             if (result != null || result.Count() > 0)
             { return new ResponseModel() { Success = true, Response = JsonConvert.SerializeObject(result) }; }
